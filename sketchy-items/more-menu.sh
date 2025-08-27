@@ -20,7 +20,7 @@ separator=(
   label.drawing=off
   icon.font="$FONT:Semibold:14.0"
   #click_script='yabai -m space --create && sketchybar --trigger space_change'
-  icon.color=$SUBTLE_MOON
+  icon.color=$SUBTLE
   click_script="$SCRIPT_CLICK_SEPARATOR_MORE"
 )
 

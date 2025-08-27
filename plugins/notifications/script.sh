@@ -25,18 +25,18 @@ GITHUB_TOKEN="$(cat ~/.github_token)" # Should be a PAT with only notification r
   if [[ $curlSuccess != 0 ]];then 
     item+=(
       icon=􀋞
-      icon.color=$SUBTLE_MOON
+      icon.color=$SUBTLE
       label="--"
     )
   elif [ $count -gt 0 ]; then
     item+=(
       icon=􀝗
-      icon.color=$LOVE_MOON
+      icon.color=$LOVE
     )
   else 
     item+=(
       icon=􀋚
-      icon.color=$PINE_MOON
+      icon.color=$PINE
     )
   fi
 

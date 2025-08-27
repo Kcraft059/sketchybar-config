@@ -18,19 +18,19 @@ getname() {
 
   if [[ $HOTSPOT != "" ]]; then
     ICON=$ICON_HOTSPOT
-    ICON_COLOR=$FOAM_MOON
+    ICON_COLOR=$FOAM
     LABEL=$HOTSPOT
   elif [[ $WIFI != "" ]]; then
     ICON=$ICON_WIFI
-    ICON_COLOR=$PINE_MOON
+    ICON_COLOR=$PINE
     LABEL="$WIFI"
   elif [[ $IP_ADDRESS != "" ]]; then
     ICON=$ICON_WIFI
-    ICON_COLOR=$ROSE_MOON
+    ICON_COLOR=$ROSE
     LABEL="on"
   else
     ICON=$ICON_WIFI_OFF
-    ICON_COLOR=$LOVE_MOON
+    ICON_COLOR=$LOVE
     LABEL="off"
   fi
 
@@ -38,7 +38,7 @@ getname() {
 
   if [[ $PUBLIC_IP != "0" && $LABEL != "off" ]];then
     ICON=$ICON_WIFI_ERROR
-    ICON_COLOR=$SUBTLE_MOON
+    ICON_COLOR=$SUBTLE
     LABEL="$WIFI (no internet)"
   fi
   

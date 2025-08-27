@@ -14,7 +14,7 @@ for ((i = 1; i <= 14; ++i)); do
   if [ $mid = 1 ]; then
     space+=(
       icon.font="$FONT:Heavy:14:0"
-      icon.color=$FOAM_MOON
+      icon.color=$FOAM
     )
   fi
 

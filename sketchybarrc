@@ -28,7 +28,7 @@ bar=(
   y_offset=4
   margin=5
   shadow=on
-  shadow.color=$TEXT_MOON
+  shadow.color=$TEXT
   padding_left=0
   padding_right=$X_BAR_PADDING
   color=$BAR_COLOR
@@ -64,8 +64,8 @@ defaults=(
 zones=(
   background.height=$(($BAR_HEIGHT - 8))
   background.border_width=2
-  background.border_color=$HIGH_MED_MOON
-  background.color=$OVERLAY_MOON
+  background.border_color=$HIGH_MED
+  background.color=$OVERLAY
   background.corner_radius=8
   blur_radius=24
 )
@@ -99,9 +99,8 @@ sketchybar --add bracket base-controls battery wifi display \
   --add bracket volume_controls volume_icon mic \
   --set volume_controls "${zones[@]}" \
   --add bracket more_menu '/moremenu\..*/' "${menuitem[@]}" \
-  --set more_menu "${zones[@]}" 
+  --set more_menu "${zones[@]}"
 
 sketchybar --update
 
 echo "sketchybar configuation loaded.."
-

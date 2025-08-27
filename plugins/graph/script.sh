@@ -14,9 +14,9 @@ topprog_pid=$(echo "$probe" | awk '{print $1}')
 ### Modify top consumming program name color to red if depassing more than 100% cpu
 
 if [[ $(printf "%.0f" $topprog_percent) -gt 100 ]]; then
-  LABEL_COLOR=$LOVE_MOON
+  LABEL_COLOR=$LOVE
 else
-  LABEL_COLOR=$SUBTLE_MOON
+  LABEL_COLOR=$SUBTLE
 fi
 
 graphlabel="${topprog_percent}% - $topprog [$topprog_pid]"
@@ -29,18 +29,18 @@ graphpoint=$(bc <<<"scale=1; $graphpercent / 100 ")
 
 case $(printf "%.0f" $graphpercent) in
 [8-9][0-9] | 7[5-9] | 100)
-  COLOR=$LOVE_MOON
+  COLOR=$LOVE
   ;;
 [5-6][0-9] | 7[0-4])
-  COLOR=$ROSE_MOON
+  COLOR=$ROSE
   ;;
 [3-5][0-9] | 2[5-9])
-  COLOR=$GOLD_MOON
+  COLOR=$GOLD
   ;;
 [5-9] | 1[0-9] | 2[0-4])
-  COLOR=$PINE_MOON
+  COLOR=$PINE
   ;;
-*) COLOR=$SUBTLE_MOON ;;
+*) COLOR=$SUBTLE ;;
 esac
 
 sketchybar --push $NAME $graphpoint \

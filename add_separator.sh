@@ -2,7 +2,7 @@
 add_separator() {
   separator=(
     icon="|"
-    icon.color=$SUBTLE_MOON
+    icon.color=$SUBTLE
     icon.font="$FONT:Bold:16.0"
     icon.y_offset=2
     label.drawing=off

@@ -10,10 +10,10 @@ volume_slider=(
   padding_right=0
   label.drawing=off
   icon.drawing=off
-  slider.highlight_color=$PINE_MOON
+  slider.highlight_color=$PINE
   slider.background.height=5
   slider.background.corner_radius=3
-  slider.background.color=$MUTED_MOON
+  slider.background.color=$MUTED
   slider.knob=􀀁
   slider.knob.drawing=off
 )
@@ -24,7 +24,7 @@ volume_icon=(
   icon.padding_left=$(($OUTER_PADDINGS - 3))
   icon.padding_right=$OUTER_PADDINGS
 
-  icon.color=$IRIS_MOON
+  icon.color=$IRIS
   #label.width=32
   label.padding_left=0
   label.padding_right=0

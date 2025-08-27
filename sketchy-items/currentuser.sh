@@ -6,7 +6,7 @@ SCRIPT_CLICK_USER="export PATH=$PATH; menubar -s \"Control Center,UserSwitcher\"
 
 user=(
   icon=􀅷
-  icon.color=$IRIS_MOON
+  icon.color=$IRIS
   icon.font="$FONT:Medium:12.0"
   icon.y_offset=1
   icon.padding_right=0
@@ -18,7 +18,7 @@ user=(
   #scroll_duration=100
   padding_left=$INNER_PADDINGS
   padding_right=$(($INNER_PADDINGS / 2))
-  label.color=$TEXT_MOON
+  label.color=$TEXT
   label.drawing=on
   label.padding_right=0
   label.padding_left=3

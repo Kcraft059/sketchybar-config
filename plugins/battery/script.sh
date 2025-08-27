@@ -9,39 +9,39 @@ NOTCHARGING="$(pmset -g batt | grep 'not charging')"
 if [[ -z "$PERCENTAGE" ]]; then exit 0; fi
 
 DRAWING=on
-COLOR=$TEXT_MOON
+COLOR=$TEXT
 
 ### Configure icon + color depending on charge level
 
 case ${PERCENTAGE} in
 9[0-9] | 100)
   ICON=􀛨
-  COLOR=$PINE_MOON
+  COLOR=$PINE
   ;;
 [6-8][0-9])
   ICON=􀺸
-  COLOR=$FOAM_MOON
+  COLOR=$FOAM
   ;;
 [3-5][0-9])
   ICON=􀺶
-  COLOR=$GOLD_MOON
+  COLOR=$GOLD
   ;;
 [1-2][0-9])
   ICON=􀛩
-  COLOR=$ROSE_MOON
+  COLOR=$ROSE
   ;;
 *)
   ICON=􀛪
-  COLOR=$LOVE_MOON
+  COLOR=$LOVE
   ;;
 esac
 
 if [[ $ACCONNECTED != "" ]]; then
   ICON=􀢋
   if [[ $NOTCHARGING != "" ]]; then
-    COLOR=$SUBTLE_MOON
+    COLOR=$SUBTLE
   else
-    COLOR=$IRIS_MOON
+    COLOR=$IRIS
   fi
 fi
 
