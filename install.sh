@@ -52,8 +52,14 @@ font_url="https://github.com/kvndrsslr/sketchybar-app-font/releases/download/${l
 output_path="$CONFIG_DIR/dyn-icon_map.sh"
 
 mkdir -p "$(dirname "$output_path")"
-curl -fsSL -o "$output_path" "$font_url" || error "Failed to download dyn-icon_map.sh."
-success "Downloaded dyn-icon_map.sh → $output_path"
+log "Downloading icon map from $font_url..."
+if curl -fsSL -o "$output_path" "$font_url"; then
+  chmod +x "$output_path"
+  success "Downloaded dyn-icon_map.sh → $output_path"
+else
+  error "Failed to download dyn-icon_map.sh."
+  exit 1
+fi
 
 ### GitHub Notifications Setup
 read -rp "$(echo -e "${sqes} Do you want to enable GitHub notifications in SketchyBar? ${syon}: ${RESET}")" enable_github
