@@ -32,3 +32,6 @@ WIFI_UNREDACTOR="~/Applications/wifi-unredactor.app"
 COLOR_SCHEME="rosepine-moon"
 BAR_TRANSPARENCY=false
 THEME_FILE_PATH="$HOME/.config/sketchybar-config/theme.sh"
+
+# Aerospace window manager support
+AEROSPACE_MODE=False

@@ -67,8 +67,52 @@ For yabai users : `yabai -m config external_bar all:36:0`
 For Nix-Darwin users see : [here](#nix--nix-darwin-integration)
 or alternatively https://github.com/Kcraft059/Nix-Config/blob/master/home/darwin/sketchybar.nix
 
-> [!NOTE]
-> Aerospace isn't yet supported, if you want implement it / make a PR see : https://github.com/FelixKratz/SketchyBar/discussions/47?sort=new#discussioncomment-14081291
+## Aerospace Integration
+
+Aerospace window manager is now supported! Enable it by setting `AEROSPACE_MODE=True` in your `config.sh`.
+
+### Setup for Aerospace
+
+1. Enable aerospace mode in your `config.sh`:
+```bash
+AEROSPACE_MODE=True
+```
+
+1. Add the following to your `~/.config/aerospace/aerospace.toml`:
+```toml
+# Add this anywhere in your aerospace.toml file
+# IMPORTANT: Must be an array format, NOT using exec-and-forget
+exec-on-workspace-change = [
+  '/opt/homebrew/bin/bash',
+  '-c',
+  '/opt/homebrew/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+```
+
+1. Reload both configurations:
+```bash
+aerospace reload-config
+sketchybar --reload
+```
+
+**Note:** The setup script automatically detects the correct paths for bash and sketchybar.
+
+### Aerospace vs Yabai Differences
+
+- **Creating workspaces**: Right-clicking the separator won't create new workspaces (aerospace manages workspaces differently)
+- **Destroying workspaces**: Right-clicking workspace items won't destroy them
+- **Performance**: Uses efficient workspace-specific triggers instead of updating all workspaces
+- **Workspace switching**: Click on workspace items to switch (supports both left and right click)
+
+### Troubleshooting Aerospace Integration
+
+- **Workspaces not updating**: Ensure `aerospace reload-config` and `sketchybar --reload` have been run after configuration changes
+- **Click not working**: Verify aerospace is in your PATH by running `which aerospace`
+- **Setup script fails**: Check that both aerospace and sketchybar are properly installed via Homebrew
+- **Config file errors**: Run `aerospace validate-config` to check your aerospace.toml syntax
+- **"Event not found" errors**: Check `/tmp/sketchybar.out.log` for missing events. Ensure `AEROSPACE_MODE=True` is set in config.sh
+- **"Permission denied" errors**: Check `/tmp/sketchybar.err.log`. The aerospace-script.sh file may need execute permissions: `chmod +x ~/.config/sketchybar/plugins/spaces/aerospace-script.sh`
+- **Runtime errors**: If you see `exec-and-forget` errors, ensure your aerospace.toml uses the array format: `["bash", "-c", "command"]` not `"exec-and-forget command"`
 
 ## Configuration
 
@@ -81,8 +125,9 @@ NOTCH_WIDTH=180         # Reserved width for the display notch
 MUSIC_INFO_WIDTH=80     # Width (px) for music title & subtitle labels
 CPU_UPDATE_FREQ=2       # Seconds between CPU graph samples
 MENUBAR_AUTOHIDE=True   # Whether to automatically hide the menu titles
-GITHUB_TOKEN="~/.github_token" # Path to your GitHub Classic token (for notifications) 
+GITHUB_TOKEN="~/.github_token" # Path to your GitHub Classic token (for notifications)
 WIFI_UNREDACTOR="~/Applications/wifi-unredactor.app" # Wifi unredactor path
+AEROSPACE_MODE=False    # Enable aerospace window manager integration
 ```
 
 Usage order of precedence:

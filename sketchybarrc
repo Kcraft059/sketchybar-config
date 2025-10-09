@@ -27,6 +27,7 @@ fi
 : "${MENUBAR_AUTOHIDE:=True}"
 : "${GITHUB_TOKEN:="~/.github_token"}"
 : "${WIFI_UNREDACTOR:="~/Applications/wifi-unredactor.app"}"
+: "${AEROSPACE_MODE:=False}"
 
 [ ${#MENU_CONTROLS[@]} -eq 0 ] && MENU_CONTROLS=(
   "Control__Center,Bluetooth"
@@ -125,6 +126,12 @@ sketchybar --add bracket base-controls battery wifi display \
   --set volume_controls "${zones[@]}" \
   --add bracket more_menu '/moremenu\..*/' "${menuitem[@]}" \
   --set more_menu "${zones[@]}"
+
+# Add aerospace workspace change triggers if aerospace mode is enabled
+if [ "$AEROSPACE_MODE" = "True" ]; then
+  # Create single aerospace workspace change event
+  sketchybar --add event aerospace_workspace_change
+fi
 
 sketchybar --update
 
