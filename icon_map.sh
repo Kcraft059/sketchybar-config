@@ -393,9 +393,6 @@ else
     "Podcasts")
       icon_result=":podcasts:"
       ;;
-    "Alacritty" | "Hyper" | "iTerm2" | "kitty" | "Terminal" | "WezTerm" | "Ghostty")
-      icon_result=":terminal:"
-      ;;
     "Activity Monitor")
       icon_result=":activity_monitor:"
       ;;
