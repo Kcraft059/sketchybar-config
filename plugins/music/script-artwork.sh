@@ -1,16 +1,15 @@
 #!/bin/bash
 export PATH=/opt/homebrew/bin/:$PATH
 export RELPATH=$(dirname $0)/../..
-#SKETCHYBAR_MEDIASTREAM# (important do not remove)
 
-pids=$(ps -p $(pgrep sh) | grep '#SKETCHYBAR_MEDIASTREAM#' | awk '{print $1}')
+pids=$(ps -p $(pgrep sh) | grep $0 | awk '{print $1}') # List any left-over execution of this same process
 
 ### Kill any possible remaining streaming process from last config on reload
 # script is made to be invoked only once per bar reload
 
 if [[ -n "$pids" ]]; then
   pids+=" $(cat ${TMPDIR}/sketchybar/pids)"
-  echo killing "#SKETCHYBAR_MEDIASTREAM# pids:" $pids
+  echo "killing mediastream pids:" $pids
   kill -9 $pids
 fi
 
@@ -20,7 +19,6 @@ BAR_HEIGHT="$2"
 ### Open a stream to get current media continously
 
 media-control stream | grep --line-buffered 'data' | while IFS= read -r line; do
-
   ### List & store childs to prevent multiple background process remaining
   # Introduced because of a present bug, were the stream process detaches from the parent process causing stray processes
   
