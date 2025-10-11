@@ -18,6 +18,12 @@ success() { echo -e "${smak} $1${RESET}"; }
 warn() { echo -e "${swrn} $1${RESET}"; }
 error() { echo -e "${scac} $1${RESET}" >&2; exit 1; }
 
+### Flag --get-icon-map-only
+if [[ "${1:-}" == "--get-icon-map-only" ]]; then
+	get_icon_map
+fi
+
+
 ### Ensure Homebrew
 if ! command -v brew &>/dev/null; then
 	log "Homebrew not found. Installing Homebrew..."
