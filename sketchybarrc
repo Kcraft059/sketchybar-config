@@ -16,10 +16,10 @@ if [[ -n "$SKETCHYBAR_CONFIG" && -f "$SKETCHYBAR_CONFIG" ]]; then
 	# External override path (useful for Nix)
 	# shellcheck disable=SC1090
 	source "$SKETCHYBAR_CONFIG"
-elif [[ -f "$RELPATH/config.sh" ]]; then
+elif [[ -f "$RELPATH/settings.sh" ]]; then
 	# Local config file in repository
 	# shellcheck disable=SC1091
-	source "$RELPATH/config.sh"
+	source "$RELPATH/settings.sh"
 fi
 
 # Fallback defaults if variables unset
