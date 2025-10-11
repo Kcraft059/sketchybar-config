@@ -72,7 +72,7 @@ or alternatively https://github.com/Kcraft059/Nix-Config/blob/master/home/darwin
 
 ## Configuration
 
-A lightweight `config.sh` (or an externally provided file via the `SKETCHYBAR_CONFIG` env var) now allows you to tweak common behaviors without patching the repo.
+A lightweight `settings.sh` (or an externally provided file via the `SKETCHYBAR_CONFIG` env var) now allows you to tweak common behaviors without patching the repo.
 
 Defaults (only applied if a variable is unset):
 
@@ -88,14 +88,14 @@ BAR_LOOK="plain"        # Aspect of the bar
 
 Usage order of precedence:
 1. If `SKETCHYBAR_CONFIG` points to a readable file, it is sourced.
-2. Else if `config.sh` exists in the repo directory, it is sourced (see all examples in ./config-examples/).
+2. Else if `settings.sh` exists in the repo directory, it is sourced (see all examples in ./config-examples/).
 3. Fallback defaults are applied inside `sketchybarrc`.
 
 You can remove or comment variables you don't want to override—defaults remain unaffected.
 
 ### Adding a custom theme 
 
-In the config.sh, you can choose the theme used for the bar :
+In the settings.sh, you can choose the theme used for the bar :
 
 ```bash
 COLOR_SCHEME="rosepine-moon"
@@ -112,7 +112,7 @@ The file must follow the format in the example (./config-examples)
 
 ### Adding native macOS menu items in the 'more' menu
 
-You can add native macOS menu items to the bar by modifying `MENU_CONTROLS` in config.sh :
+You can add native macOS menu items to the bar by modifying `MENU_CONTROLS` in settings.sh :
 
 ```bash
 MENU_CONTROLS=(
@@ -146,7 +146,7 @@ There are multiple ways to integrate these settings through Nix flakes.
   };
 }
 ```
-Then deploy the repo content into `~/.config/sketchybar` (via home-manager or a derivation) and drop a `config.sh` alongside.
+Then deploy the repo content into `~/.config/sketchybar` (via home-manager or a derivation) and drop a `settings.sh` alongside.
 
 #### Example Home-Manager Module Snippet
 An opinionated module integrating this repo as a flake input :
@@ -182,7 +182,7 @@ An opinionated module integrating this repo as a flake input :
     "sketchybar/dyn-icon_map.sh".source = "${pkgs.sketchybar-app-font}/bin/icon_map.sh"; # To get the latest icon map for sketchybar app font
 
     # Optional: inline user overrides without forking
-    # "sketchybar/config.sh".text = ''
+    # "sketchybar/settings.sh".text = ''
     #   NOTCH_WIDTH=200
     #   MUSIC_INFO_WIDTH=100
     # '';
@@ -195,4 +195,4 @@ An opinionated module integrating this repo as a flake input :
 - Menu Bar items like `volume`, `wifi`, `bluetooth`, etc are not clickable (not working on macOS 26) : Ensure the items are present in the macOS native Menu Bar so that the program can simulate a click on the item.
 - CPU not showing: Ensure `cpu.sh` is sourced (it is by default) and run `sketchybar --query item graph.percent` to verify presence.
 - Music overlapping notch: Bump `NOTCH_WIDTH` in small increments (e.g. +10) or reduce `MUSIC_INFO_WIDTH`.
-- Config not applied: Echo inside your `config.sh` or run `grep NOTCH_WIDTH ~/.config/sketchybar/sketchybarrc` to confirm dynamic variable usage.
+- Config not applied: Echo inside your `settings.sh` or run `grep NOTCH_WIDTH ~/.config/sketchybar/sketchybarrc` to confirm dynamic variable usage.
