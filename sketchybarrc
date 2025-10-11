@@ -40,6 +40,20 @@ fi
 )
 
 source "$RELPATH/set_colors.sh"
+
+# --- Ensure icon_map.sh exists (initial setup fallback) ---
+if [[ ! -f "$RELPATH/icon_map.sh" ]]; then
+  echo "icon_map.sh not found, running get_icon_map from install.sh..."
+  if [[ -f "$RELPATH/install.sh" ]]; then
+    # shellcheck disable=SC1091
+    source "$RELPATH/install.sh"
+    get_icon_map
+  else
+    echo "Error: install.sh not found in $RELPATH" >&2
+    exit 1
+  fi
+fi
+
 source "$RELPATH/icon_map.sh"
 source "$RELPATH/add_separator.sh"
 
