@@ -28,11 +28,6 @@ else
 	success "Homebrew is already installed."
 fi
 
-# Ensure dependencies
-for cmd in git curl jq; do
-	command -v "$cmd" >/dev/null 2>&1 || error "$cmd not found. Please install it first."
-done
-
 CONFIG_DIR="$HOME/.config/sketchybar"
 ICON_MAP="$CONFIG_DIR/icon_map.sh"
 
