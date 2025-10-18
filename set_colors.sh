@@ -45,11 +45,15 @@ if [[ "$COLOR_SCHEME" == "rosepine-moon" ]]; then
 
 	# General bar colors
 	if [[ $BAR_TRANSPARENCY == true ]]; then
-		export BAR_COLOR=0x80414354 
-		export BORDER_COLOR=0x804D525B
+		#export BAR_COLOR=0x80414354 
+		export BAR_COLOR=0xb8252338
+		#export BORDER_COLOR=0x804D525B
+		export BORDER_COLOR=0xb8433F56
 	elif [[ $BAR_TRANSPARENCY == false ]]; then
-		export BAR_COLOR=0xff414354 
-		export BORDER_COLOR=0xff4D525B
+		#export BAR_COLOR=0xff414354 
+		export BAR_COLOR=0xff252338
+		#export BORDER_COLOR=0xff4D525B
+		export BORDER_COLOR=0xff433F56
 	fi
 	export ICON_COLOR=$TEXT  # Color of all icons
 	export LABEL_COLOR=$TEXT # Color of all labels
