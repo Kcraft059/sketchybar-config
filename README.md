@@ -129,8 +129,8 @@ WINDOW_MANAGER="rift"
 ```toml
 # Run commands on start
 run_on_start = [
-  "rift-cli subscribe cli --event workspace_changed --command /bin/bash --args -c --args 'sketchybar --trigger rift_workspace_change FOCUSED_WORKSPACE=\\\"$RIFT_WORKSPACE_NAME\\\"'",
-  "rift-cli subscribe cli --event windows_changed --command /bin/bash --args -c --args 'sketchybar --trigger rift_windows_changed RIFT_WORKSPACE_NAME=\\\"$RIFT_WORKSPACE_NAME\\\" RIFT_WINDOW_COUNT=\\\"$RIFT_WINDOW_COUNT\\\"'"
+  "rift-cli subscribe cli --event workspace_changed --command /bin/bash --args -c --args 'sketchybar --trigger rift_workspace_changed'",
+  "rift-cli subscribe cli --event windows_changed --command /bin/bash --args -c --args 'sketchybar --trigger rift_windows_changed'"
 ]
 ```
 

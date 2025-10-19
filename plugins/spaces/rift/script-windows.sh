@@ -3,54 +3,42 @@
 # Rift workspace windows indicator
 # This script updates workspace labels to show app icons for windows in each workspace
 
+# Get workspace ID from command line argument or extract from NAME
+WORKSPACE_ID=${1:-${NAME#space.}}                      # Space with formated name for sketchybar
+RIFT_SPACE_ID=$(echo "$WORKSPACE_ID" | sed 's/__/ /g') # Space with full name for rift
+
+# Set RELPATH for accessing other scripts
 export RELPATH=$(dirname $0)/../..
 source "$RELPATH/../icon_map.sh"
 
 update_workspace_windows() {
-    local workspace_id=$1
+	# Get apps in this workspace (using bundle_id as app identifier)
+	apps=$(rift-cli query workspaces | jq -r ".[] | select(.name == \"$RIFT_SPACE_ID\") | .windows[].bundle_id" | sort -u)
 
-    # Get apps in this workspace (using bundle_id as app identifier)
-    apps=$(rift-cli query workspaces | jq -r ".[] | select(.name == \"$workspace_id\") | .windows[].bundle_id" | sort -u)
+	icon_strip=" "
+	if [ "${apps}" != "" ]; then
+		while read -r app; do
+			icon_strip+=" $(
+				__icon_map "$app"
+				echo $icon_result
+			)"
+		done <<<"${apps}"
+		sketchybar --set space.$WORKSPACE_ID label="$icon_strip" label.drawing=on
 
-    icon_strip=" "
-    if [ "${apps}" != "" ]; then
-        while read -r app; do
-        icon_strip+=" $(
-        __icon_map "$app"
-        echo $icon_result
-        )"
-        done <<<"${apps}"
-        sketchybar --set space.$workspace_id label="$icon_strip" label.drawing=on
+		# Get focused workspace to determine background drawing
+		FOCUSED_WORKSPACE=$(rift-cli query workspaces | jq -r '.[] | select(.is_active == true) | .name')
 
-        # Get focused workspace to determine background drawing
-        FOCUSED_WORKSPACE=$(rift-cli query workspaces | jq -r '.[] | select(.is_active == true) | .name')
+		if ! [ "$FOCUSED_WORKSPACE" = "$RIFT_SPACE_ID" ]; then
+			sketchybar --set space.$WORKSPACE_ID background.drawing=on
+		else
+			sketchybar --set space.$WORKSPACE_ID background.drawing=off
+		fi
 
-        if ! [ "$FOCUSED_WORKSPACE" = "$workspace_id" ]; then
-            sketchybar --set space.$workspace_id background.drawing=on
-        else
-            sketchybar --set space.$workspace_id background.drawing=off
-        fi
-
-    else
-        # No apps in workspace, hide label
-        icon_strip=" -"
-        sketchybar --set space.$workspace_id label.drawing=off background.drawing=off
-    fi
+	else
+		# No apps in workspace, hide label
+		icon_strip=" -"
+		sketchybar --set space.$WORKSPACE_ID label.drawing=off background.drawing=off
+	fi
 }
 
-# Update all workspaces
-update_all_workspace_windows() {
-    workspaces=$(rift-cli query workspaces | jq -r '.[].name')
-    for workspace in $workspaces; do
-        update_workspace_windows "$workspace"
-    done
-}
-
-# Main logic
-if [ -n "$1" ]; then
-    # Update specific workspace
-    update_workspace_windows "$1"
-else
-    # Update all workspaces
-    update_all_workspace_windows
-fi
+update_workspace_windows
