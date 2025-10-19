@@ -32,7 +32,7 @@ fi
 : "${BAR_LOOK:="plain"}" # <"plain"|"compact">
 
 # To implement
-# : "${FORCE_WM:="""}" # <""|"yabai"|"aerospace"|"rift">
+# : "${WINDOW_MANAGER:="""}" # <""|"yabai"|"aerospace"|"rift">
 # : "${BAR_LOOK:="plain"}" # <"plain"|"compact">
 
 # WM detect if not already defined
