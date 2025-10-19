@@ -32,11 +32,12 @@ fi
 : "${BAR_LOOK:="plain"}" # <"plain"|"compact">
 
 # To implement
-# : "${FORCE_WM:="""}" # <""|"yabai"|"aerospace">
+# : "${FORCE_WM:="""}" # <""|"yabai"|"aerospace"|"rift">
 # : "${BAR_LOOK:="plain"}" # <"plain"|"compact">
 
 # WM detect if not already defined
 if [ -z $WINDOW_MANAGER ]; then
+	if command -v rift-cli >/dev/null; then WINDOW_MANAGER="rift"; fi
 	if command -v aerospace >/dev/null; then WINDOW_MANAGER="aerospace"; fi
 	if command -v yabai >/dev/null; then WINDOW_MANAGER="yabai"; fi
 fi

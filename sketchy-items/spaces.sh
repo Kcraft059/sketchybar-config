@@ -87,6 +87,35 @@ addAerospaceSpaces() {
 		--set separator "${separator[@]}"
 }
 
+addRiftSpaces() {
+	local event_name="rift_workspace_change"
+
+	sketchybar --add event $event_name
+
+	for sid in "${SPACES[@]}"; do # For each existing space add corresponding item
+		#echo $sid
+		space=(${dummy_space[@]})
+		space+=(
+			icon="$sid"
+		  #click_script="rift workspace $sid"
+		  script="$SCRIPT_SPACES $sid"
+		  drawing=on
+		)
+	 #echo "${space[@]}"
+	 sketchybar --add item space.$sid left \
+	   --set space.$sid "${space[@]}" \
+		 --subscribe space.$sid $event_name mouse.clicked
+		 #--subscribe space.$sid mouse.clicked
+  done
+
+	separator+=(
+		click_script="echo 'Rift does not support creating new workspaces via sketchybar'"
+	)
+
+	sketchybar --add item separator left \
+		--set separator "${separator[@]}"
+}
+
 # Choose script based on AEROSPACE_MODE
 
 case $WINDOW_MANAGER in
@@ -101,6 +130,12 @@ case $WINDOW_MANAGER in
 	SCRIPT_SPACE_WINDOWS="export PATH=$PATH; $RELPATH/plugins/spaces/aerospace/script-windows.sh"
 	SPACES=($(aerospace list-workspaces --all 2>/dev/null))
 	addAerospaceSpaces
+	;;
+"rift")
+	SCRIPT_SPACES="export PATH=$PATH; $RELPATH/plugins/spaces/rift/script-space.sh"
+	SCRIPT_SPACE_WINDOWS="export PATH=$PATH; $RELPATH/plugins/spaces/rift/script-windows.sh"
+	SPACES=($(rift-cli query workspaces | jq -r '.[].name' 2>/dev/null))
+	addRiftSpaces
 	;;
 esac
 
