@@ -49,7 +49,7 @@ addYabaiSpaces() {
 			--subscribe space.$sid mouse.clicked #space_windows_change
 
 	done
-	
+
 	separator+=(
 		click_script="export PATH=$PATH; yabai -m space --create && sketchybar --trigger space_change"
 		script="$SCRIPT_SPACE_WINDOWS"
@@ -61,6 +61,7 @@ addYabaiSpaces() {
 }
 
 addAerospaceSpaces() {
+	# Add the aerospace worksapce change event
 	sketchybar --add event aerospace_workspace_change
 
 	for sid in "${SPACES[@]}"; do # For each existing space add corresponding item
@@ -87,6 +88,35 @@ addAerospaceSpaces() {
 		--set separator "${separator[@]}"
 }
 
+addRiftSpaces() {
+	# Add the rift workspace change event
+	sketchybar --add event rift_workspace_changed 
+	#sketchybar --add event rift_windows_changed
+
+	for sid in "${SPACES[@]}"; do # For each existing space add corresponding item
+		space=(${dummy_space[@]})
+		space+=(
+			icon="$sid"
+			#click_script="aerospace workspace $sid"
+			script="$SCRIPT_SPACES $workspace"
+			drawing=on
+		)
+
+		sid=$(echo "$sid" | sed 's/ /__/g') # Format name for sketchybar
+
+		sketchybar --add item space.$sid left \
+			--set space.$sid "${space[@]}" \
+			--subscribe space.$sid rift_workspace_changed mouse.clicked #rift_windows_changed 
+	done
+
+	separator+=(
+		click_script="echo 'Rift does not support creating new workspaces via sketchybar'"
+	)
+
+	sketchybar --add item separator left \
+		--set separator "${separator[@]}"
+}
+
 # Choose script based on AEROSPACE_MODE
 
 case $WINDOW_MANAGER in
@@ -101,6 +131,14 @@ case $WINDOW_MANAGER in
 	SCRIPT_SPACE_WINDOWS="export PATH=$PATH; $RELPATH/plugins/spaces/aerospace/script-windows.sh"
 	SPACES=($(aerospace list-workspaces --all 2>/dev/null))
 	addAerospaceSpaces
+	;;
+"rift")
+	SCRIPT_SPACES="export PATH=$PATH; $RELPATH/plugins/spaces/rift/script-space.sh"
+	SCRIPT_SPACE_WINDOWS="export PATH=$PATH; $RELPATH/plugins/spaces/rift/script-windows.sh"
+	while IFS= read -r line; do
+		SPACES+=("$line")
+	done < <(rift-cli query workspaces 2>/dev/null | jq -r '.[] | .name')
+	addRiftSpaces
 	;;
 esac
 

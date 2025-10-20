@@ -73,9 +73,9 @@ Aerospace window manager is now supported!
 
 ### Choosing a window manager
 
-1. You can let the config auto detect your window-manger or force it in `config.sh`: 
+1. You can let the config auto detect your window-manger or force it in `config.sh`:
 ```bash
-WINDOW_MANAGER="aerospace" # supported "yabai" and "aerospace" defaults to "" which is auto-detect
+WINDOW_MANAGER="aerospace" # supported "yabai", "aerospace", and "rift"; defaults to "" which is auto-detect
 ```
 
 1. For aerospace, add the following to your `~/.config/aerospace/aerospace.toml`:
@@ -113,6 +113,55 @@ sketchybar --reload
 - **"Event not found" errors**: Check `/tmp/sketchybar.out.log` for missing events. Ensure `AEROSPACE_MODE=True` is set in config.sh
 - **"Permission denied" errors**: Check `/tmp/sketchybar.err.log`. The aerospace-script.sh file may need execute permissions: `chmod +x ~/.config/sketchybar/plugins/spaces/aerospace-script.sh`
 - **Runtime errors**: If you see `exec-and-forget` errors, ensure your aerospace.toml uses the array format: `["bash", "-c", "command"]` not `"exec-and-forget command"`
+
+## Rift Integration
+
+### Setting up Rift Integration
+
+1. Ensure Rift is installed and running with `rift-cli` available in your PATH.
+
+2. The config automatically detects Rift, but you can force it in `config.sh`:
+```bash
+WINDOW_MANAGER="rift"
+```
+
+3. Add the following to your `~/.config/rift/config.toml` to enable SketchyBar integration:
+```toml
+# Run commands on start
+run_on_start = [
+  "rift-cli subscribe cli --event workspace_changed --command /bin/bash --args -c --args 'sketchybar --trigger rift_workspace_changed'",
+  "rift-cli subscribe cli --event windows_changed --command /bin/bash --args -c --args 'sketchybar --trigger rift_windows_changed'"
+]
+```
+
+4. Reload configurations:
+```bash
+rift-cli service restart  # Restart Rift service if needed
+sketchybar --reload
+```
+
+### Rift Features
+
+- **Workspace switching**: Click on workspace numbers to switch between workspaces
+- **Active workspace highlighting**: Current workspace is highlighted
+- **Window icons**: Workspaces show icons of running applications
+- **Dynamic workspace detection**: Automatically detects available workspaces from Rift
+- **Event-driven updates**: Responds to Rift's workspace and window change events
+
+### Rift vs Other Window Managers
+
+- **Similar to Aerospace**: Uses event-driven updates and workspace-specific triggers
+- **Workspace management**: Right-clicking the separator shows a message (Rift manages workspaces differently)
+- **Performance**: Efficient updates only when workspaces or windows change
+- **Integration**: Native support through Rift's CLI and event system
+
+### Troubleshooting Rift Integration
+
+- **Workspaces not showing**: Ensure `rift-cli` is in your PATH and Rift is running
+- **Click not working**: Verify Rift is active and workspaces are available
+- **Icons not updating**: Check that Rift's event subscriptions are working
+- **Config errors**: Ensure your Rift config includes the event subscriptions (usually in `~/.config/rift/config.toml`)
+- **Permission errors**: Make sure the Rift scripts have execute permissions
 
 ## Configuration
 
