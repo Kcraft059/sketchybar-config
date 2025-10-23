@@ -170,13 +170,14 @@ A lightweight `config.sh` (or an externally provided file via the `SKETCHYBAR_CO
 Defaults (only applied if a variable is unset):
 
 ```bash
+BAR_TRANSPARENCY=true
+BAR_LOOK="plain"        # Aspect of the bar 
 NOTCH_WIDTH=180         # Reserved width for the display notch
 MUSIC_INFO_WIDTH=80     # Width (px) for music title & subtitle labels
 CPU_UPDATE_FREQ=2       # Seconds between CPU graph samples
 MENUBAR_AUTOHIDE=True   # Whether to automatically hide the menu titles
 GITHUB_TOKEN="~/.github_token" # Path to your GitHub Classic token (for notifications)
 WIFI_UNREDACTOR="~/Applications/wifi-unredactor.app" # Wifi unredactor path
-BAR_LOOK="plain"        # Aspect of the bar 
 ```
 
 Usage order of precedence:
