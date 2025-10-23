@@ -1,8 +1,8 @@
 #!/bin/bash
 
+## Default settings for spaces
+
 dummy_space=(
-	#associated_space=$sid
-	#icon=${i}
 	icon.padding_left=6
 	icon.padding_right=7
 	icon.color=$NOTICE
@@ -20,8 +20,8 @@ dummy_space=(
 	label.background.color=$HIGH_HIGH
 	label.background.corner_radius=7
 	label.y_offset=-1
-	label.drawing=off
-	#script="$SCRIPT_SPACES"
+	label.drawing=on
+	label.width=0
 )
 
 separator=(
@@ -29,10 +29,10 @@ separator=(
 	label.drawing=off
 	icon.font="$FONT:Semibold:14.0"
 	associated_display=active
-	#click_script="echo 'Aerospace does not support creating new workspaces via sketchybar'"
 	icon.color=$SUBTLE
-	#script="$SCRIPT_SPACE_WINDOWS"
 )
+
+## Space addtion methods
 
 addYabaiSpaces() {
 	for sid in "${SPACES[@]}"; do # For each existing space add corresponding item
@@ -117,27 +117,39 @@ addRiftSpaces() {
 		--set separator "${separator[@]}"
 }
 
-# Choose script based on AEROSPACE_MODE
+## Trigger right setup depending on $WINDOW_MANAGER.
 
-case $WINDOW_MANAGER in
+case "$WINDOW_MANAGER" in
 "yabai")
 	SCRIPT_SPACES="export PATH=$PATH; $RELPATH/plugins/spaces/yabai/script-space.sh"
 	SCRIPT_SPACE_WINDOWS="export PATH=$PATH; $RELPATH/plugins/spaces/yabai/script-windows.sh"
+
+	# Make a default set of workspaces to handle creation / deletion 
 	SPACES=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15")
+
+	# Trigger helper to add necessary spaces
 	addYabaiSpaces
 	;;
 "aerospace")
 	SCRIPT_SPACES="export PATH=$PATH; $RELPATH/plugins/spaces/aerospace/script-space.sh"
 	SCRIPT_SPACE_WINDOWS="export PATH=$PATH; $RELPATH/plugins/spaces/aerospace/script-windows.sh"
+	
+	# Query all workspaces available
 	SPACES=($(aerospace list-workspaces --all 2>/dev/null))
+
+	# Trigger helper to add necessary spaces
 	addAerospaceSpaces
 	;;
 "rift")
 	SCRIPT_SPACES="export PATH=$PATH; $RELPATH/plugins/spaces/rift/script-space.sh"
 	SCRIPT_SPACE_WINDOWS="export PATH=$PATH; $RELPATH/plugins/spaces/rift/script-windows.sh"
+	
+	# Query all workspaces available & handle whitespaces 
 	while IFS= read -r line; do
 		SPACES+=("$line")
 	done < <(rift-cli query workspaces 2>/dev/null | jq -r '.[] | .name')
+
+	# Trigger helper to add necessary spaces
 	addRiftSpaces
 	;;
 esac

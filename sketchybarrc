@@ -7,11 +7,7 @@ OS_VERSION="$(sw_vers -productVersion)"
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:$PATH"
 mkdir -p "${TMPDIR}sketchybar"
 
-if [[ -z $(ls /Library/Fonts/ | grep 'sketchybar-app-font') ]]; then
-	echo 'Sketchybarfont not found…' # Notice if Sketchybar-app-font is not installed
-fi
-
-# Optional user configuration
+### Optional user configuration
 if [[ -n "$SKETCHYBAR_CONFIG" && -f "$SKETCHYBAR_CONFIG" ]]; then
 	# External override path (useful for Nix)
 	# shellcheck disable=SC1090
@@ -23,17 +19,14 @@ elif [[ -f "$RELPATH/config.sh" ]]; then
 fi
 
 # Fallback defaults if variables unset
-: "${NOTCH_WIDTH:=180}"
-: "${MUSIC_INFO_WIDTH:=80}"
-: "${CPU_UPDATE_FREQ:=2}"
-: "${MENUBAR_AUTOHIDE:=True}" # True / False
-: "${GITHUB_TOKEN:="~/.github_token"}"
-: "${WIFI_UNREDACTOR:="~/Applications/wifi-unredactor.app"}"
+: "${NOTCH_WIDTH:=180}" # <int>
+: "${MUSIC_INFO_WIDTH:=80}" # <int>
+: "${CPU_UPDATE_FREQ:=2}" # <int>
+: "${MENUBAR_AUTOHIDE:=True}" # <true|false>
+: "${GITHUB_TOKEN:="~/.github_token"}" # <path>
+: "${WIFI_UNREDACTOR:="~/Applications/wifi-unredactor.app"}" # <path>
 : "${BAR_LOOK:="plain"}" # <"plain"|"compact">
-
-# To implement
-# : "${WINDOW_MANAGER:="""}" # <""|"yabai"|"aerospace"|"rift">
-# : "${BAR_LOOK:="plain"}" # <"plain"|"compact">
+: "${HIDE_EMPTY_SPACES:="false"}" # <true|false> / Is not really used here but rather in the scripts.sh
 
 # WM detect if not already defined
 if [ -z $WINDOW_MANAGER ]; then
@@ -46,6 +39,8 @@ fi
 	"Control__Center,Bluetooth"
 )
 
+### Helpers sourcing
+source "$RELPATH/log_handler.sh"
 source "$RELPATH/set_colors.sh"
 source "$RELPATH/icon_map.sh"
 source "$RELPATH/add_separator.sh"

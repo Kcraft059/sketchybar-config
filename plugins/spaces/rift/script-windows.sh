@@ -1,15 +1,16 @@
 #!/bin/bash
+export RELPATH=$(dirname $0)/../..
+source "$RELPATH/../icon_map.sh"
 
+##
 # Rift workspace windows indicator
 # This script updates workspace labels to show app icons for windows in each workspace
+#	This script is ran by each space item and thus shouldn't update all the spaces but only the caller.
+##
 
 # Get workspace ID from command line argument or extract from NAME
 WORKSPACE_ID=${1:-${NAME#space.}}                      # Space with formated name for sketchybar
 RIFT_SPACE_ID=$(echo "$WORKSPACE_ID" | sed 's/__/ /g') # Space with full name for rift
-
-# Set RELPATH for accessing other scripts
-export RELPATH=$(dirname $0)/../..
-source "$RELPATH/../icon_map.sh"
 
 update_workspace_windows() {
 	# Get apps in this workspace (using bundle_id as app identifier)

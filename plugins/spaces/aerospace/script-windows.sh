@@ -1,10 +1,12 @@
 #!/bin/bash
-
-# Aerospace workspace windows indicator
-# This script updates workspace labels to show app icons for windows in each workspace
-
 export RELPATH=$(dirname $0)/../..
 source "$RELPATH/../icon_map.sh"
+
+##
+# Aerospace workspace windows indicator
+# This script updates workspace labels to show app icons for windows in each workspace
+#	This script is ran by each space item and thus shouldn't update all the spaces but only the caller.
+##
 
 update_workspace_windows() {
 	local workspace_id=$1
@@ -35,14 +37,6 @@ update_workspace_windows() {
 		icon_strip=" -"
 		sketchybar --set space.$workspace_id label.drawing=off background.drawing=off
 	fi
-}
-
-# Update all workspaces
-update_all_workspace_windows() {
-	workspaces=$(aerospace list-workspaces --all 2>/dev/null)
-	for workspace in $workspaces; do
-		update_workspace_windows "$workspace"
-	done
 }
 
 update_workspace_windows "$1"
