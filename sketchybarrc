@@ -42,6 +42,18 @@ fi
 ### Helpers sourcing
 source "$RELPATH/log_handler.sh"
 source "$RELPATH/set_colors.sh"
+
+# --- Ensure icon_map.sh exists (initial setup fallback) ---
+if [[ ! -f "$RELPATH/icon_map.sh" ]]; then
+  echo "icon_map.sh not found, running get_icon_map from install.sh..."
+  if [[ -f "$RELPATH/install.sh" ]]; then
+  	bash "$RELPATH/install.sh" --get-icon-map-only
+  else
+    echo "Error: install.sh not found in $RELPATH" >&2
+    exit 1
+  fi
+fi
+
 source "$RELPATH/icon_map.sh"
 source "$RELPATH/add_separator.sh"
 
