@@ -1,11 +1,29 @@
 #!/bin/bash
+export RELPATH=$(dirname $0)/../..
+source $RELPATH/log_handler.sh
 
-### Wait for start of next minute to update clock
+## Private function
 
-sleep $((59 - $(date '+%-S')))
+# Updates time precisely
+update() {
+	sendLog "Updating date..." "vomit"
 
-while [[ $(date '+%S') != "00" ]]; do
-  sleep 0.1
-done
+	# Check delay before next full minute
+	delay=$((59 - $(date '+%-S')))
 
-sketchybar --set $NAME icon="$(date '+%a %d. %b')" label="$(date '+%H:%M')"
+	sendLog "Sleeping before clock update for ${delay}s..." "vomit"
+
+	# Approximate waiting
+	sleep $delay
+
+	# 1/10 of a second precision
+	while [[ $(date '+%S') != "00" ]]; do
+		sleep 0.1
+	done
+
+	sketchybar --set $NAME icon="$(date '+%a %d. %b')" label="$(date '+%H:%M')"
+	sendLog "Updated date" "vomit"
+}
+
+## Main logic
+update

@@ -1,6 +1,9 @@
 #!/bin/bash
+
+## Scripts
 SCRIPT_PKGS="export PATH=$PATH; $RELPATH/plugins/packages/script.sh"
 
+## Item properties
 pkgs=(
   drawing=off
   script="$SCRIPT_PKGS"
@@ -20,6 +23,7 @@ pkgs=(
   updates=when_shown
 )
 
+## Item addition
 sketchybar --add item moremenu.pkgs right \
   --set moremenu.pkgs "${pkgs[@]}" \
   --subscribe moremenu.pkgs more-menu-update

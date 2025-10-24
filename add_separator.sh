@@ -1,4 +1,7 @@
 #!/bin/bash
+## Functions
+
+# Adds a separator item
 add_separator() {
 	icon=${3:-"|"}
   separator=(

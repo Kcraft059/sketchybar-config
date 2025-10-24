@@ -1,16 +1,20 @@
 #!/bin/bash
 # sketchybar --query default_menu_items
 
-menuitems=(
-  "pkgs"
-  "user"
-  "notif"
+## Included moremenu.x sketchybar items
+menuitems=("${MENU_CONTROLS[@]}")
+menuitems+=(
+  moremenu.pkgs
+  moremenu.user
+  moremenu.notif
 )
 
+## Scripts
 SCRIPT_CLICK_SEPARATOR_MORE="export PATH=$PATH; \
 $RELPATH/plugins/more-menu/script.sh \
-\"${MENU_CONTROLS[@]}\" \"${menuitems[@]}\" $INNER_PADDINGS \"$FONT\" "
+\"${menuitems[*]}\" $INNER_PADDINGS \"$FONT\" "
 
+## Item properties
 separator=(
   icon=􀯶
   label.drawing=off
@@ -20,6 +24,7 @@ separator=(
   click_script="$SCRIPT_CLICK_SEPARATOR_MORE"
 )
 
+## Item addition
 sketchybar --add item separator-more right \
   --set separator-more "${separator[@]}" \
   --add event more-menu-update

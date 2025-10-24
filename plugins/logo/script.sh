@@ -32,7 +32,6 @@ menu_on() {
 	update_menus
 
 	if $MENUBAR_AUTOHIDE; then
-		echo test
 		sleep 30
 		menu_off
 	fi

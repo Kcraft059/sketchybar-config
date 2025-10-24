@@ -1,14 +1,17 @@
 #!/bin/bash
 # See : https://github.com/FelixKratz/dotfiles/blob/e6288b3f4220ca1ac64a68e60fced2d4c3e3e20b/.config/sketchybar/helper/cpu.h
+
+## Defaults + user overrides
+GRAPH_SCRIPT="export PATH=$PATH; $RELPATH/plugins/graph/script.sh"
+
 GRAPH_MARGIN=$(($BAR_HEIGHT / 8))
 GRAPH_WIDTH=140
 PERCENT_WIDTH=24
 
-GRAPH_SCRIPT="export PATH=$PATH; $RELPATH/plugins/graph/script.sh"
-
 # Allow override of update frequency via CPU_UPDATE_FREQ from config
 : "${CPU_UPDATE_FREQ:=2}"
 
+## Item properties
 graph=(
 	graph.color=$SUBTLE
 	drawing=off
@@ -34,7 +37,6 @@ graph_percent=(
 	label.padding_left=0
 	icon.drawing=off
 	label.drawing=on
-	#background.color=$CRITICAL
 	background.drawing=off
 	label="37%"
 	label.width=$PERCENT_WIDTH
@@ -51,13 +53,13 @@ graph_label=(
 	label.padding_left=0
 	icon.drawing=off
 	label.drawing=on
-	#background.color=$CRITICAL
 	background.drawing=off
 	label="GLUOP ORPI EIOP - EOIYUEUI 33%"
 	label.color=$SUBTLE
 	label.font="$FONT:Regular:7.0"
 )
 
+## Item additions
 sketchybar --add item graph.percent e \
 	--set graph.percent "${graph_percent[@]}" \
 	--add item graph.label e \

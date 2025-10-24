@@ -1,6 +1,9 @@
 #!/bin/bash
+
+## Scripts
 SCRIPT_MIC="export PATH=$PATH; $RELPATH/plugins/mic/script.sh"
 
+## Item properties
 mic=(
   icon=􀊱
   icon.color=$ACTIVE
@@ -11,6 +14,7 @@ mic=(
   script="$SCRIPT_MIC"
 )
 
+## Item addition
 sketchybar --add item mic right \
   --set mic "${mic[@]}" \
   --subscribe mic mouse.clicked

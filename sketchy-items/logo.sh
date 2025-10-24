@@ -1,6 +1,9 @@
 #!/bin/bash
+
+## Scripts
 SCRIPT_POPUP_TOGGLE="export PATH=$PATH; $RELPATH/plugins/logo/script.sh \"$FONT\" $X_BAR_PADDING $MENUBAR_AUTOHIDE"
 
+## Item properties
 logo=(
   icon=􀆔
   padding_left=$X_BAR_PADDING
@@ -18,6 +21,7 @@ logo=(
   background.drawing=off
 )
 
+## Item addition
 sketchybar --add item logo left \
   --set logo "${logo[@]}" \
   --subscribe logo front_app_switched mouse.clicked

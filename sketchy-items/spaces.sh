@@ -1,7 +1,6 @@
 #!/bin/bash
 
-## Default settings for spaces
-
+## Item properties
 dummy_space=(
 	icon.padding_left=6
 	icon.padding_right=7
@@ -33,22 +32,20 @@ separator=(
 )
 
 ## Space addtion methods
-
 addYabaiSpaces() {
 	sendLog "Detected yabai spaces : ${SPACES[*]}" "vomit"
 
 	for sid in "${SPACES[@]}"; do # For each existing space add corresponding item
-		#echo $sid
 		space=(${dummy_space[@]})
 		space+=(
 			associated_space=$sid
 			icon="$sid"
 			script="$SCRIPT_SPACES"
 		)
-		#echo "${space[@]}"
+
 		sketchybar --add space space.$sid left \
 			--set space.$sid "${space[@]}" \
-			--subscribe space.$sid mouse.clicked #space_windows_change
+			--subscribe space.$sid mouse.clicked
 
 		sendLog "Add yabai native space item id : $sid" "vomit"
 	done
@@ -70,19 +67,16 @@ addAerospaceSpaces() {
 	sendLog "Detected aerospace spaces : ${SPACES[*]}" "vomit"
 
 	for sid in "${SPACES[@]}"; do # For each existing space add corresponding item
-		#echo $sid
-		space=(${dummy_space[@]})
+		space=("${dummy_space[@]}")
 		space+=(
 			icon="$sid"
-			#click_script="aerospace workspace $sid"
 			script="$SCRIPT_SPACES $sid"
 			drawing=on
 		)
-		#echo "${space[@]}"
+
 		sketchybar --add item space.$sid left \
 			--set space.$sid "${space[@]}" \
 			--subscribe space.$sid aerospace_workspace_change mouse.clicked
-		#--subscribe space.$sid mouse.clicked
 
 		sendLog "Add aerospace space item id : $sid" "vomit"
 	done
@@ -97,16 +91,14 @@ addAerospaceSpaces() {
 
 addRiftSpaces() {
 	# Add the rift workspace change event
-	sketchybar --add event rift_workspace_changed 
-	#sketchybar --add event rift_windows_changed
+	sketchybar --add event rift_workspace_changed
 
 	sendLog "Detected rift spaces : ${SPACES[*]}" "vomit"
 
 	for sid in "${SPACES[@]}"; do # For each existing space add corresponding item
-		space=(${dummy_space[@]})
+		space=("${dummy_space[@]}")
 		space+=(
 			icon="$sid"
-			#click_script="aerospace workspace $sid"
 			script="$SCRIPT_SPACES $workspace"
 			drawing=on
 		)
@@ -115,7 +107,7 @@ addRiftSpaces() {
 
 		sketchybar --add item space.$sid left \
 			--set space.$sid "${space[@]}" \
-			--subscribe space.$sid rift_workspace_changed mouse.clicked #rift_windows_changed 
+			--subscribe space.$sid rift_workspace_changed mouse.clicked #rift_windows_changed
 
 		sendLog "Add rift space item id : $sid" "vomit"
 	done
@@ -130,12 +122,16 @@ addRiftSpaces() {
 
 ## Trigger right setup depending on $WINDOW_MANAGER.
 
+# Note:
+#	When adding a new WM support, make a new case and a new helper to add spaces, copy space_dummy
+#	And apply the necessary changes; then add all the spaces
+
 case "$WINDOW_MANAGER" in
 "yabai")
 	SCRIPT_SPACES="export PATH=$PATH; $RELPATH/plugins/spaces/yabai/script-space.sh"
 	SCRIPT_SPACE_WINDOWS="export PATH=$PATH; $RELPATH/plugins/spaces/yabai/script-windows.sh"
 
-	# Make a default set of workspaces to handle creation / deletion 
+	# Make a default set of workspaces to handle creation / deletion
 	SPACES=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15")
 
 	# Trigger helper to add necessary spaces
@@ -144,7 +140,7 @@ case "$WINDOW_MANAGER" in
 "aerospace")
 	SCRIPT_SPACES="export PATH=$PATH; $RELPATH/plugins/spaces/aerospace/script-space.sh"
 	SCRIPT_SPACE_WINDOWS="export PATH=$PATH; $RELPATH/plugins/spaces/aerospace/script-windows.sh"
-	
+
 	# Query all workspaces available
 	SPACES=($(aerospace list-workspaces --all 2>/dev/null))
 
@@ -154,8 +150,8 @@ case "$WINDOW_MANAGER" in
 "rift")
 	SCRIPT_SPACES="export PATH=$PATH; $RELPATH/plugins/spaces/rift/script-space.sh"
 	SCRIPT_SPACE_WINDOWS="export PATH=$PATH; $RELPATH/plugins/spaces/rift/script-windows.sh"
-	
-	# Query all workspaces available & handle whitespaces 
+
+	# Query all workspaces available & handle whitespaces
 	while IFS= read -r line; do
 		SPACES+=("$line")
 	done < <(rift-cli query workspaces 2>/dev/null | jq -r '.[] | .name')
@@ -164,9 +160,10 @@ case "$WINDOW_MANAGER" in
 	addRiftSpaces
 	;;
 *)
-	sendErr "No Window Manager has been set, can't add spaces." "info"
+	sendErr "An incorrect Window Manager has been set ($WINDOW_MANAGER), can't add spaces." "info"
+	;;
 esac
 
+## Add all spaces in a bracket
 sketchybar --add bracket spaces '/space\..*/' \
-	--set spaces "${zones[@]}" \
-	|| sendErr "Failed to add spaces to space zone" "debug"
+	--set spaces "${zones[@]}"

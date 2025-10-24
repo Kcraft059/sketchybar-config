@@ -1,4 +1,6 @@
 #!/bin/bash
+
+## Scripts
 SCRIPT_CALENDAR="export PATH=$PATH; $RELPATH/plugins/calendar/script.sh"
 SCRIPT_CLICK_CALENDAR="export PATH=$PATH; $RELPATH/plugins/calendar/click.sh"
 

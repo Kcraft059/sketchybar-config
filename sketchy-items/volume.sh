@@ -1,7 +1,10 @@
 #!/bin/bash
+
+## Scripts
 SCRIPT_VOLUME_CLICK="export PATH=$PATH; $RELPATH/plugins/volume/click.sh"
 SCRIPT_VOLUME="export PATH=$PATH; $RELPATH/plugins/volume/script.sh"
 
+## Item properties
 volume_slider=(
   script="$SCRIPT_VOLUME"
   updates=on
@@ -31,13 +34,14 @@ volume_icon=(
   label.font="$FONT:Regular:14.0"
 )
 
+
+## Item addition
 sketchybar --add slider volume right \
   --set volume "${volume_slider[@]}" \
   --subscribe volume volume_change \
   mouse.clicked \
   mouse.entered \
   mouse.exited \
-  \
   --add item volume_icon right \
   --set volume_icon "${volume_icon[@]}"
 

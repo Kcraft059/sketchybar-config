@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bashs
 
 ##
 # This script is responsible for error / log handling
@@ -6,8 +6,7 @@
 # LOG_LEVEL=<"none"|"info"|"debug"|"vomit">
 ##
 
-## Exports
-
+## Settings & sourcing
 if [[ -n "$SKETCHYBAR_CONFIG" && -f "$SKETCHYBAR_CONFIG" ]]; then
 	source "$SKETCHYBAR_CONFIG"
 elif [[ -f "./config.sh" ]]; then
@@ -27,6 +26,7 @@ errString="$(if $COLOR_LOG; then echo "$scac"; else echo "[Error]"; fi)"
 warnString="$(if $COLOR_LOG; then echo "$swrn"; else echo "[Warn]"; fi)"
 logString="$(if $COLOR_LOG; then echo "$sexc"; else echo "[Info]"; fi)"
 
+# Matches a log level keyboard to a prority index
 __getKeywordLevel() {
 	case "$1" in
 	"none")
@@ -51,6 +51,8 @@ __getKeywordLevel() {
 LOG_LEVEL_INDEX=$(__getKeywordLevel $LOG_LEVEL)
 
 ## Available functions
+
+# Sends a formated error to stderr depending on set logLevel
 sendErr() {
 	# $1 -> <errMsg>, $2 -> <logLevel>
 	if [ -z $2 ]; then
@@ -60,32 +62,34 @@ sendErr() {
 
 	if [ $LOG_LEVEL_INDEX -ge $(__getKeywordLevel "$2") ]; then # If current log level is higher or equal to function's log level, display message
 		# Sends log + date to stderr
-		>&2 echo -e "$errString $(date '+[%H:%M:%S]') $1"
+		>&2 echo -e "$(date '+[%H:%M:%S]') $errString $1"
 	fi
 }
 
+# Sends a formated warning to stdout depending on set logLevel
 sendWarn() {
-	# $1 -> <logMsg>, $2 -> <logLevel>
+	# $1 -> <wrnMsg>, $2 -> <logLevel>
 	if [ -z $2 ]; then
 		sendErr "No errLevel set for \"$1\"" "none"
 		return 1
 	fi
 
 	if [ $LOG_LEVEL_INDEX -ge $(__getKeywordLevel "$2") ]; then # If current log level is higher or equal to function's log level, display message
-		# Sends log + date to stdout
-		>&1 echo -e "$warnString $(date '+[%H:%M:%S]') $1"
+		# Sends Warn + date to stdout
+		>&1 echo -e "$(date '+[%H:%M:%S]') $warnString $1"
 	fi
 }
 
+# Sends a formated info to stdout depending on set logLevel
 sendLog() {
 	# $1 -> <logMsg>, $2 -> <logLevel>
-	if [ -z $2 ]; then
+	if [ -z $2 ]; then 
 		sendErr "No errLevel set for \"$1\"" "none"
 		return 1
 	fi
 
 	if [ $LOG_LEVEL_INDEX -ge $(__getKeywordLevel "$2") ]; then # If current log level is higher or equal to function's log level, display message
 		# Sends log + date to stdout
-		>&1 echo -e "$logString $(date '+[%H:%M:%S]') $1"
+		>&1 echo -e "$(date '+[%H:%M:%S]') $logString $1"
 	fi
 }

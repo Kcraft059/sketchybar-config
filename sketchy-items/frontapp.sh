@@ -1,7 +1,10 @@
 #!/bin/bash
+
+## Scripts
 SCRIPT_FRONT_APP="export PATH=$PATH; $RELPATH/plugins/frontapp/script.sh"
 SCRIPT_CLICK_FRONT_APP="export PATH=$PATH; yabai -m window --toggle float"
 
+## Item properties
 front_app=(
   background.color=$OVERLAY
   background.height=$(($BAR_HEIGHT - 12))
@@ -17,6 +20,7 @@ front_app=(
   associated_display=active
 )
 
+## Item addition
 sketchybar --add item front_app left \
   --set front_app "${front_app[@]}" \
   --subscribe front_app system_woke front_app_switched

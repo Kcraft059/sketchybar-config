@@ -67,7 +67,8 @@ fi
 
 [[ -f ./dyn-icon_map.sh ]] && sendLog "Found dyn-icon_map.sh, using instead." "vomit"
 
-command -v 'menubar' 2>/dev/null 1>&2 && sendWarn "Binary \`menubar\` not in \$PATH, using bundled version" "debug"
+command -v 'menubar' 2>/dev/null 1>&2 || sendWarn "Binary \`menubar\` not in \$PATH, using bundled version" "debug"
+menubarImportCmd="command -v 'menubar' 2>/dev/null 1>&2 || alias menubar=\"$RELPATH/menubar\""
 
 FONT="SF Pro"
 OUTER_PADDINGS=5

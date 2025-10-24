@@ -1,18 +1,18 @@
 #!/bin/bash
-command -v 'menubar' 2>/dev/null 1>&2 || alias menubar="$RELPATH/menubar"
 
+## Scripts & defaults
 ARTWORK_MARGIN=5
 TITLE_MARGIN=$((3 + $BAR_HEIGHT / 4))
 # Allow override from global config via MUSIC_INFO_WIDTH
 INFO_WIDTH=${MUSIC_INFO_WIDTH:-80}
 
-
 SCRIPT_MUSIC="export PATH=$PATH; $RELPATH/plugins/music/script-artwork.sh $ARTWORK_MARGIN $BAR_HEIGHT"
-SCRIPT_CLICK_MUSIC_ARTWORK="export PATH=$PATH;  media-control toggle-play-pause"
+SCRIPT_CLICK_MUSIC_ARTWORK="export PATH=$PATH; media-control toggle-play-pause"
 SCRIPT_MUSIC_TITLE="export PATH=$PATH; $RELPATH/plugins/music/script-title.sh"
-SCRIPT_CLICK_MUSIC_TITLE="export PATH=$PATH; menubar -s \"Control Center,NowPlaying\""
+SCRIPT_CLICK_MUSIC_TITLE="export PATH=$PATH; $menubarImportCmd; menubar -s \"Control Center,NowPlaying\""
 SCRIPT_CENTER_SEP="export PATH=$PATH; $RELPATH/plugins/music/script-separator.sh"
 
+## Item properties
 music_artwork=(
 	drawing=off
 	script="$SCRIPT_MUSIC"
@@ -45,8 +45,6 @@ music_title=(
 	click_script="$SCRIPT_CLICK_MUSIC_TITLE"
 	label.color=$TEXT
 	icon.drawing=off
-	#background.color=0xff0000ff
-	#background.height=8
 	label.align=right
 	label.width=$INFO_WIDTH
 	label.max_chars=13
@@ -64,14 +62,11 @@ music_subtitle=(
 	click_script="$SCRIPT_CLICK_MUSIC_TITLE"
 	label.color=$SUBTLE
 	icon.drawing=off
-	#background.color=0xffff0000
-	#background.height=8
 	label.align=right
 	label.width=$INFO_WIDTH
 	label.max_chars=14
 	label.font="$FONT:Semibold:9.0"
 	scroll_texts=off
-	#scroll_duration=10
 	padding_left=0
 	padding_right=0
 	y_offset=$((-($BAR_HEIGHT / 2) + $TITLE_MARGIN))
@@ -90,20 +85,19 @@ center_separator=(
 	updates=on
 )
 
-sketchybar --add item separator_center center \
-	--set separator_center "${center_separator[@]}" \
+## Item addition
+sketchybar \
 	--add event activities_update \
-	sketchybar --subscribe separator_center activities_update #\
-
-sketchybar --add item music q \
+	--add item separator_center center \
+	--set separator_center "${center_separator[@]}" \
+	--subscribe separator_center activities_update \
+	--add item music q \
 	--set music "${music_artwork[@]}" \
 	--add item music.title q \
 	--set music.title "${music_title[@]}" \
+	--subscribe music.title mouse.entered mouse.exited \
 	--add item music.subtitle q \
 	--set music.subtitle "${music_subtitle[@]}" \
-	--subscribe music.title mouse.entered mouse.exited \
 	--subscribe music.subtitle mouse.entered mouse.exited
-
-#--add event mediachange MPMusicPlayerControllerNowPlayingItemDidChange \
 
 sendLog "Added media player (TITLE_MARGIN=$TITLE_MARGIN)" "vomit"
