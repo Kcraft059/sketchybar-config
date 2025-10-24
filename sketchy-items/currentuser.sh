@@ -28,3 +28,5 @@ user=(
 sketchybar --add item moremenu.user right \
   --set moremenu.user "${user[@]}" \
   --subscribe moremenu.user more-menu-update
+
+sendLog "Added current user item for $(whoami)" "vomit"

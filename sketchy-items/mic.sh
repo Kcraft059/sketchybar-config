@@ -14,3 +14,5 @@ mic=(
 sketchybar --add item mic right \
   --set mic "${mic[@]}" \
   --subscribe mic mouse.clicked
+
+sendLog "Added mic item" "vomit"

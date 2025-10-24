@@ -21,3 +21,5 @@ battery=(
 sketchybar --add item battery right \
   --set battery "${battery[@]}" \
   --subscribe battery power_source_change system_woke
+
+sendLog "Added battery item" "vomit"

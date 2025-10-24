@@ -1,6 +1,5 @@
 #!/bin/bash
 SCRIPT_VOLUME_CLICK="export PATH=$PATH; $RELPATH/plugins/volume/click.sh"
-
 SCRIPT_VOLUME="export PATH=$PATH; $RELPATH/plugins/volume/script.sh"
 
 volume_slider=(
@@ -43,3 +42,5 @@ sketchybar --add slider volume right \
   --set volume_icon "${volume_icon[@]}"
 
 add_separator "1" "right"
+
+sendLog "Added volume item" "vomit"

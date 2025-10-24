@@ -64,3 +64,5 @@ sketchybar --add item graph.percent e \
 	--set graph.label "${graph_label[@]}" \
 	--add graph graph e $GRAPH_WIDTH \
 	--set graph "${graph[@]}"
+
+sendLog "Added graph item (refresh freq=$CPU_UPDATE_FREQ)" "vomit"

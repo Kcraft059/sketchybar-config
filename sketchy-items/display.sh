@@ -2,8 +2,6 @@
 SCRIPT_CLICK_DISPLAY="export PATH=$PATH; $RELPATH/plugins/display/click.sh"
 SCRIPT_DISPLAY="export PATH=$PATH; $RELPATH/plugins/display/script.sh"
 
-# betterdisplaycli get --identifiers --devicetype=DisplayGroup
-
 display=(
   icon=􀨧
   click_script="$SCRIPT_CLICK_DISPLAY"
@@ -22,3 +20,5 @@ display=(
 sketchybar --add item display right \
   --set display "${display[@]}" \
   --subscribe display system_woke display_change
+
+sendLog "Added display item" "vomit"

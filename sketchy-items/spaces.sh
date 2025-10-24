@@ -35,6 +35,8 @@ separator=(
 ## Space addtion methods
 
 addYabaiSpaces() {
+	sendLog "Detected yabai spaces : ${SPACES[*]}" "vomit"
+
 	for sid in "${SPACES[@]}"; do # For each existing space add corresponding item
 		#echo $sid
 		space=(${dummy_space[@]})
@@ -48,6 +50,7 @@ addYabaiSpaces() {
 			--set space.$sid "${space[@]}" \
 			--subscribe space.$sid mouse.clicked #space_windows_change
 
+		sendLog "Add yabai native space item id : $sid" "vomit"
 	done
 
 	separator+=(
@@ -64,6 +67,8 @@ addAerospaceSpaces() {
 	# Add the aerospace worksapce change event
 	sketchybar --add event aerospace_workspace_change
 
+	sendLog "Detected aerospace spaces : ${SPACES[*]}" "vomit"
+
 	for sid in "${SPACES[@]}"; do # For each existing space add corresponding item
 		#echo $sid
 		space=(${dummy_space[@]})
@@ -78,6 +83,8 @@ addAerospaceSpaces() {
 			--set space.$sid "${space[@]}" \
 			--subscribe space.$sid aerospace_workspace_change mouse.clicked
 		#--subscribe space.$sid mouse.clicked
+
+		sendLog "Add aerospace space item id : $sid" "vomit"
 	done
 
 	separator+=(
@@ -93,6 +100,8 @@ addRiftSpaces() {
 	sketchybar --add event rift_workspace_changed 
 	#sketchybar --add event rift_windows_changed
 
+	sendLog "Detected rift spaces : ${SPACES[*]}" "vomit"
+
 	for sid in "${SPACES[@]}"; do # For each existing space add corresponding item
 		space=(${dummy_space[@]})
 		space+=(
@@ -107,6 +116,8 @@ addRiftSpaces() {
 		sketchybar --add item space.$sid left \
 			--set space.$sid "${space[@]}" \
 			--subscribe space.$sid rift_workspace_changed mouse.clicked #rift_windows_changed 
+
+		sendLog "Add rift space item id : $sid" "vomit"
 	done
 
 	separator+=(
@@ -152,7 +163,10 @@ case "$WINDOW_MANAGER" in
 	# Trigger helper to add necessary spaces
 	addRiftSpaces
 	;;
+*)
+	sendErr "No Window Manager has been set, can't add spaces." "info"
 esac
 
 sketchybar --add bracket spaces '/space\..*/' \
-	--set spaces "${zones[@]}"
+	--set spaces "${zones[@]}" \
+	|| sendErr "Failed to add spaces to space zone" "debug"

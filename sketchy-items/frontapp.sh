@@ -1,6 +1,5 @@
 #!/bin/bash
 SCRIPT_FRONT_APP="export PATH=$PATH; $RELPATH/plugins/frontapp/script.sh"
-
 SCRIPT_CLICK_FRONT_APP="export PATH=$PATH; yabai -m window --toggle float"
 
 front_app=(
@@ -21,3 +20,5 @@ front_app=(
 sketchybar --add item front_app left \
   --set front_app "${front_app[@]}" \
   --subscribe front_app system_woke front_app_switched
+
+sendLog "Added front app item" "vomit"

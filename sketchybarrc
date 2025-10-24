@@ -1,5 +1,11 @@
 #!/bin/bash
 
+##
+# Utility bar core script
+# This is the main script used for the config which calls and sources all the helpers and Plugins / Items.
+# Made by @kcraft059
+##
+
 # --- Sourcing of core scripts + Initial setup config ---
 RELPATH="$(dirname "$0")"
 OS_VERSION="$(sw_vers -productVersion)"
@@ -7,7 +13,7 @@ OS_VERSION="$(sw_vers -productVersion)"
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:$PATH"
 mkdir -p "${TMPDIR}sketchybar"
 
-### Optional user configuration
+## Optional user configuration
 if [[ -n "$SKETCHYBAR_CONFIG" && -f "$SKETCHYBAR_CONFIG" ]]; then
 	# External override path (useful for Nix)
 	# shellcheck disable=SC1090
@@ -18,34 +24,50 @@ elif [[ -f "$RELPATH/config.sh" ]]; then
 	source "$RELPATH/config.sh"
 fi
 
-# Fallback defaults if variables unset
-: "${NOTCH_WIDTH:=180}" # <int>
-: "${MUSIC_INFO_WIDTH:=80}" # <int>
-: "${CPU_UPDATE_FREQ:=2}" # <int>
-: "${MENUBAR_AUTOHIDE:=True}" # <true|false>
-: "${GITHUB_TOKEN:="~/.github_token"}" # <path>
+## Fallback defaults if variables unset
+: "${NOTCH_WIDTH:=180}"                                      # <int>
+: "${MUSIC_INFO_WIDTH:=80}"                                  # <int>
+: "${CPU_UPDATE_FREQ:=2}"                                    # <int>
+: "${MENUBAR_AUTOHIDE:=True}"                                # <true|false>
+: "${GITHUB_TOKEN:="~/.github_token"}"                       # <path>
 : "${WIFI_UNREDACTOR:="~/Applications/wifi-unredactor.app"}" # <path>
-: "${BAR_LOOK:="plain"}" # <"plain"|"compact">
-: "${HIDE_EMPTY_SPACES:="false"}" # <true|false> / Is not really used here but rather in the scripts.sh
+: "${BAR_LOOK:="plain"}"                                     # <"plain"|"compact">
+: "${HIDE_EMPTY_SPACES:="false"}"                            # <true|false> / Is not really used here but rather in the scripts.sh
 
-# WM detect if not already defined
+[ ${#MENU_CONTROLS[@]} -eq 0 ] && MENU_CONTROLS=(
+	"Control__Center,Bluetooth"
+)
+
+## WM detect if not already defined
 if [ -z $WINDOW_MANAGER ]; then
 	if command -v rift-cli >/dev/null; then WINDOW_MANAGER="rift"; fi
 	if command -v aerospace >/dev/null; then WINDOW_MANAGER="aerospace"; fi
 	if command -v yabai >/dev/null; then WINDOW_MANAGER="yabai"; fi
 fi
 
-[ ${#MENU_CONTROLS[@]} -eq 0 ] && MENU_CONTROLS=(
-	"Control__Center,Bluetooth"
-)
-
-### Helpers sourcing
+## Helpers sourcing
 source "$RELPATH/log_handler.sh"
 source "$RELPATH/set_colors.sh"
 source "$RELPATH/icon_map.sh"
 source "$RELPATH/add_separator.sh"
 
-### Global bar properties
+# --- Bar & Default Properties ---
+sendLog "=== Loading sketchybar config... ===" "info"
+sendLog "" "info"
+
+# Notify when no window-manager
+if [ -z $WINDOW_MANAGER ]; then
+	sendErr "No Window-Manager detected, defaulting to yabai. (This will likely cause problems)" "info"
+	WINDOW_MANAGER="yabai"
+fi
+
+if [ $(echo $OS_VERSION | awk -F. '{print $1}') -gt 15 ]; then
+	sendWarn "You are on a macOS version greater than macOS 15.x ($OS_VERSION), some features might not work properly" "info"
+fi
+
+[[ -f ./dyn-icon_map.sh ]] && sendLog "Found dyn-icon_map.sh, using instead." "vomit"
+
+command -v 'menubar' 2>/dev/null 1>&2 && sendWarn "Binary \`menubar\` not in \$PATH, using bundled version" "debug"
 
 FONT="SF Pro"
 OUTER_PADDINGS=5
@@ -68,8 +90,6 @@ case ${BAR_LOOK} in
 	BAR_CORNER_RADIUS=4
 	;;
 esac
-
-# --- Bar & Default Properties ---
 
 bar=(
 	height=$BAR_HEIGHT
@@ -123,6 +143,8 @@ sketchybar --default "${defaults[@]}"
 
 # --- Bar Items ---
 
+sendLog "Starting sourcing of Items..." "vomit"
+
 source "$RELPATH/sketchy-items/logo.sh"
 source "$RELPATH/sketchy-items/spaces.sh"
 source "$RELPATH/sketchy-items/frontapp.sh"
@@ -140,9 +162,9 @@ source "$RELPATH/sketchy-items/notifications.sh"
 source "$RELPATH/sketchy-items/controls.sh"
 
 source "$RELPATH/sketchy-items/music.sh"
-
-# CPU module is always sourced by default (original behavior)
 source "$RELPATH/sketchy-items/cpu.sh"
+
+sendLog "Finished sourcing of Items" "vomit"
 
 sketchybar --add bracket base-controls battery wifi display \
 	--set base-controls "${zones[@]}" \
@@ -153,4 +175,6 @@ sketchybar --add bracket base-controls battery wifi display \
 
 sketchybar --update
 
-echo "sketchybar configuation loaded.."
+
+sendLog "" "info"
+sendLog "=== Sketchybar configuation loaded ===" "info"

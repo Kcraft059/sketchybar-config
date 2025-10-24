@@ -5,9 +5,8 @@ for item in "${MENU_CONTROLS[@]}"; do
 done
 
 for item in "${menuitem[@]}"; do
-
   SCRIPT_CLICK_MENU_ITEM="export PATH=$PATH; $RELPATH/plugins/controls/click.sh"
-
+	
   alias=(
     drawing=off
     #background.color=0xffff0000
@@ -22,4 +21,7 @@ for item in "${menuitem[@]}"; do
 
   sketchybar --add alias "$item" right \
     --set "$item" "${alias[@]}"
+	
+	sendLog "Added alias $item" "vomit"
+
 done

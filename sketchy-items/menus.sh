@@ -25,3 +25,5 @@ done
 
 sketchybar --add bracket menus '/menu\..*/' \
   --set menus "${zones[@]}"
+
+sendLog "Added menus items" "vomit"

@@ -1,4 +1,5 @@
 #!/bin/bash
+source ./log_handler.sh ## Sourcing needed because it can be called outside of sketchybarrc sourcing
 
 # Config sourcing
 if [[ -n "$SKETCHYBAR_CONFIG" && -f "$SKETCHYBAR_CONFIG" ]]; then
@@ -17,12 +18,9 @@ export COLOR_SCHEME=${COLOR_SCHEME:-rosepine-moon}
 export BAR_TRANSPARENCY=${BAR_TRANSPARENCY:-true}
 : "${THEME_FILE_PATH:="./theme.sh"}"
 
-if [[ -n "$THEME_FILE_PATH" && -f "$THEME_FILE_PATH" ]]; then
-	source "$THEME_FILE_PATH"
-fi
-
+case "$COLOR_SCHEME" in
 # Rosé pine Moon theme
-if [[ "$COLOR_SCHEME" == "rosepine-moon" ]]; then
+"rosepine-moon")
 	# Default Theme colors
 	export BASE=0xff232136
 	export SURFACE=0xff2a273f
@@ -45,10 +43,10 @@ if [[ "$COLOR_SCHEME" == "rosepine-moon" ]]; then
 
 	# General bar colors
 	if [[ $BAR_TRANSPARENCY == true ]]; then
-		export BAR_COLOR=0x80414354 
+		export BAR_COLOR=0x80414354
 		export BORDER_COLOR=0x804D525B
 	elif [[ $BAR_TRANSPARENCY == false ]]; then
-		export BAR_COLOR=0xff414354 
+		export BAR_COLOR=0xff414354
 		export BORDER_COLOR=0xff4D525B
 	fi
 	export ICON_COLOR=$TEXT  # Color of all icons
@@ -58,10 +56,10 @@ if [[ "$COLOR_SCHEME" == "rosepine-moon" ]]; then
 	export POPUP_BORDER_COLOR=$HIGH_MED
 
 	export SHADOW_COLOR=$TEXT
-fi
+	;;
 
 # Catpuccin Mocha theme
-if [[ "$COLOR_SCHEME" == "catppuccin-mocha" ]]; then
+"catppuccin-mocha")
 	# Default Theme colors
 	export BASE=0xff1e1e2e
 	export SURFACE=0xff6c7086
@@ -99,4 +97,14 @@ if [[ "$COLOR_SCHEME" == "catppuccin-mocha" ]]; then
 	export POPUP_BORDER_COLOR=$HIGH_MED
 
 	export SHADOW_COLOR=$TEXT
-fi
+	;;
+*)
+	if [[ -n "$THEME_FILE_PATH" && -f "$THEME_FILE_PATH" ]]; then
+		sendLog "Theme specified isn't a default theme ($COLOR_SCHEME), Loading custom theme file $THEME_FILE_PATH" "info"
+		source "$THEME_FILE_PATH"
+	else
+		sendErr "Theme specified isn't a default theme ($COLOR_SCHEME) and no theme.sh was specified" "info"
+		exit
+	fi
+	;;
+esac

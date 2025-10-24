@@ -23,3 +23,5 @@ separator=(
 sketchybar --add item separator-more right \
   --set separator-more "${separator[@]}" \
   --add event more-menu-update
+
+sendLog "Added separator toggle for 'more-menu' to toggle : ${MENU_CONTROLS[*]} ${menuitems[*]}" "vomit"

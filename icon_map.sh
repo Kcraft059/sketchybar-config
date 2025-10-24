@@ -1,8 +1,10 @@
 #!/bin/bash
+source ./log_handler.sh ## Sourcing needed because it can be called outside of sketchybarrc sourcing
 
 # only Override if no dynamice icon map found
-if [[ -f ~/.config/sketchybar/dyn-icon_map.sh ]]; then 
-  source ~/.config/sketchybar/dyn-icon_map.sh
+if [[ -f ./dyn-icon_map.sh ]]; then 
+	sendLog "Found dyn-icon_map.sh, using instead." "vomit"
+  source ./dyn-icon_map.sh
 else 
   __icon_map() {
     case $1 in

@@ -18,6 +18,9 @@ wifi=(
   padding_left=0
   padding_right=0
 )
+
 sketchybar --add item wifi right \
   --set wifi "${wifi[@]}" \
   --subscribe wifi wifi_change mouse.entered mouse.exited
+
+sendLog "Added wifi item" "vomit"
