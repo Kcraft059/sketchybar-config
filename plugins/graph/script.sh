@@ -2,7 +2,7 @@
 export RELPATH=$(dirname $0)/../..
 source $RELPATH/set_colors.sh
 
-### Fetch system related data
+## Fetch system related data
 
 systempower="$(macmon pipe -s 1 -i 1 | jq -r .sys_power)"
 probe="$(/bin/ps -Aceo pid,pcpu,comm -r | awk 'NR==2')"
@@ -11,7 +11,7 @@ topprog_percent=$(echo "$probe" | awk '{print $2}')
 topprog=$(echo "$probe" | awk '{print $3}')
 topprog_pid=$(echo "$probe" | awk '{print $1}')
 
-### Modify top consumming program name color to red if depassing more than 100% cpu
+## Modify top consumming program name color to red if depassing more than 100% cpu
 
 if [[ $(printf "%.0f" $topprog_percent) -gt 100 ]]; then
   LABEL_COLOR=$CRITICAL
@@ -21,11 +21,10 @@ fi
 
 graphlabel="${topprog_percent}% - $topprog [$topprog_pid]"
 
-#graphpercent=$(awk -v min=0 -v max=100 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')
 graphpercent=$(top -l1 -n1 | grep "^CPU usage:" | awk '{gsub(/%/,"",$3); print $3}')
 graphpoint=$(bc <<<"scale=1; $graphpercent / 100 ")
 
-### Update graph color depending on cpu load
+## Update graph color depending on cpu load
 
 case $(printf "%.0f" $graphpercent) in
 [8-9][0-9] | 7[5-9] | 100)

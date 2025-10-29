@@ -43,10 +43,12 @@ case "$COLOR_SCHEME" in
 
 	# General bar colors
 	if [[ $BAR_TRANSPARENCY == true ]]; then
-		export BAR_COLOR=0x80414354
+		#export BAR_COLOR=0x80414354
+		export BAR_COLOR=0x80232137
 		export BORDER_COLOR=0x804D525B
 	elif [[ $BAR_TRANSPARENCY == false ]]; then
-		export BAR_COLOR=0xff414354
+		#export BAR_COLOR=0xff414354
+		export BAR_COLOR=0xff232137
 		export BORDER_COLOR=0xff4D525B
 	fi
 	export ICON_COLOR=$TEXT  # Color of all icons
