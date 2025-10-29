@@ -3,7 +3,6 @@ source ./log_handler.sh ## Sourcing needed because it can be called outside of s
 
 # only Override if no dynamice icon map found
 if [[ -f ./dyn-icon_map.sh ]]; then 
-	sendLog "Found dyn-icon_map.sh, using instead." "vomit"
   source ./dyn-icon_map.sh
 else 
   __icon_map() {

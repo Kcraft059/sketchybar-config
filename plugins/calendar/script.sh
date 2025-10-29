@@ -6,7 +6,7 @@ source $RELPATH/log_handler.sh
 
 # Updates time precisely
 update() {
-	sendLog "Updating date..." "vomit"
+	#sendLog "Updating date..." "vomit"
 
 	# Check delay before next full minute
 	delay=$((59 - $(date '+%-S')))
