@@ -79,18 +79,17 @@ case ${BAR_LOOK} in
 "plain")
 	BAR_HEIGHT=34
 	BAR_MARGIN=5
-	if [ $(echo $OS_VERSION | awk -F. '{print $1}') -gt 15 ]; then
-		BAR_CORNER_RADIUS=15
-	else
-		BAR_CORNER_RADIUS=13
-	fi
 	;;
 "compact")
-	BAR_HEIGHT=30
-	BAR_MARGIN=0
-	BAR_CORNER_RADIUS=4
+	BAR_HEIGHT=27
 	;;
 esac
+
+if [ "$(echo "$OS_VERSION" | awk -F. '{print $1}')" -gt 15 ]; then
+	BAR_CORNER_RADIUS=15
+else
+	BAR_CORNER_RADIUS=13
+fi
 
 bar=(
 	height=$BAR_HEIGHT
