@@ -106,7 +106,7 @@ bar=(
 	border_width=1
 	border_color=$BORDER_COLOR
 	corner_radius=$BAR_CORNER_RADIUS
-	blur_radius=40
+	blur_radius=15
 	notch_width=$NOTCH_WIDTH
 )
 
