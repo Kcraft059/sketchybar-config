@@ -105,7 +105,7 @@ bar=(
 	border_width=1
 	border_color=$BORDER_COLOR
 	corner_radius=$BAR_CORNER_RADIUS
-	blur_radius=15
+	blur_radius=14
 	notch_width=$NOTCH_WIDTH
 )
 
@@ -137,7 +137,7 @@ zones=(
 	background.border_color=$HIGH_MED
 	background.color=$OVERLAY
 	background.corner_radius=8
-	blur_radius=24
+	blur_radius=2
 )
 
 sketchybar --bar "${bar[@]}"

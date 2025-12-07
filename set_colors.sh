@@ -22,11 +22,24 @@ export BAR_TRANSPARENCY=${BAR_TRANSPARENCY:-true}
 case "$COLOR_SCHEME" in
 # Rosé pine Moon theme
 "rosepine-moon")
+	if [[ $BAR_TRANSPARENCY == true ]]; then
+		TFrate=160
+	else
+		TFrate=255
+	fi
+
+	TFp=$(echo "obase=16; $TFrate" | bc) # Set primary transparency factor
+	[ $((TFrate + 20)) -lt 255 ] && TFrate=$(($TFrate + 20))
+	TFs=$(echo "obase=16; $TFrate" | bc) # Set secondary transparency factor
+
 	# Default Theme colors
-	export BASE=0xff232136
-	export SURFACE=0xff2a273f
-	export OVERLAY=0xff393552
-	export MUTED=0xff6e6a86
+	export BASE=0x${TFp}232136
+	export SURFACE=0x${TFp}2a273f
+	export OVERLAY=0x${TFp}393552
+	export MUTED=0x${TFp}6e6a86
+	export HIGH_LOW=0x${TFs}2a283e
+	export HIGH_MED=0x${TFs}44415a
+	export HIGH_HIGH=0x${TFs}56526e
 	export SUBTLE=0xff908caa
 	export TEXT=0xffe0def4
 	export CRITICAL=0xffeb6f92
@@ -35,36 +48,24 @@ case "$COLOR_SCHEME" in
 	export SELECT=0xff3e8fb0
 	export GLOW=0xff9ccfd8
 	export ACTIVE=0xffc4a7e7
-	export HIGH_LOW=0xff2a283e
-	export HIGH_MED=0xff44415a
-	export HIGH_HIGH=0xff56526e
 
 	export BLACK=0xff181926
 	export TRANSPARENT=0x00000000
 
 	# General bar colors
 	if [ $(echo $OS_VERSION | awk -F. '{print $1}') -gt 15 ]; then
-		if [[ $BAR_TRANSPARENCY == true ]]; then
-			export BAR_COLOR=0xD9232137
-			export BORDER_COLOR=0x804D525B
-		elif [[ $BAR_TRANSPARENCY == false ]]; then
-			export BAR_COLOR=0xff232137
-			export BORDER_COLOR=0xff4D525B
-		fi
+		export BAR_COLOR=0x${TFp}232137
+		export BORDER_COLOR=0x60808080
+		#export BORDER_COLOR=0x${TFp}4D525B
 	else
-		if [[ $BAR_TRANSPARENCY == true ]]; then
-			export BAR_COLOR=0x80414354
-			export BORDER_COLOR=0x804D525B
-		elif [[ $BAR_TRANSPARENCY == false ]]; then
-			export BAR_COLOR=0xff414354
-			export BORDER_COLOR=0xff4D525B
-		fi
+		export BAR_COLOR=0x${TFp}414354
+		export BORDER_COLOR=0x${TFp}4D525B
 	fi
 
 	export ICON_COLOR=$TEXT  # Color of all icons
 	export LABEL_COLOR=$TEXT # Color of all labels
 
-	export POPUP_BACKGROUND_COLOR=0xbe393552
+	export POPUP_BACKGROUND_COLOR=0x${TFp}393552
 	export POPUP_BORDER_COLOR=$HIGH_MED
 
 	export SHADOW_COLOR=$TEXT
