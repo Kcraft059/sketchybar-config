@@ -9,11 +9,13 @@
 
 This is a config I made which aggregate functionnality and aesthetics, made in mind to be Nix-Compliant.
 
-See https://github.com/FelixKratz/SketchyBar/discussions/47?sort=new#discussioncomment-14058252
+See https://github.com/FelixKratz/SketchyBar/discussions/47#discussioncomment-14058252
 
 > [!WARNING] 
 > Some of the functionnalities of the bar are not working currently in MacOS Tahoe (26.0).
-> This implies that: Space switching might not work properly, some menu items won't trigger and be removed from the macos native menubar when trying to trigger those and other not yet tested bugs might occur.
+> Permissions issues and other not yet tested bugs might occur.
+> 
+> Since this was a personnal config not meant for release, the original code that remains is garbage... sry 😅
 
 ## A little demonstration of the functionalities :
 
