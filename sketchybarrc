@@ -91,10 +91,15 @@ else
 	BAR_CORNER_RADIUS=13
 fi
 
+export ZONE_CORNER_RADIUS=$(($BAR_CORNER_RADIUS - 5))
+
 bar=(
 	height=$BAR_HEIGHT
 	y_offset=$BAR_MARGIN
 	margin=$BAR_MARGIN
+	topmost=everything
+	sticky=on
+	position=top
 	#shadow=on
 	#shadow.color=$SHADOW_COLOR
 	#shadow.angle=45
@@ -121,7 +126,7 @@ defaults=(
 	label.color=$LABEL_COLOR
 	label.padding_left=$INNER_PADDINGS
 	label.padding_right=$INNER_PADDINGS
-	background.corner_radius=8
+	background.corner_radius=$ZONE_CORNER_RADIUS
 	popup.y_offset=4
 	popup.background.border_width=1
 	popup.background.corner_radius=6
@@ -136,8 +141,9 @@ zones=(
 	background.border_width=2
 	background.border_color=$HIGH_MED
 	background.color=$OVERLAY
-	background.corner_radius=8
+	background.corner_radius=$ZONE_CORNER_RADIUS
 	blur_radius=2
+	#background.clip=1.0
 )
 
 sketchybar --bar "${bar[@]}"

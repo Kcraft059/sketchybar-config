@@ -4,7 +4,7 @@
 SCRIPT_CLICK_MENUS="export PATH=$PATH; $RELPATH/plugins/menus/click.sh"
 
 ## Properties
-space_dummy=(
+menu_dummy=(
 	label.drawing=off
 	click_script="$SCRIPT_CLICK_MENUS"
 	drawing=off
@@ -13,16 +13,16 @@ space_dummy=(
 
 ## Item addition
 for ((i = 1; i <= 14; ++i)); do
-	space=("${space_dummy[@]}")
+	menu=("${menu_dummy[@]}")
 
-	space+="icon=$i"
-	[ $i = 1 ] && space+=( # Properties for Apple logo
-		icon.font="$FONT:Heavy:14:0"
+	menu+="icon=$i"
+	[ $i = 1 ] && menu+=( # Properties for application main menu
+		icon.font="$FONT:Heavy:14.0"
 		icon.color=$GLOW
 	)
 
 	sketchybar --add item menu.$i left \
-		--set menu.$i "${space[@]}"
+		--set menu.$i "${menu[@]}"
 done
 
 sketchybar --add bracket menus '/menu\..*/' \
