@@ -67,8 +67,9 @@ fi
 
 [[ -f ./dyn-icon_map.sh ]] && sendLog "Found dyn-icon_map.sh, using instead." "vomit"
 
+export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/Users/camille/.nix-profile/bin:/etc/profiles/per-user/camille/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Ghostty.app/Contents/MacOS
 command -v 'menubar' 2>/dev/null 1>&2 || sendWarn "Binary \`menubar\` not in \$PATH, using bundled version" "debug"
-menubarImportCmd="shopt -s expand_aliases; command -v 'menubar' 2>/dev/null 1>&2 || alias menubar=\"$RELPATH/menubar\""
+menubarImportCmd=$(if command -v 'menubar' 2>/dev/null 1>&2; then command -v 'menubar'; else echo "$RELPATH/menubar"; fi)
 
 FONT="SF Pro"
 OUTER_PADDINGS=5

@@ -9,7 +9,7 @@ INFO_WIDTH=${MUSIC_INFO_WIDTH:-80}
 SCRIPT_MUSIC="export PATH=$PATH; $RELPATH/plugins/music/script-artwork.sh $ARTWORK_MARGIN $BAR_HEIGHT"
 SCRIPT_CLICK_MUSIC_ARTWORK="export PATH=$PATH; media-control toggle-play-pause"
 SCRIPT_MUSIC_TITLE="export PATH=$PATH; $RELPATH/plugins/music/script-title.sh"
-SCRIPT_CLICK_MUSIC_TITLE="export PATH=$PATH; $menubarImportCmd; menubar -s \"Control Center,NowPlaying\""
+SCRIPT_CLICK_MUSIC_TITLE="export PATH=$PATH; $menubarImportCmd -s \"Control Center,NowPlaying\""
 SCRIPT_CENTER_SEP="export PATH=$PATH; $RELPATH/plugins/music/script-separator.sh"
 
 ## Item properties
