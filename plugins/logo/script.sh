@@ -1,6 +1,7 @@
 #!/bin/bash
 export RELPATH=$(dirname $0)/../..
 source $RELPATH/set_colors.sh
+shopt -s expand_aliases
 
 FONT=$1
 X_BAR_PADDING=$2
@@ -97,6 +98,9 @@ update_menus() {
 case "$SENDER" in
 "mouse.clicked")
 	toggle_menu
+	;;
+"mouse.entered")
+	ft-haptic -n 1
 	;;
 "front_app_switched")
 	if [ $STATE = "on" ]; then

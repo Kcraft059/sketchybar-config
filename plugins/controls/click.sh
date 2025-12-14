@@ -1,6 +1,7 @@
 #!/bin/bash
 export RELPATH=$(dirname $0)/../..
 source $RELPATH/log_handler.sh
+shopt -s expand_aliases
 command -v 'menubar' 2>/dev/null 1>&2 || alias menubar="$RELPATH/menubar"
 
 ## Main logic

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ## Scripts
+shopt -s expand_aliases
 command -v 'menubar' 2>/dev/null 1>&2 || alias menubar="$RELPATH/menubar" ## Works since in a or b, if a is false, then execute b
 SCRIPT_USER="export PATH=$PATH; $RELPATH/plugins/currentuser/script.sh"
 SCRIPT_CLICK_USER="export PATH=$PATH; $menubarImportCmd; menubar -s \"Control Center,UserSwitcher\""
