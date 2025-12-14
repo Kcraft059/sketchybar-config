@@ -1,6 +1,8 @@
 #!/bin/bash
 export RELPATH=$(dirname $0)/../..
 source $RELPATH/log_handler.sh
+shopt -s expand_aliases
+command -v 'ft-haptic' 2>/dev/null 1>&2 || alias ft-haptic="$RELPATH/ft-haptic"
 
 ## Default and global settings
 menuitems=($1) # What items will be in the moremenu
@@ -73,14 +75,21 @@ graph_set() {
 }
 
 ## Main logic
-if [ "$STATE" = "off" ]; then
-	if [ "$MODIFIER" = "alt" ] && [ "$GRAPHSTATE" = "off" ]; then
-		graph_set "on"
-	elif [ $GRAPHSTATE = "on" ]; then
-		graph_set "off"
+case "$SENDER" in
+"mouse.entered")
+	ft-haptic -n 1
+	;;
+"mouse.clicked")
+	if [ "$STATE" = "off" ]; then
+		if [ "$MODIFIER" = "alt" ] && [ "$GRAPHSTATE" = "off" ]; then
+			graph_set "on"
+		elif [ $GRAPHSTATE = "on" ]; then
+			graph_set "off"
+		else
+			menu_set "on"
+		fi
 	else
-		menu_set "on"
+		menu_set "off"
 	fi
-else
-	menu_set "off"
-fi
+	;;
+esac

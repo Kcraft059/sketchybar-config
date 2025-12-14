@@ -15,17 +15,20 @@ RIFT_SPACE_ID=$(echo "$WORKSPACE_ID" | sed 's/__/ /g') # Space with full name fo
 # Set RELPATH for accessing other scripts
 export RELPATH=$(dirname $0)/../../..
 source $RELPATH/set_colors.sh
+shopt -s expand_aliases
+command -v 'ft-haptic' 2>/dev/null 1>&2 || alias ft-haptic="$RELPATH/ft-haptic"
+
+# Get current focused workspace
+FOCUSED_WORKSPACE=$(rift-cli query workspaces | jq -r '.[] | select(.is_active == true) | .name')
+
+# Check if this workspace is the focused one
+if [ "$FOCUSED_WORKSPACE" = "$RIFT_SPACE_ID" ]; then
+	SELECTED="true"
+else
+	SELECTED="false"
+fi
 
 update() {
-	# Get current focused workspace
-	FOCUSED_WORKSPACE=$(rift-cli query workspaces | jq -r '.[] | select(.is_active == true) | .name')
-
-	# Check if this workspace is the focused one
-	if [ "$FOCUSED_WORKSPACE" = "$RIFT_SPACE_ID" ]; then
-		SELECTED="true"
-	else
-		SELECTED="false"
-	fi
 
 	WIDTH="dynamic"
 	if [ "$SELECTED" = "true" ]; then
@@ -54,6 +57,11 @@ mouse_clicked() {
 case "$SENDER" in
 "mouse.clicked")
 	mouse_clicked
+	;;
+"mouse.entered")
+	if [[ "$(sketchybar --query $NAME | jq -r .label.value)" != " " ]] && [[ $SELECTED != true ]]; then
+		ft-haptic -n 1
+	fi
 	;;
 "rift_windows_changed")
 	# Only update windows in case of a window change

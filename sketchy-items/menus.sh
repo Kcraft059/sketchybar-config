@@ -1,12 +1,12 @@
 #!/bin/bash
 
 ## Scripts
-SCRIPT_CLICK_MENUS="export PATH=$PATH; $RELPATH/plugins/menus/click.sh"
+SCRIPT_CLICK_MENUS="export PATH=$PATH; $RELPATH/plugins/menus/script.sh"
 
 ## Properties
 menu_dummy=(
 	label.drawing=off
-	click_script="$SCRIPT_CLICK_MENUS"
+	script="$SCRIPT_CLICK_MENUS"
 	drawing=off
 	padding_left=4
 )
@@ -22,7 +22,8 @@ for ((i = 1; i <= 14; ++i)); do
 	)
 
 	sketchybar --add item menu.$i left \
-		--set menu.$i "${menu[@]}"
+		--set menu.$i "${menu[@]}" \
+		--subscribe menu.$i mouse.clicked mouse.entered
 done
 
 sketchybar --add bracket menus '/menu\..*/' \

@@ -6,20 +6,23 @@ WORKSPACE_ID=${1:-${NAME#space.}}
 # Set RELPATH for accessing other scripts
 export RELPATH=$(dirname $0)/../../..
 source $RELPATH/set_colors.sh
+shopt -s expand_aliases
+command -v 'ft-haptic' 2>/dev/null 1>&2 || alias ft-haptic="$RELPATH/ft-haptic"
 
 # Debug: Always log when script is called -> will be introduced later
 # echo "$(date): Script called with SENDER='$SENDER' NAME='$NAME' WORKSPACE_ID='$WORKSPACE_ID'" >> /tmp/aerospace-script-debug.log
 
-update() {
-	# Get current focused workspace if not provided
-	FOCUSED_WORKSPACE=$(aerospace list-workspaces --focused 2>/dev/null)
+# Get current focused workspace if not provided
+FOCUSED_WORKSPACE=$(aerospace list-workspaces --focused 2>/dev/null)
 
-	# Check if this workspace is the focused one
-	if [ "$FOCUSED_WORKSPACE" = "$WORKSPACE_ID" ]; then
-		SELECTED="true"
-	else
-		SELECTED="false"
-	fi
+# Check if this workspace is the focused one
+if [ "$FOCUSED_WORKSPACE" = "$WORKSPACE_ID" ]; then
+	SELECTED="true"
+else
+	SELECTED="false"
+fi
+
+update() {
 
 	WIDTH="dynamic"
 	if [ "$SELECTED" = "true" ]; then
@@ -47,6 +50,11 @@ mouse_clicked() {
 case "$SENDER" in
 "mouse.clicked")
 	mouse_clicked
+	;;
+"mouse.entered")
+	if [[ "$(sketchybar --query $NAME | jq -r .label.value)" != " " ]] && [[ $SELECTED != true ]]; then
+		ft-haptic -n 1
+	fi
 	;;
 *)
 	# Update icons

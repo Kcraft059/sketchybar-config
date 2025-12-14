@@ -8,6 +8,7 @@ X_BAR_PADDING=$2
 MENUBAR_AUTOHIDE=$3
 
 command -v 'menubar' 2>/dev/null 1>&2 || alias menubar="$RELPATH/menubar"
+command -v 'ft-haptic' 2>/dev/null 1>&2 || alias ft-haptic="$RELPATH/ft-haptic"
 
 # Get state from background drawing of logo (should be changed)
 STATE="$(sketchybar --query $NAME | sed 's/\\n//g; s/\\\$//g; s/\\ //g' | jq -r '.geometry.background.drawing')"

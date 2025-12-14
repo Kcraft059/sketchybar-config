@@ -45,7 +45,7 @@ addYabaiSpaces() {
 
 		sketchybar --add space space.$sid left \
 			--set space.$sid "${space[@]}" \
-			--subscribe space.$sid mouse.clicked
+			--subscribe space.$sid mouse.clicked mouse.entered
 
 		sendLog "Add yabai native space item id : $sid" "vomit"
 	done
@@ -76,7 +76,7 @@ addAerospaceSpaces() {
 
 		sketchybar --add item space.$sid left \
 			--set space.$sid "${space[@]}" \
-			--subscribe space.$sid aerospace_workspace_change mouse.clicked
+			--subscribe space.$sid aerospace_workspace_change mouse.clicked mouse.entered
 
 		sendLog "Add aerospace space item id : $sid" "vomit"
 	done
@@ -107,7 +107,7 @@ addRiftSpaces() {
 
 		sketchybar --add item space.$sid left \
 			--set space.$sid "${space[@]}" \
-			--subscribe space.$sid rift_workspace_changed mouse.clicked #rift_windows_changed
+			--subscribe space.$sid rift_workspace_changed mouse.clicked mouse.entered #rift_windows_changed
 
 		sendLog "Add rift space item id : $sid" "vomit"
 	done

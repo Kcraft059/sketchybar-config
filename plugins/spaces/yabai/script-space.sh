@@ -9,12 +9,16 @@
 ## Exports
 export RELPATH=$(dirname $0)/../../..
 source "$RELPATH/icon_map.sh"
+shopt -s expand_aliases
+command -v 'ft-haptic' 2>/dev/null 1>&2 || alias ft-haptic="$RELPATH/ft-haptic"
+
 if [[ -n "$SKETCHYBAR_CONFIG" && -f "$SKETCHYBAR_CONFIG" ]]; then
 	source "$SKETCHYBAR_CONFIG"
 elif [[ -f "$RELPATH/config.sh" ]]; then
 	source "$RELPATH/config.sh"
 fi
 : "${HIDE_EMPTY_SPACES:=false}"
+
 
 ## Function definition
 mouse_clicked() {
@@ -57,6 +61,11 @@ update() {
 case "$SENDER" in
 "mouse.clicked")
 	mouse_clicked
+	;;
+"mouse.entered")
+	if [[ "$(sketchybar --query $NAME | jq -r .label.value)" != " " ]] && [[ $SELECTED != true ]]; then
+		ft-haptic -n 1
+	fi
 	;;
 *)
 	# Update focused state
