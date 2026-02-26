@@ -50,7 +50,7 @@
         packages = with pkgs; [
           sketchybar
           sbarlua
-          lua
+          lua5_4
         ];
 
         shellHook = ''

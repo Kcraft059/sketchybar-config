@@ -1,0 +1,6 @@
+return {
+  logo = {
+    cmd = "􀆔 ",
+    apple = "􀣺 "
+  }
+}
