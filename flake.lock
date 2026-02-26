@@ -1,0 +1,44 @@
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1770537093,
+        "narHash": "sha256-pF1quXG5wsgtyuPOHcLfYg/ft/QMr8NnX0i6tW2187s=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "fef9403a3e4d31b0a23f0bacebbec52c248fbb51",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "sbarlua": "sbarlua"
+      }
+    },
+    "sbarlua": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1723484726,
+        "narHash": "sha256-F0UfNxHM389GhiPQ6/GFbeKQq5EvpiqQdvyf7ygzkPg=",
+        "owner": "FelixKratz",
+        "repo": "SbarLua",
+        "rev": "437bd2031da38ccda75827cb7548e7baa4aa9978",
+        "type": "github"
+      },
+      "original": {
+        "owner": "FelixKratz",
+        "repo": "SbarLua",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
