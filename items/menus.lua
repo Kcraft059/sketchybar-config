@@ -73,7 +73,7 @@ function mod.show(bool)
     mod.update(true)
 
   else -- Set all to false otherwise
-    sbar.begin_config() -- PERF: bundle instructions
+    perfbc() -- PERF: bundle instructions
     for _, item in pairs(mod.items) do
       sequencedAnimation(item, "tanh", 20, nil, {
         icon = { highlight = false }
@@ -84,13 +84,13 @@ function mod.show(bool)
       }, true)
 
     end
-    sbar.end_config()
+    perfec()
   end
 end
 
 function mod.update(anim)
   sbar.exec(execs.menubar .. " -l", function(result, exit_code)
-    sbar.begin_config() -- PERF: bundle instructions
+    perfbc() -- PERF: bundle instructions
 
     -- Display all menus
     local i = 1
@@ -122,7 +122,7 @@ function mod.update(anim)
       })
     end
 
-    sbar.end_config()
+    perfec()
   end)
 end
 

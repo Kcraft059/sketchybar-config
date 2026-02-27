@@ -97,6 +97,14 @@ function cmdPath(cmd)
 end
 
 -- Sketchybar
+function perfbc() 
+  if config.perfbc then sbar.begin_config() end
+end
+
+function perfec()
+  if config.perfbc then sbar.end_config() end
+end
+
 function sequencedAnimation(item, curve, duration, anim_before, anim, anim_after, animate)
   if animate and config.animate then
     if anim_before then

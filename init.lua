@@ -21,7 +21,8 @@ config = fetchConfig(os.getenv("SKETCHYBAR_CONFIG") or "./config.lua",
                      
                        -- Technical
                        window_manager = "yabai",
-                       notch_width    = 180
+                       notch_width    = 180,
+                       perfbc         = true -- Allow command bundling for improved performance
                      }) 
 
 local palette = require("helpers/colors").getColorPalette(config.theme, config.transparency and 180 or 1000) -- Put a huge alpha value to prevent adjusts

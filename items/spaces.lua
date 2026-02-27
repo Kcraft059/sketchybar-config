@@ -86,7 +86,7 @@ end
 
 -- Load
 function mod.show(bool)
-  sbar.begin_config() -- PERF: bundle instructions
+  perfbc() -- PERF: bundle instructions
   mod.items["separator"]:set({ drawing = bool })
   mod.items["front_app"]:set({ drawing = bool })
   
@@ -99,7 +99,7 @@ function mod.show(bool)
       drawing = bool
     },true)
   end
-  sbar.end_config()
+  perfec()
 end
 
 local function yabaiWindowChange(item, space_index)
