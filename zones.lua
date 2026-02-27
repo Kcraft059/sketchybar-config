@@ -24,8 +24,10 @@ function mod.setup(bar,palette)
 end 
 
 function mod.load()
-  for k,v in pairs(mod.brackets) do
-    sbar.add("bracket",v,mod.properties)
+  -- Add all brackets and associated items
+  for k,v in pairs(mod.brackets) do 
+    sbar.add("bracket", k .. "_zone" ,v,mod.properties)
+    --print("Adding zone: " .. k .. "_zone")
   end
 end
 

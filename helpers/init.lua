@@ -1,15 +1,29 @@
 -- Helper functions
-function mergeTables(t1, t2)
-  for k,v in pairs(t2) do 
-    t1[k] = v 
-  end
-  return t1
-end
-
 function toggle(bool)
   return not bool and true or false
 end
 
+function copyTable(t)
+  local new = {}
+  for k, v in pairs(t) do
+    new[k] = v
+  end
+  return new
+end
+
+function mergeTables(t1, t2)
+  t1 = copyTable(t1)
+  for k,v in pairs(t2) do 
+    if (type(t1[k]) == "table" and type(v) == "table") then 
+      t1[k] = mergeTables(t1[k], v)
+    else
+      t1[k] = v
+    end
+  end
+  return t1
+end
+
+-- Os
 function fetchConfig(cfg_path, default_cfg)
   local user_config = {} -- to keep it separate from the global env
   local config_file,err = loadfile(cfg_path, "t", user_config)
@@ -25,12 +39,17 @@ function fetchConfig(cfg_path, default_cfg)
   return default_cfg
 end
 
-local function macOSversion()
-  local f = io.popen("sw_vers -productVersion")
+function shellEval(cmd) 
+  local f = io.popen(cmd)
   local result = f:read("*a")
   f:close()
-  return tonumber(result:match("^(.-)\n?$"))
+  return result:match("^(.-)%s*$")
+end 
+
+function macOSversion()
+  return tonumber(shellEval("sw_vers -productVersion"))
 end
 
--- Global vars
-os_version = macOSversion()
+function cmdPath(cmd)
+  return shellEval("command -v " .. cmd .. " 2>/dev/null")
+end

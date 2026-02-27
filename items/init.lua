@@ -13,7 +13,7 @@ function mod.setup(bar, zones, icons, palette)
   sbar.default({
     updates       = "when_shown",
     padding_right = mod.config.margin,
-    --padding_left = mod.config.margin,
+    padding_left  = mod.config.margin, 
 
     icon = {
       color         = palette.colors.blue,
@@ -41,8 +41,9 @@ function mod.setup(bar, zones, icons, palette)
 end 
 
 -- Load 
-function mod.load()
+function mod.load(zones)
   mod.logo.load(mod.menus)
+  mod.menus.load(zones)
 end
 
 

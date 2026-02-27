@@ -2,10 +2,9 @@
 
 -- Add sbarlua to path
 package.cpath = package.cpath .. ";" .. (
-  os.getenv("SKETCHYBAR_LUA_PATH") 
-  and (os.getenv("SKETCHYBAR_LUA_PATH") .. "/?.so") 
-  or ("/Users/" .. os.getenv("USER") .. "/.local/share/sketchybar_lua/?.so")
-)
+  os.getenv("SKETCHYBAR_LUA_PATH")                                      -- Get from env var instead, nix-friendly
+  or ("/Users/" .. os.getenv("USER") .. "/.local/share/sketchybar_lua") -- Official install path 
+) .. "/?.so"
 
 sbar = require("sketchybar")
 

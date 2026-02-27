@@ -4,6 +4,8 @@ local mod = {}
 function mod.setup(bar, items, icons, palette)
   mod.properties = {
     space = {
+      position = "left",
+
       padding_left  = items.config.padding.outer + items.config.margin + bar.config.padding,
 
       icon = {
@@ -24,9 +26,9 @@ function mod.setup(bar, items, icons, palette)
       }
     },
 
-    menubar = mergeTables(zones.properties,{
+    menus = mergeTables(zones.properties,{
       padding_left = items.config.padding.outer,
-      padding_right = 10,
+      padding_right = 5,
 
       icon = {
         string        = icons.logo.apple,
@@ -54,22 +56,43 @@ end
 
 -- Load
 function mod.load(menus, spaces)
-  -- Add and store item
+  -- Add item
   mod.item = sbar.add("item", "logo", mod.properties.space)
 
-  -- Subscribe item
+  -- Click event
   mod.item:subscribe("mouse.clicked", function (env) 
-    mod.state.show_menus = toggle(mod.state.show_menus)
+    if env.BUTTON == "right" then
+      mod.state.show_menus = toggle(mod.state.show_menus)
+      
+      sbar.begin_config() -- Start bundling commands
+      --sbar.animate("tanh", 15, function ()    -- animate transition
+        menus.show(mod.state.show_menus)      -- display menus
+        --spaces.show(not mod.state.show_menus) -- display spaces
 
-    sbar.animate("tanh", 15, function ()        -- animate transition
-      menus.show(mod.state.show_menus)      -- display menus
-      --spaces.show(not mod.state.show_menus) -- display spaces
+        mod.item:set(mod.state.show_menus and mod.properties.menus 
+                          or mod.properties.space)
+      --end)
+      sbar.end_config() -- End bundling commands
 
-      mod.item:set(mod.state.show_menus and mod.properties.menubar 
-                        or mod.properties.space)
-    end)
+    elseif mod.state.show_menus then
+      sbar.exec(execs.menubar .. " -s 0")
+
+    end
+  end)
+  
+  -- Mouse hover event
+  mod.item:subscribe("mouse.entered", function (env) 
+    sbar.exec(execs.ft_haptic)
   end)
 
+  -- App switch event
+  mod.item:subscribe("front_app_switched", function (env)
+    if mod.state.show_menus then
+      sbar.begin_config()
+      menus.update()
+      sbar.end_config()
+    end
+  end)
 end
 
 return mod

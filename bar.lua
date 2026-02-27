@@ -29,7 +29,7 @@ function mod.setup(palette)
   	topmost="everything",
   	sticky=true,
 
-  	padding_left=0,
+  	padding_left=0, -- Set to 0 since logo updates padding itself
   	padding_right=mod.config.padding,
 
   	notch_width=config.notch_width,
