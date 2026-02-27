@@ -41,13 +41,13 @@ function mod.setup(bar, zones, items, icons, palette)
           string        = icons.logo.apple,
           font          = config.font .. ":Black:" .. 17.0,
           y_offset      = 1,
-          padding_left  = 8,
-          padding_right = 9
         },
       },
       anim = {
         icon = {
-          color = palette.colors.blue,
+          color         = palette.colors.blue,
+          padding_left  = 8,
+          padding_right = 9
         },
 
         padding_left  = items.config.padding.outer,

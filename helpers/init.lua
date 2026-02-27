@@ -75,7 +75,7 @@ function fetchConfig(cfg_path, default_cfg)
 
     default_cfg = mergeTables(default_cfg, user_config)
   else
-    print("No user config loaded: " .. err)
+    log("lua-main","No user config loaded: " .. err)
   end
 
   return default_cfg
