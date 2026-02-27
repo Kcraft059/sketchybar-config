@@ -1,51 +1,62 @@
 local mod = {}
 
 -- Function
-function mod.setup(bar, items, icons, palette)
+function mod.setup(bar, zones, items, icons, palette)
   mod.properties = {
     space = {
-      position = "left",
+      static = {
+        position = "left",
 
-      padding_left   = items.config.padding.outer + items.config.margin + bar.config.padding,
-      padding_right  = items.config.padding.outer + bar.config.padding,
+        icon = {
+          string   = icons.logo.cmd,
+          font     = config.font .. ":Semibold:" .. 14.0,
+          y_offset = 0
+        },
 
-      icon = {
-        string        = icons.logo.cmd,
-        color         = palette.text.primary,
-        font          = config.font .. ":Semibold:" .. 14.0,
-        padding_right = 2,
-        padding_left  = 0,
-        y_offset      = 0
+        label = {
+          drawing = false
+        },
+
+        background = {
+          drawing  = false
+        }
       },
+      anim = {
+        padding_left  = items.config.padding.outer + items.config.margin + bar.config.padding,
+        padding_right = items.config.padding.outer + bar.config.padding,
 
-      label = {
-        drawing = false
-      },
-
-      background = {
-        drawing = false
+        icon = {
+          color         = palette.text.primary,
+          padding_right = 2,
+          padding_left  = 0
+        }
       }
     },
 
-    menus = mergeTables(zones.properties,{
-      padding_left = items.config.padding.outer,
-      padding_right = items.config.padding.outer,
+    menus = {
+      static = {
+        padding_left = items.config.padding.outer + items.config.margin + bar.config.padding - 8,
 
-      icon = {
-        string        = icons.logo.apple,
-        color         = palette.colors.blue,
-        font          = config.font .. ":Black:" .. 17.0,
-        padding_left  = 8,
-        padding_right = 9,
-        y_offset      = 1
+        icon = {
+          string        = icons.logo.apple,
+          font          = config.font .. ":Black:" .. 17.0,
+          y_offset      = 1,
+          padding_left  = 8,
+          padding_right = 9
+        },
       },
+      anim = {
+        icon = {
+          color = palette.colors.blue,
+        },
 
-      label = {
-        drawing = false
+        padding_left  = items.config.padding.outer,
+        padding_right = items.config.padding.outer
       },
-
-      blur_radius = 0
-    })
+      static_after = mergeTables(zones.properties,{
+        blur_radius = 0,
+      })
+    }
   }
 
   mod.state = {
@@ -55,39 +66,45 @@ function mod.setup(bar, items, icons, palette)
   return mod
 end
 
--- Load
-function mod.load(menus, spaces)
-  -- Add item
-  mod.item = sbar.add("item", "logo", mod.properties.space)
-
-  -- Click event
-  mod.item:subscribe("mouse.clicked", function (env) 
+local function mouseClick(menus, spaces)
+  return function(env)
     if env.BUTTON == "right" then
       mod.state.show_menus = toggle(mod.state.show_menus)
-      
-      --sbar.animate("tanh", 15, function ()    -- animate transition
-      menus.show(mod.state.show_menus)      -- display menus
-      spaces.show(not mod.state.show_menus) -- display spaces
 
-      mod.item:set(mod.state.show_menus and mod.properties.menus 
-                   or mod.properties.space)
-      --end)
+      
+      if mod.state.show_menus then
+        sequencedAnimation(mod.item, "tanh", 20, mod.properties.menus.static, mod.properties.menus.anim, mod.properties.menus.static_after, true)
+      else
+        sequencedAnimation(mod.item, "tanh", 20, mod.properties.space.static, mod.properties.space.anim, nil, true)
+      end
+      
+      spaces.show(not mod.state.show_menus) -- display spaces
+      menus.show(mod.state.show_menus) -- display menus
 
     elseif mod.state.show_menus then
       sbar.exec(execs.menubar .. " -s 0")
 
     end
-  end)
-  
+  end
+end
+
+-- Load
+function mod.load(menus, spaces)
+  -- Add item
+  mod.item = sbar.add("item", "logo", mergeTables(mod.properties.space.static, mod.properties.space.anim))
+
+  -- Click event
+  mod.item:subscribe("mouse.clicked", mouseClick(menus, spaces))
+
   -- Mouse hover event
-  mod.item:subscribe("mouse.entered", function (env) 
+  mod.item:subscribe("mouse.entered", function(env)
     sbar.exec(execs.ft_haptic)
   end)
 
   -- App switch event
-  mod.item:subscribe("front_app_switched", function (env)
+  mod.item:subscribe("front_app_switched", function(env)
     if mod.state.show_menus then
-      menus.update()
+      menus.update(false)
     end
   end)
 end

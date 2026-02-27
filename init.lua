@@ -17,6 +17,7 @@ config = fetchConfig(os.getenv("SKETCHYBAR_CONFIG") or "./config.lua",
                        transparency = true,
                        bar_look     = "default",
                        font         = "SF Pro",
+                       animate      = true,
                      
                        -- Technical
                        window_manager = "yabai",
@@ -27,10 +28,10 @@ local palette = require("helpers/colors").getColorPalette(config.theme, config.t
 local icons   = require("helpers/icons")
 
 -- Configure bar properties
-bar   = require("bar")   .setup(palette)
-zones = require("zones") .setup(bar, palette)
-items = require("items") .setup(bar, zones, icons, palette)
+local bar   = require("bar")   .setup(palette)
+local zones = require("zones") .setup(bar, palette)
+local items = require("items") .setup(bar, zones, icons, palette)
 
-bar.load()
+bar  .load()
 items.load(zones)
 zones.load()

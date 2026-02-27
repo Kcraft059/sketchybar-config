@@ -34,10 +34,11 @@ function mod.setup(bar, zones, icons, palette)
     }
   }) 
 
-  mod.logo   = require("items.logo")  .setup(bar, mod, icons, palette)
+  mod.logo   = require("items.logo")  .setup(bar, zones, mod, icons, palette)
   mod.menus  = require("items.menus") .setup(icons, palette)
   mod.spaces = require("items.spaces").setup(bar, zones, palette)
 
+  mod.date   = require("items.date")  .setup(palette)
   return mod
 end 
 
@@ -46,6 +47,8 @@ function mod.load(zones)
   mod.logo  .load(mod.menus, mod.spaces)
   mod.menus .load(zones)
   mod.spaces.load(zones)
+
+  mod.date  .load()
 end
 
 

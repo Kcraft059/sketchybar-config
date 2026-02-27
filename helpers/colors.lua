@@ -43,7 +43,7 @@ local palettes = {
       muted     = 0xff6e6a86
     },
     zone = {
-      background = function (tpf) return colorTp(0x393552, tpf) end,
+      background = function (tpf) return colorTp(0x393552, tpf - 50) end,
       border     = function (tpf) return colorTp(0x44415a, tpf - 20) end,
       overlay    = 0xff56526e
     },

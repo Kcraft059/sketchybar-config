@@ -1,100 +1,127 @@
 local mod = {}
 
 -- Setup
-function mod.setup(icons, palette) 
+function mod.setup(icons, palette)
   mod.items = {}
   mod.properties = {
     base = {
-      --position     = "left",
+      position      = "left",
       padding_left  = 8,
       padding_right = 11,
 
-      drawing      = false,
-      label        = { drawing = false },
+      width   = 0,
+      drawing = false,
+      label   = { drawing = false },
 
       icon = {
-        string        = "Menu",
-        font          = { style = "Regular", size = 14.0 },
-        color         = palette.text.primary,
-        padding_right = 0,
-        padding_left  = 0
+        string          = "Menu",
+        font            = {
+          style = "Regular",
+          size  = 14.0
+        },
+        color           = 0x00000000,
+        padding_right   = 0,
+        padding_left    = 0,
+        highlight_color = palette.text.primary,
+        highlight       = false
       },
-      
-      background = {
-        drawing = false
-      }
+
+      background = { drawing = false }
     },
     title = {
       icon = {
-        string = "App",
-        font = { style = "Heavy" },
-        color = palette.colors.cyan
+        string          = "App",
+        font            = { style = "Heavy" },
+        color           = 0x00000000,
+        highlight_color = palette.colors.cyan
       }
     }
   }
   mod.menu_count = 15
   return mod
-end 
+end
 
 function mod.load(zones)
   -- Items
   local i
-  for i = 1,mod.menu_count do
+  for i = 1, mod.menu_count do
     -- Add item
     local item = sbar.add("item",
-      mergeTables(i == 1 and mergeTables(mod.properties.base, mod.properties.title) or mod.properties.base,{
+      mergeTables(i == 1 and mergeTables(mod.properties.base, mod.properties.title) or mod.properties.base, {
         label = { string = i }
-    }))
+      }))
 
     -- Click event
-    item:subscribe("mouse.clicked", function (env) 
+    item:subscribe("mouse.clicked", function(env)
       sbar.exec(execs.menubar .. " -s " .. mod.items[i]:query().label.value)
     end)
 
     -- Mouse hover event 
-    item:subscribe("mouse.entered", function (env) 
+    item:subscribe("mouse.entered", function(env)
       sbar.exec(execs.ft_haptic)
     end)
 
     -- Store
     mod.items[i] = item
     zones.brackets.menus[i] = item.name
-  end  
+  end
 end
 
 -- Methods
 function mod.show(bool)
   if bool then -- Update menus when showing 
-    mod.update()
+    mod.update(true)
 
   else -- Set all to false otherwise
-    for _,v in pairs(mod.items) do
-      v:set({ drawing = false })
+    for _, item in pairs(mod.items) do
+      sequencedAnimation(item, "tanh", 20, nil, {
+        icon = { highlight = false }
+      }, {
+        width   = 0,
+        drawing = false,
+        icon    = { string = "" }
+      }, true)
+
     end
-  end 
+  end
 end
 
-function mod.update()
-  sbar.exec(execs.menubar .. " -l", function (result, exit_code) 
+function mod.update(anim)
+  sbar.exec(execs.menubar .. " -l", function(result, exit_code)
+    sbar.begin_config() -- PERF: bundle instructions
+
     -- Display all menus
     local i = 1
-    for menu_str in string.gmatch(result, "([^\n]+)") do 
-      if i > mod.menu_count then return end
-      
-      mod.items[i]:set({ -- Set icon as menu name
-        drawing = true,
-        icon = { string = menu_str }
-      })
+    for menu_str in string.gmatch(result, "([^\n]+)") do
+      if i > mod.menu_count then
+        return
+      end
+
+      sequencedAnimation(mod.items[i], "tanh", 20, { -- Set icon as menu name
+        icon    = { string = menu_str },
+        drawing = true
+      }, {
+        icon  = { highlight = true },
+        width = "dynamic"
+      }, nil, anim)
 
       i = i + 1
     end
 
     -- Hide others
     local j
-    for j = i,mod.menu_count do
-      mod.items[j]:set({ drawing = false })
+    for j = i, mod.menu_count do
+      mod.items[j]:set({
+        icon = {
+          string = "",
+          highlight = false
+        },
+        drawing = false
+      })
     end
+
+    sbar.end_config()
   end)
-end 
+end
 
 return mod

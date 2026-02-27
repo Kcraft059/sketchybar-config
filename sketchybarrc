@@ -16,7 +16,7 @@ require("init")
 sbar.hotload(true)
 sbar.end_config()
 
-print("Loaded sketchybar")
+log("lua-main","Finished loading")
 
 -- Run the event loop of the sketchybar module (without this there will be no
 -- callback functions executed in the lua module)

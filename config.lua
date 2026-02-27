@@ -1,3 +1,0 @@
--- theme = "theme"
--- transparency = false
--- bar_look = "compact"
