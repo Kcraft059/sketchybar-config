@@ -4,20 +4,23 @@ require("helpers")
 -- Globals
 os_version = macOSversion()
 execs = {
-  menubar   = cmdPath("menubar") or "./helper/menubar",
-  ft_haptic = cmdPath("ft-haptic") or "./helper/ft-haptics"
+  menubar       = cmdPath("menubar") or "./helper/menubar",
+  ft_haptic     = cmdPath("ft-haptic") or "./helper/ft-haptics",
+  media_control = cmdPath("media-control") or error("No media-control in path"),
+  icon_map      = cmdPath("icon_map.sh") or "./helper/icon_map.sh"
 }
 
 -- Fetch config with given defaults
 config = fetchConfig(os.getenv("SKETCHYBAR_CONFIG") or "./config.lua", 
                      { -- Look & feel
-                       theme = "rose-pine",
+                       theme        = "rose-pine",
                        transparency = true,
-                       bar_look = "default",
-                       font = "SF Pro",
+                       bar_look     = "default",
+                       font         = "SF Pro",
                      
                        -- Technical
-                       notch_width = 180
+                       window_manager = "yabai",
+                       notch_width    = 180
                      }) 
 
 local palette = require("helpers/colors").getColorPalette(config.theme, config.transparency and 180 or 1000) -- Put a huge alpha value to prevent adjusts

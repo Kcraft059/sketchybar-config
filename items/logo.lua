@@ -6,7 +6,8 @@ function mod.setup(bar, items, icons, palette)
     space = {
       position = "left",
 
-      padding_left  = items.config.padding.outer + items.config.margin + bar.config.padding,
+      padding_left   = items.config.padding.outer + items.config.margin + bar.config.padding,
+      padding_right  = items.config.padding.outer + bar.config.padding,
 
       icon = {
         string        = icons.logo.cmd,
@@ -28,7 +29,7 @@ function mod.setup(bar, items, icons, palette)
 
     menus = mergeTables(zones.properties,{
       padding_left = items.config.padding.outer,
-      padding_right = 5,
+      padding_right = items.config.padding.outer,
 
       icon = {
         string        = icons.logo.apple,
@@ -64,15 +65,13 @@ function mod.load(menus, spaces)
     if env.BUTTON == "right" then
       mod.state.show_menus = toggle(mod.state.show_menus)
       
-      sbar.begin_config() -- Start bundling commands
       --sbar.animate("tanh", 15, function ()    -- animate transition
-        menus.show(mod.state.show_menus)      -- display menus
-        --spaces.show(not mod.state.show_menus) -- display spaces
+      menus.show(mod.state.show_menus)      -- display menus
+      spaces.show(not mod.state.show_menus) -- display spaces
 
-        mod.item:set(mod.state.show_menus and mod.properties.menus 
-                          or mod.properties.space)
+      mod.item:set(mod.state.show_menus and mod.properties.menus 
+                   or mod.properties.space)
       --end)
-      sbar.end_config() -- End bundling commands
 
     elseif mod.state.show_menus then
       sbar.exec(execs.menubar .. " -s 0")
@@ -88,9 +87,7 @@ function mod.load(menus, spaces)
   -- App switch event
   mod.item:subscribe("front_app_switched", function (env)
     if mod.state.show_menus then
-      sbar.begin_config()
       menus.update()
-      sbar.end_config()
     end
   end)
 end

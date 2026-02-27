@@ -41,29 +41,25 @@ function mod.load(zones)
   local i
   for i = 1,mod.menu_count do
     -- Add item
-    mod.items[i] = sbar.add("item",
+    local item = sbar.add("item",
       mergeTables(i == 1 and mergeTables(mod.properties.base, mod.properties.title) or mod.properties.base,{
         label = { string = i }
     }))
 
     -- Click event
-    mod.items[i]:subscribe("mouse.clicked", function (env) 
+    item:subscribe("mouse.clicked", function (env) 
       sbar.exec(execs.menubar .. " -s " .. mod.items[i]:query().label.value)
     end)
 
     -- Mouse hover event 
-    mod.items[i]:subscribe("mouse.entered", function (env) 
+    item:subscribe("mouse.entered", function (env) 
       sbar.exec(execs.ft_haptic)
     end)
+
+    -- Store
+    mod.items[i] = item
+    zones.brackets.menus[i] = item.name
   end  
-
-  -- Add bracket
-  local items = {}
-  for k,v in pairs(mod.items) do
-    items[k] = v.name
-  end
-
-  sbar.add("bracket", items, zones.properties) -- Add a bracket containing all menus
 end
 
 -- Methods
@@ -79,9 +75,7 @@ function mod.show(bool)
 end
 
 function mod.update()
-  --sbar.exec(execs.menubar .. " -l", function (result, exit_code) 
-  local result = shellEval(execs.menubar .. " -l")
-
+  sbar.exec(execs.menubar .. " -l", function (result, exit_code) 
     -- Display all menus
     local i = 1
     for menu_str in string.gmatch(result, "([^\n]+)") do 
@@ -100,7 +94,7 @@ function mod.update()
     for j = i,mod.menu_count do
       mod.items[j]:set({ drawing = false })
     end
-  --end)
+  end)
 end 
 
 return mod

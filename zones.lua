@@ -4,7 +4,9 @@ function mod.setup(bar,palette)
   mod.brackets = {
     system = {},
     volume = {},
-    more = {}
+    more   = {},
+    menus  = {},
+    spaces = {}
   }
 
   mod.properties = {

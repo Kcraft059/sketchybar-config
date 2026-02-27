@@ -11,8 +11,9 @@ function copyTable(t)
   return new
 end
 
-function mergeTables(t1, t2)
-  t1 = copyTable(t1)
+function mergeTables(t1, t2, preserve)
+  if preserve == nil then preserve = true end
+  if preserve then t1 = copyTable(t1) end
   for k,v in pairs(t2) do 
     if (type(t1[k]) == "table" and type(v) == "table") then 
       t1[k] = mergeTables(t1[k], v)
@@ -21,6 +22,19 @@ function mergeTables(t1, t2)
     end
   end
   return t1
+end
+
+function dump(o)
+   if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. dump(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
 end
 
 -- Os
