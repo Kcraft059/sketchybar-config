@@ -32,17 +32,18 @@ function mod.setup(icons, palette)
       }
     }
   }
-  mod.menu_count = 14
+  mod.menu_count = 15
   return mod
 end 
 
 function mod.load(zones)
   -- Items
-  for i = 0,mod.menu_count do
+  local i
+  for i = 1,mod.menu_count do
     -- Add item
     mod.items[i] = sbar.add("item",
-      mergeTables(i == 0 and mergeTables(mod.properties.base, mod.properties.title) or mod.properties.base,{
-        label = { string = i + 1 }
+      mergeTables(i == 1 and mergeTables(mod.properties.base, mod.properties.title) or mod.properties.base,{
+        label = { string = i }
     }))
 
     -- Click event
@@ -82,7 +83,7 @@ function mod.update()
   local result = shellEval(execs.menubar .. " -l")
 
     -- Display all menus
-    local i = 0
+    local i = 1
     for menu_str in string.gmatch(result, "([^\n]+)") do 
       if i > mod.menu_count then return end
       
@@ -95,6 +96,7 @@ function mod.update()
     end
 
     -- Hide others
+    local j
     for j = i,mod.menu_count do
       mod.items[j]:set({ drawing = false })
     end
