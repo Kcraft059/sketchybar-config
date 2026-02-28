@@ -1,1 +1,0 @@
-/nix/store/50wq73ik92n3rp2a1bmh3pgzrgz3896s-sketchybar-app-font-2.0.53/bin/icon_map.sh
