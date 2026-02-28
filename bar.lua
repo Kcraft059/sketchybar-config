@@ -3,10 +3,11 @@ mod = {}
 -- Setup
 function mod.setup(palette)
   mod.config = { -- global config, can be accessed by items
-    radius = 15,
-    margin = 5,
-    height = 34,
-    padding = 12
+    radius  = 15,
+    margin  = 5,
+    height  = 34,
+    padding = 12,
+    border  = true 
   }
 
   if os_version < 26.0 then -- for macos versions previous to Tahoe
@@ -16,29 +17,30 @@ function mod.setup(palette)
   if config.bar_look == "compact" then
     mod.config.radius = 0
     mod.config.margin = 0
-    mod.config.height = 27
+    mod.config.height = 30
+    mod.config.border = false
   end
 
   -- Defaults
   mod.properties = {
-    height=mod.config.height,
-  	y_offset=mod.config.margin,
-  	margin=mod.config.margin,
-  	position="top",
+    height   = mod.config.height,
+  	y_offset = mod.config.margin,
+  	margin   = mod.config.margin,
+  	position = "top",
 
-  	topmost="everything",
-  	sticky=true,
+  	topmost = "everything",
+  	sticky  = true,
 
-  	padding_left=0, -- Set to 0 since logo updates padding itself
-  	padding_right=mod.config.padding,
+  	padding_left  = 0, -- Set to 0 since logo updates padding itself
+  	padding_right = mod.config.padding,
 
-  	notch_width=config.notch_width,
-  	border_width=1,
-  	corner_radius=15,
-  
-  	border_color=palette.bar.border,
-    color=palette.bar.background,
-  	blur_radius=14
+  	notch_width   = config.notch_width,
+  	border_width  = mod.config.border and 1 or 0 ,
+  	corner_radius = mod.config.radius,
+    
+  	border_color = palette.bar.border,
+    color        = palette.bar.background,
+  	blur_radius  = 14
   }
 
   return mod

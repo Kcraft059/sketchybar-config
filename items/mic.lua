@@ -83,8 +83,8 @@ function mod.load(zones,icons,palette)
   mod.item:subscribe({"routine","forced"},micUpdate(mod.item,icons,palette))
   mod.item:subscribe("mouse.clicked",     micToggle(mod.item,icons,palette))
    
-  if not zones.brackets.right_brackets[1] then zones.brackets.right_brackets[1] = {} end
-  table.insert(zones.brackets.right_brackets[1], mod.item.name) 
+  if not zones.brackets.dynamic_brackets[1] then zones.brackets.dynamic_brackets[1] = {} end
+  table.insert(zones.brackets.dynamic_brackets[1], mod.item) 
 
   return mod
 end

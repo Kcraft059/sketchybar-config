@@ -73,8 +73,8 @@ function mod.load(zones,icons,palette)
       sbar.exec(execs.menubar .. " -s \"" .. menu_items.battery .. "\"")
     end)
 
-    if not zones.brackets.right_brackets[2] then zones.brackets.right_brackets[2] = {} end
-    table.insert(zones.brackets.right_brackets[2], mod.item.name) 
+    if not zones.brackets.dynamic_brackets[2] then zones.brackets.dynamic_brackets[2] = {} end
+    table.insert(zones.brackets.dynamic_brackets[2], mod.item) 
   else 
     log("battery","No battery detected.")
   end

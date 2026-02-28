@@ -88,8 +88,8 @@ function mod.load(items, zones, icons, palette)
     mod.item:set({ scroll_texts = env.SENDER == "mouse.entered" })
   end)
 
-  if not zones.brackets.right_brackets[2] then zones.brackets.right_brackets[2] = {} end
-  table.insert(zones.brackets.right_brackets[2], mod.item.name) 
+  if not zones.brackets.dynamic_brackets[2] then zones.brackets.dynamic_brackets[2] = {} end
+  table.insert(zones.brackets.dynamic_brackets[2], mod.item) 
 
   return mod
 end

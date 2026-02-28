@@ -41,8 +41,8 @@ function mod.load(zones)
     mod.item:subscribe("mouse.clicked", function (env) sbar.exec(execs.menubar .. " -s " .. menu_items.display) end)
   end
 
-  if not zones.brackets.right_brackets[2] then zones.brackets.right_brackets[2] = {} end
-  table.insert(zones.brackets.right_brackets[2], mod.item.name) 
+  if not zones.brackets.dynamic_brackets[2] then zones.brackets.dynamic_brackets[2] = {} end
+  table.insert(zones.brackets.dynamic_brackets[2], mod.item) 
 
   return mod
 end

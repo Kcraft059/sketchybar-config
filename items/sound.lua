@@ -144,10 +144,10 @@ function mod.load(items, zones, icons, palette)
     mod.slider:set({slider = { knob = { drawing = env.SENDER == "mouse.entered"}}})
   end)
 
-  if not zones.brackets.right_brackets[1] then zones.brackets.right_brackets[1] = {} end
+  if not zones.brackets.dynamic_brackets[1] then zones.brackets.dynamic_brackets[1] = {} end
 
-  table.insert(zones.brackets.right_brackets[1], mod.item.name) 
-  table.insert(zones.brackets.right_brackets[1], mod.slider.name) 
+  table.insert(zones.brackets.dynamic_brackets[1], mod.item) 
+  table.insert(zones.brackets.dynamic_brackets[1], mod.slider) 
 
   return mod
 end

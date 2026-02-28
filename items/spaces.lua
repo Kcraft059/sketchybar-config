@@ -4,8 +4,8 @@ local mod = {}
 function mod.setup(bar, zones, palette)
   mod.properties = {
     space = {
-      padding_left  = 3,
-      padding_right = 3,
+      padding_left  = 2,
+      padding_right = 2,
 
       icon = {
         padding_left    = 6,
@@ -16,7 +16,7 @@ function mod.setup(bar, zones, palette)
 
       background = {
         height        = bar.config.height - 12,
-        corner_radius = zones.properties.background.corner_radius,
+        corner_radius = zones.properties.background.corner_radius - 1,
         color         = palette.zone.border,
         drawing       = false
       },
@@ -32,7 +32,7 @@ function mod.setup(bar, zones, palette)
           drawing       = true,
           height        = bar.config.height - 12,
           color         = palette.zone.overlay,
-          corner_radius = zones.properties.background.corner_radius - 2
+          corner_radius = zones.properties.background.corner_radius - 1
         }
       }
     },
@@ -81,7 +81,7 @@ function mod.setup(bar, zones, palette)
   }
 
   mod.space_count   = 15
-  mod.loaded_spaces = 0
+  --mod.loaded_spaces = 0
   mod.items         = {}
   return mod
 end
@@ -106,9 +106,7 @@ end
 
 local function yabaiWindowChange(item, space_index)
   return function(env)
-    if not (env.INFO.space == space_index) then
-      return
-    end
+    if not (env.INFO.space == space_index) then return end
 
     local cmd_str = "source " .. execs.icon_map .. ";"
     local c = 0
@@ -138,10 +136,10 @@ local function yabaiWindowChange(item, space_index)
           }, nil, true)
         end
 
-        if mod.loaded_spaces < mod.space_count then
+        --if mod.loaded_spaces < mod.space_count then
           sbar.trigger("space_change")
-          mod.loaded_spaces = mod.loaded_spaces + 1
-        end
+          --mod.loaded_spaces = mod.loaded_spaces + 1
+        --end
       end)
     else
       -- Hide sapce
@@ -151,10 +149,10 @@ local function yabaiWindowChange(item, space_index)
         label = { width = 0 }
       }, nil, true)
 
-      if mod.loaded_spaces < mod.space_count then
+      --if mod.loaded_spaces < mod.space_count then
         sbar.trigger("space_change")
-        mod.loaded_spaces = mod.loaded_spaces + 1
-      end
+        --mod.loaded_spaces = mod.loaded_spaces + 1
+      --end
     end
   end
 end
@@ -215,7 +213,7 @@ local function loadYabaiSpaces(zones)
     }
 
     mod.items[i]             = item
-    zones.brackets.spaces[i] = item.name
+    zones.brackets.spaces[i] = item
 
     item:subscribe("space_change"        , yabaiSpaceChange(item))
     item:subscribe("space_windows_change", yabaiWindowChange(item, i))

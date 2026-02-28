@@ -63,7 +63,7 @@ function mod.load(zones)
 
     -- Store
     mod.items[i] = item
-    zones.brackets.menus[i] = item.name
+    zones.brackets.menus[i] = item
   end
 
   return mod
