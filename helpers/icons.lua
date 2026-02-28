@@ -1,6 +1,35 @@
 return {
   logo = {
-    cmd = "􀆔 ",
-    apple = "􀣺 "
+    cmd   = "􀆔",
+    apple = "􀣺"
+  },
+  mic = {
+    high  = "􀊱",
+    low   = "􀊰",
+    muted = "􀊲"
+  },
+  speaker = {
+    loud    = "􀊩",
+    normal  = "􀊧",
+    mid     = "􀊥",
+    quiet   = "􀊡", 
+    muted   = "􀊣"
+  },
+  battery = {
+    ac   = "􀢋",
+    p100 = "􀛨",
+    p75  = "􀺸",
+    p50  = "􀺶",
+    p25  = "􀛩",
+    p0   = "􀛪"
+  },
+  wifi = {
+    disconnected = "􀙈",
+    error        = "􀙥",
+    connected    = "􀙇",
+    hotspot      = "􀉤"
+  },
+  display = {
+    default = "􀢹",
   }
 }

@@ -53,7 +53,8 @@ local palettes = {
       yellow     = 0xfff6c177,
       blue       = 0xff3e8fb0,
       cyan       = 0xff9ccfd8,
-      purple     = 0xffc4a7e7
+      purple     = 0xffc4a7e7,
+      black      = 0xff000000
     }
   }
 }

@@ -65,6 +65,7 @@ function mod.setup(bar, zones, palette)
       icon = {
         string        = ":gear:",
         padding_right = 5,
+        padding_left  = 5,
         font          = "sketchybar-app-font:Regular:15.0",
         color         = palette.colors.blue
       },
@@ -72,6 +73,7 @@ function mod.setup(bar, zones, palette)
       label = {
         string        = "Gloup",
         padding_left  = 0,
+        padding_right = 5,
         color         = palette.text.primary,
         font          = config.font .. ":Black:12.0"
       }
@@ -92,7 +94,7 @@ function mod.show(bool)
   
   local i
   for i = 1, mod.space_count do
-    sequencedAnimation(mod.items[i],"tanh",40,nil,{
+    sequencedAnimation(mod.items[i],"tanh",30,nil,{
       width = bool and "dynamic" or 0,
       label = { width = (bool and mod.items[i].state.appc > 0 and not mod.items[i].state.selected) and "dynamic" or 0 }
     }, {
@@ -111,20 +113,25 @@ local function yabaiWindowChange(item, space_index)
     local cmd_str = "source " .. execs.icon_map .. ";"
     local c = 0
 
+    -- Create command string
     for k, v in pairs(env.INFO.apps) do
-      cmd_str = cmd_str .. "__icon_map \"" .. k .. "\"; printf \"$icon_result \";"
+      cmd_str = cmd_str .. string.format("__icon_map \"%s\"; printf \"$icon_result \";",k)
       c = c + 1
     end
 
+    -- Update state
     mergeTables(item.state, {
       apps = copyTable(env.INFO.apps),
       appc = c
     }, false)
 
+    -- Create app string
     if c > 0 then
+      -- Fetch icons
       sbar.exec(cmd_str, function(result, exit_code)
         if not item.state.selected then
-          sequencedAnimation(item,"tanh",20, {
+          -- Show space
+          sequencedAnimation(item,"tanh",15, {
             label = { string = result }
           }, {
             label = { width = "dynamic" }
@@ -137,7 +144,8 @@ local function yabaiWindowChange(item, space_index)
         end
       end)
     else
-      sequencedAnimation(item,"tanh",20, {
+      -- Hide sapce
+      sequencedAnimation(item,"tanh",15, {
         label = { string = "" }
       }, {
         label = { width = 0 }
@@ -160,6 +168,7 @@ local function yabaiSpaceChange(item)
       icon       = { highlight = env.SELECTED },
       background = { }
     }
+
     if not item.state.selected and item.state.appc >= 1 then
       properties.background.drawing = true
       show = true
@@ -168,7 +177,8 @@ local function yabaiSpaceChange(item)
       show = false
     end
 
-    sequencedAnimation(item,"tanh",20,properties, {
+    -- Toggle space
+    sequencedAnimation(item,"tanh",15,properties, {
       label = { width = show and "dynamic" or 0 }
     }, nil, true)
   end
@@ -207,16 +217,20 @@ local function loadYabaiSpaces(zones)
     mod.items[i]             = item
     zones.brackets.spaces[i] = item.name
 
-    item:subscribe("space_change", yabaiSpaceChange(item))
+    item:subscribe("space_change"        , yabaiSpaceChange(item))
     item:subscribe("space_windows_change", yabaiWindowChange(item, i))
-    item:subscribe("mouse.clicked", yabaiClick())
-    item:subscribe("mouse.entered", yabaiMouseHover(item))
+    item:subscribe("mouse.clicked"       , yabaiClick())
+    item:subscribe("mouse.entered"       , yabaiMouseHover(item))
   end
 
   mod.items["separator"] = sbar.add("item",mod.properties.separator)
   mod.items["front_app"] = sbar.add("item",mod.properties.front_app)
+
   mod.items["front_app"]:subscribe("front_app_switched",function (env)
-    sbar.exec("source " .. execs.icon_map .. "; __icon_map " .. env.INFO .. "; printf $icon_result", function (result,exit_code)
+    -- Update window icon depending on active app
+    sbar.exec(string.format(
+      "source %s; __icon_map \"%s\"; printf $icon_result",execs.icon_map,env.INFO
+    ), function (result,exit_code)
       mod.items["front_app"]:set({
         icon  = {string = result},
         label = {string = env.INFO}
@@ -229,6 +243,8 @@ function mod.load(zones)
   if config.window_manager == "yabai" then
     loadYabaiSpaces(zones)
   end
+
+  return mod
 end
 
 return mod

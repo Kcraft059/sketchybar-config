@@ -50,8 +50,8 @@ function mod.setup(bar, zones, items, icons, palette)
           padding_right = 9
         },
 
-        padding_left  = items.config.padding.outer,
-        padding_right = items.config.padding.outer
+        padding_left  = 5,
+        padding_right = 5
       },
       static_after = mergeTables(zones.properties,{
         blur_radius = 0,
@@ -73,9 +73,9 @@ local function mouseClick(menus, spaces)
 
       
       if mod.state.show_menus then
-        sequencedAnimation(mod.item, "tanh", 20, mod.properties.menus.static, mod.properties.menus.anim, mod.properties.menus.static_after, true)
+        sequencedAnimation(mod.item, "tanh", 15, mod.properties.menus.static, mod.properties.menus.anim, mod.properties.menus.static_after, true)
       else
-        sequencedAnimation(mod.item, "tanh", 20, mod.properties.space.static, mod.properties.space.anim, nil, true)
+        sequencedAnimation(mod.item, "tanh", 15, mod.properties.space.static, mod.properties.space.anim, nil, true)
       end
       
       spaces.show(not mod.state.show_menus) -- display spaces
@@ -107,6 +107,8 @@ function mod.load(menus, spaces)
       menus.update(false)
     end
   end)
+
+  return mod
 end
 
 return mod

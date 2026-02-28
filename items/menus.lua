@@ -53,7 +53,7 @@ function mod.load(zones)
 
     -- Click event
     item:subscribe("mouse.clicked", function(env)
-      sbar.exec(execs.menubar .. " -s " .. mod.items[i]:query().label.value)
+      sbar.exec(string.format(execs.menubar .. " -s %d", mod.items[i]:query().label.value))
     end)
 
     -- Mouse hover event 
@@ -65,6 +65,8 @@ function mod.load(zones)
     mod.items[i] = item
     zones.brackets.menus[i] = item.name
   end
+
+  return mod
 end
 
 -- Methods
@@ -75,10 +77,10 @@ function mod.show(bool)
   else -- Set all to false otherwise
     perfbc() -- PERF: bundle instructions
     for _, item in pairs(mod.items) do
-      sequencedAnimation(item, "tanh", 20, nil, {
-        icon = { highlight = false }
-      }, {
+      sequencedAnimation(item, "tanh", 25, nil, {
+        icon = { highlight = false },
         width   = 0,
+      }, {
         drawing = false,
         icon    = { string = "" }
       }, true)
@@ -99,12 +101,12 @@ function mod.update(anim)
         return
       end
 
-      sequencedAnimation(mod.items[i], "tanh", 20, { -- Set icon as menu name
+      sequencedAnimation(mod.items[i], "tanh", 25, { -- Set icon as menu name
+        drawing = true,
         icon    = { string = menu_str },
-        drawing = true
-      }, {
+      },{
+        width = "dynamic",
         icon  = { highlight = true },
-        width = "dynamic"
       }, nil, anim)
 
       i = i + 1

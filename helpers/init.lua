@@ -48,6 +48,7 @@ end
 -- Debug
 function log(sender,message)
   print("[" .. sender .. "] " .. message)
+  return nil
 end
 
 function dump(o)
@@ -93,7 +94,9 @@ function macOSversion()
 end
 
 function cmdPath(cmd)
-  return shellEval("command -v " .. cmd .. " 2>/dev/null")
+  local result = shellEval(string.format("command -v %s 2>/dev/null",cmd))
+  if result == "" then result = nil end
+  return result
 end
 
 -- Sketchybar
@@ -116,7 +119,7 @@ function sequencedAnimation(item, curve, duration, anim_before, anim, anim_after
       end)
     end
     if anim_after then
-      sbar.exec("sleep " .. (0.0 + duration) / 60, function(result, exit_code)
+      sbar.delay((0.0 + duration) / 60, function()
         item:set(anim_after)
       end)
     end

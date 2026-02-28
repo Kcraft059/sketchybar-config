@@ -6,8 +6,15 @@ os_version = macOSversion()
 execs = {
   menubar       = cmdPath("menubar") or "./helper/menubar",
   ft_haptic     = cmdPath("ft-haptic") or "./helper/ft-haptics",
-  media_control = cmdPath("media-control") or error("No media-control in path"),
-  icon_map      = cmdPath("icon_map.sh") or "./helper/icon_map.sh"
+  media_control = cmdPath("media-control") or log("lua-main","No media-control in path"),
+  icon_map      = cmdPath("icon_map.sh") or "./helper/icon_map.sh",
+  bd_cli        = cmdPath("betterdisplaycli") or log("lua-main","No betterdisplaycli in path")
+}
+menu_items = {
+  sound   = "Control Center,Sound",
+  wifi    = "Control Center,WiFi",
+  battery = "Control Center,Battery",
+  display = "Control Center,Display"
 }
 
 -- Fetch config with given defaults
@@ -22,7 +29,8 @@ config = fetchConfig(os.getenv("SKETCHYBAR_CONFIG") or "./config.lua",
                        -- Technical
                        window_manager = "yabai",
                        notch_width    = 180,
-                       perfbc         = true -- Allow command bundling for improved performance
+                       perfbc         = true, -- Allow command bundling for improved performance
+                       display_groups = {}
                      }) 
 
 local palette = require("helpers/colors").getColorPalette(config.theme, config.transparency and 180 or 1000) -- Put a huge alpha value to prevent adjusts
@@ -34,5 +42,5 @@ local zones = require("zones") .setup(bar, palette)
 local items = require("items") .setup(bar, zones, icons, palette)
 
 bar  .load()
-items.load(zones)
+items.load(zones,icons,palette)
 zones.load()
