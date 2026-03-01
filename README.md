@@ -1,5 +1,12 @@
 # Utility Bar
 ## Rosé Pine Moon (and more !)
+
+> [!WARNING] 
+> In its current state the bash-based config is an absolute mess, you may want to switch to the lua-based config as this bash config won't receive any further updates.
+> You can check the branch [lua-port](https://github.com/Kcraft059/sketchybar-config/tree/lua-port), there are not much info for now as it is still in early RC and misses some features but it implements all base feature more reliably.
+> As of right-now it only supports yabai as WM. 
+
+
 <div align=center>
 <img width="1470" height="40" alt="Screenshot 2025-08-21 at 12 39 13" src="https://github.com/user-attachments/assets/230c1063-cb96-4686-9745-270335e650e5" />
 <img width="1470" height="40" alt="Screenshot 2025-08-21 at 12 39 39" src="https://github.com/user-attachments/assets/c34be030-27f3-4bf4-a7df-d1119208c824" />
@@ -10,12 +17,6 @@
 This is a config I made which aggregate functionnality and aesthetics, made in mind to be Nix-Compliant.
 
 See https://github.com/FelixKratz/SketchyBar/discussions/47#discussioncomment-14058252
-
-> [!WARNING] 
-> Some of the functionnalities of the bar are not working currently in MacOS Tahoe (26.0).
-> Permissions issues and other not yet tested bugs might occur.
-> 
-> Since this was a personnal config not meant for release, the original code that remains is garbage... sry 😅
 
 ## A little demonstration of the functionalities :
 
