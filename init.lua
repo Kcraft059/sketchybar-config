@@ -11,10 +11,11 @@ execs = {
   bd_cli        = cmdPath("betterdisplaycli") or log("lua-main","No betterdisplaycli in path")
 }
 menu_items = {
-  sound   = "Control Center,Sound",
-  wifi    = "Control Center,WiFi",
-  battery = "Control Center,Battery",
-  display = "Control Center,Display"
+  sound         = "Control Center,Sound",
+  wifi          = "Control Center,WiFi",
+  battery       = "Control Center,Battery",
+  display       = "Control Center,Display",
+  user_switcher = "Control Center,UserSwitcher"
 }
 
 -- Fetch config with given defaults
@@ -38,9 +39,39 @@ local icons   = require("helpers/icons")
 
 -- Configure bar properties
 local bar   = require("bar")   .setup(palette)
-local zones = require("zones") .setup(bar, palette)
+local zones = require("zones") .setup(bar, icons, palette)
 local items = require("items") .setup(bar, zones, icons, palette)
 
 bar  .load()
 items.load(zones,icons,palette)
-zones.load()
+zones.load(icons)
+
+
+--[[ 
+❯ sketchybar --query default_menu_items                                                                                      01:14:22  ─╯
+[
+        "Control Center,Clock",
+        "Control Center,BentoBox-0",
+        "Control Center,Sound",
+        "Control Center,Item-0",
+        "LinkedNotesUIService,Window",
+        "Control Center,Battery",
+        "Control Center,Item-0",
+        "Control Center,Item-0",
+        "Control Center,WiFi",
+        "Control Center,UserSwitcher",
+        "Control Center,FocusModes",
+        "Control Center,Bluetooth",
+        "Control Center,Display",
+        "Control Center,NowPlaying",
+        "Control Center,Item-0",
+        "Control Center,Item-0",
+        "Control Center,DragPlaceholder",
+        "Control Center,DragPlaceholder",
+        "Control Center,DragPlaceholder",
+        "Control Center,me.mhaeuser.BatteryToolkit",
+        "Control Center,com.apple.TextInputMenuAgent",
+        "Control Center,pro.betterdisplay.BetterDisplay",
+        "Control Center,com.objective-see.lulu.app",
+        "Control Center,17818"
+] ]]

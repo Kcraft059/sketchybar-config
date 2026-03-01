@@ -77,7 +77,7 @@ function mod.show(bool)
   else -- Set all to false otherwise
     perfbc() -- PERF: bundle instructions
     for _, item in pairs(mod.items) do
-      sequencedAnimation(item, "tanh", 25, nil, {
+      sequencedAnimation(item, "tanh", 15, nil, {
         icon = { highlight = false },
         width   = 0,
       }, {
@@ -101,7 +101,7 @@ function mod.update(anim)
         return
       end
 
-      sequencedAnimation(mod.items[i], "tanh", 25, { -- Set icon as menu name
+      sequencedAnimation(mod.items[i], "tanh", 15, { -- Set icon as menu name
         drawing = true,
         icon    = { string = menu_str },
       },{

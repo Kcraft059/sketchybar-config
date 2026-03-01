@@ -35,7 +35,7 @@ local function update(items,item,icons,palette)
       fi
 
       #      Connected,Interface,Adress,SSID,Hotspot
-      printf "%s\n%s\n%s\n%s\n%s" $wifi_active ${interface:--} ${wifi_ip:--} ${wifi_ssid:--} ${sname:--}
+      printf "%s\n%s\n%s\n%s\n%s" "$wifi_active" "${interface:--}" "${wifi_ip:--}" "${wifi_ssid:--}" "${sname:--}"
     ]=], function (result,exit_code)
       local wifi_infos = strSplit(result,"\n")
       
@@ -77,7 +77,7 @@ local function update(items,item,icons,palette)
 end
 
 -- Load
-function mod.load(items, zones, icons, palette)
+function mod.load(items, icons, palette)
   mod.item = sbar.add("item", mod.properties)
 
   mod.item:subscribe("wifi_change",update(items, mod.item,icons,palette))
@@ -87,10 +87,6 @@ function mod.load(items, zones, icons, palette)
   mod.item:subscribe({"mouse.entered","mouse.exited"},function (env)
     mod.item:set({ scroll_texts = env.SENDER == "mouse.entered" })
   end)
-
-  if not zones.brackets.dynamic_brackets[2] then zones.brackets.dynamic_brackets[2] = {} end
-  table.insert(zones.brackets.dynamic_brackets[2], mod.item) 
-
   return mod
 end
 

@@ -1,6 +1,6 @@
 local mod = {}
 
-function mod.setup(bar,palette) 
+function mod.setup(bar,icons,palette) 
   mod.brackets = {
     dynamic_brackets  = {},
     menus           = {},
@@ -28,16 +28,16 @@ function mod.setup(bar,palette)
 
   mod.separator_properties = {
     position = "right",
-    padding_right = 4,
-    padding_left  = 3,
+    padding_right = 0,
+    padding_left  = 0,
 
     icon = {
-      string        = "|",
-      y_offset      = 2,
-      font          = config.font .. ":Bold:" .. 18.0,
+    --  string        = icons.zones.expended,
+    --  y_offset      = 1,
+      font          = { family = config.font },
       color         = palette.text.muted,
-      padding_left  = -1,
-      padding_right = 0,
+      padding_left  = 3,
+      padding_right = 3,
     },
 
     label = {
@@ -58,13 +58,18 @@ local function fetchNames(items)
   return names
 end
 
-local function bracketToggle(items,show)
+local function bracketToggle(items,icons,show)
+  local sep_icon = show and icons.zones.expended or icons.zones.collapsed
+
+  if type(sep_icon) == "table" then items.separator:set({ icon = sep_icon }) 
+  else items.separator:set({ icon = { string = sep_icon }}) end
+  
   for index,item in pairs(items) do
     if tonumber(index) then item:set({ drawing = show }) end
   end
 end
 
-local function handleDynamicBrackets(brackets)
+local function handleDynamicBrackets(brackets,icons)
   for key,items in pairs(brackets) do
     local bracket   = sbar.add("bracket", fetchNames(items), mod.properties)
     items.separator = sbar.add("item",mod.separator_properties)
@@ -72,9 +77,13 @@ local function handleDynamicBrackets(brackets)
     if not items.bracket then items.bracket = { show = true } end
     mergeTables(items.bracket,bracket,false)
 
+    bracketToggle(items,icons,items.bracket.show)
+
     items.separator:subscribe("mouse.clicked", function (env) 
       items.bracket.show = toggle(items.bracket.show)
-      bracketToggle(items,items.bracket.show)
+      perfbc()
+      bracketToggle(items,icons,items.bracket.show)
+      perfec()
     end)
     
     sbar.exec(string.format("sketchybar --move %s before %s",items.separator.name,items[1].name))
@@ -82,11 +91,11 @@ local function handleDynamicBrackets(brackets)
 end
 
 -- Load
-function mod.load()
+function mod.load(icons)
   -- Add all brackets and associated items
   for key,items in pairs(mod.brackets) do 
     if key == "dynamic_brackets" then 
-      handleDynamicBrackets(items)
+      handleDynamicBrackets(items,icons)
 
     else 
       items.bracket = sbar.add("bracket", fetchNames(items), mod.properties)

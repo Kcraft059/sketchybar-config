@@ -15,7 +15,7 @@ end
 local function update(item,icons,palette)
   return function (env) 
     sbar.exec("pmset -g batt | grep 'not charging'", function (result_charging,exit_code_charging) 
-      sbar.exec("pmset -g batt | grep 'not charging'", function (result_ac,exit_code_ac) 
+      sbar.exec("pmset -g batt | grep 'AC Power'", function (result_ac,exit_code_ac) 
         sbar.exec("pmset -g batt | grep -Eo \"[0-9]+%\" | cut -d% -f1", function (result, exit_code)
         local percentage = tonumber(result)
 
@@ -52,7 +52,7 @@ local function update(item,icons,palette)
             properties.icon.color = palette.colors.blue
           end
         else
-          properties.icon.color = palette.text.muted
+          properties.icon.color = palette.text.subtle
         end
           
         item:set(properties)
@@ -63,7 +63,7 @@ local function update(item,icons,palette)
 end
 
 -- Load
-function mod.load(zones,icons,palette)
+function mod.load(icons,palette)
   -- Check for battery presence
   local percentage = tonumber(shellEval("pmset -g batt | grep -Eo \"[0-9]+%\" | cut -d% -f1"))
   if percentage then 
@@ -72,9 +72,6 @@ function mod.load(zones,icons,palette)
     mod.item:subscribe("mouse.clicked", function (env)
       sbar.exec(execs.menubar .. " -s \"" .. menu_items.battery .. "\"")
     end)
-
-    if not zones.brackets.dynamic_brackets[2] then zones.brackets.dynamic_brackets[2] = {} end
-    table.insert(zones.brackets.dynamic_brackets[2], mod.item) 
   else 
     log("battery","No battery detected.")
   end

@@ -102,9 +102,11 @@ local function update(items,item,slider,icons,palette)
     if volume == 0 then 
       item_properties.icon.width         = mod.properties.item.icon.width - 5
       item_properties.label.padding_left = mod.properties.item.label.padding_left + 5
+      item_properties.label.color        = palette.colors.red
     else
       item_properties.icon.width         = mod.properties.item.icon.width
       item_properties.label.padding_left = mod.properties.item.label.padding_left
+      item_properties.label.color        = mod.properties.item.label.color
     end
 
     if volume == 0 then 
@@ -130,7 +132,7 @@ local function update(items,item,slider,icons,palette)
 end
 
 -- Load
-function mod.load(items, zones, icons, palette)
+function mod.load(items, icons, palette)
   mod.slider = sbar.add("slider", 100, mod.properties.slider)
   mod.item   = sbar.add("item", mod.properties.item)
   
@@ -143,11 +145,6 @@ function mod.load(items, zones, icons, palette)
   mod.slider:subscribe({"mouse.entered","mouse.exited"},function (env)
     mod.slider:set({slider = { knob = { drawing = env.SENDER == "mouse.entered"}}})
   end)
-
-  if not zones.brackets.dynamic_brackets[1] then zones.brackets.dynamic_brackets[1] = {} end
-
-  table.insert(zones.brackets.dynamic_brackets[1], mod.item) 
-  table.insert(zones.brackets.dynamic_brackets[1], mod.slider) 
 
   return mod
 end

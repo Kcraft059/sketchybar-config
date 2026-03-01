@@ -42,11 +42,12 @@ function mod.setup(bar, zones, palette)
       associated_display = "active",
 
       icon = {
-        string        = "􀆊",
-        font          = config.font .. ":Semibold:14.0",
-        color         = palette.text.subtle,
+        string        = "􀯻",
+        font          = config.font .. ":Semibold:15.0",
+        color         = palette.text.muted,
         padding_left  = 0,
-        padding_right = 4
+        padding_right = 4,
+        y_offset      = 1
       },
       
       label = { drawing = false },

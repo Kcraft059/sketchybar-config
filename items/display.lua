@@ -31,7 +31,7 @@ local function bd_update(item)
 end
 
 -- Load
-function mod.load(zones)
+function mod.load()
   mod.item = sbar.add("item",mod.properties)
   
   if execs.bd_cli then
@@ -40,9 +40,6 @@ function mod.load(zones)
   else  
     mod.item:subscribe("mouse.clicked", function (env) sbar.exec(execs.menubar .. " -s " .. menu_items.display) end)
   end
-
-  if not zones.brackets.dynamic_brackets[2] then zones.brackets.dynamic_brackets[2] = {} end
-  table.insert(zones.brackets.dynamic_brackets[2], mod.item) 
 
   return mod
 end
