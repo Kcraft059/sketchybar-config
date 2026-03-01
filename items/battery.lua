@@ -6,7 +6,7 @@ function mod.setup(icons,palette)
     position = "right",
     icon = {
       string = icons.battery.p100,
-      font = config.font .. ":Regular:" .. 16.0,
+      font = { style = "Regular", size = 16.0 },
     }
   }
   return mod

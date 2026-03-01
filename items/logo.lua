@@ -9,7 +9,7 @@ function mod.setup(bar, zones, items, icons, palette)
 
         icon = {
           string   = icons.logo.cmd,
-          font     = config.font .. ":Semibold:" .. 14.0,
+          font     = { style = "Semibold", size = 14.0 },
           y_offset = 0
         },
 
@@ -39,7 +39,7 @@ function mod.setup(bar, zones, items, icons, palette)
 
         icon = {
           string        = icons.logo.apple,
-          font          = config.font .. ":Black:" .. 17.0,
+          font          = { style = "Black", size = 17.0 },
           y_offset      = 1,
         },
       },

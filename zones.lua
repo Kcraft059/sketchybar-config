@@ -23,7 +23,7 @@ function mod.setup(bar,icons,palette)
       } ]]
     },
 
-    blur_radius=2
+    --blur_radius=2
   }
 
   mod.separator_properties = {
@@ -34,7 +34,7 @@ function mod.setup(bar,icons,palette)
     icon = {
     --  string        = icons.zones.expended,
     --  y_offset      = 1,
-      font          = { family = config.font },
+    --font          = { family = config.font },
       color         = palette.text.muted,
       padding_left  = 3,
       padding_right = 3,
@@ -58,14 +58,23 @@ local function fetchNames(items)
   return names
 end
 
-local function bracketToggle(items,icons,show)
+local function bracketToggle(items,icons,show,forced)
   local sep_icon = show and icons.zones.expended or icons.zones.collapsed
 
   if type(sep_icon) == "table" then items.separator:set({ icon = sep_icon }) 
   else items.separator:set({ icon = { string = sep_icon }}) end
-  
+
   for index,item in pairs(items) do
-    if tonumber(index) then item:set({ drawing = show }) end
+    if index ~= "separator" and index ~= "bracket" then
+      item:set({drawing = show}) 
+      --[[ sequencedAnimation(item,"tanh",15,
+          show and { drawing = true } or nil,
+          nil,
+          --{ icon = { width = show and "dynamic" or 0 },
+          --  label = { width = show and "dynamic" or 0 }},
+          not show and { drawing = false } or nil,
+          not forced) ]]
+    end
   end
 end
 
@@ -77,7 +86,7 @@ local function handleDynamicBrackets(brackets,icons)
     if not items.bracket then items.bracket = { show = true } end
     mergeTables(items.bracket,bracket,false)
 
-    bracketToggle(items,icons,items.bracket.show)
+    bracketToggle(items,icons,items.bracket.show,true)
 
     items.separator:subscribe("mouse.clicked", function (env) 
       items.bracket.show = toggle(items.bracket.show)
@@ -86,7 +95,7 @@ local function handleDynamicBrackets(brackets,icons)
       perfec()
     end)
     
-    sbar.exec(string.format("sketchybar --move %s before %s",items.separator.name,items[1].name))
+    sbar.exec(string.format("sketchybar --move \"%s\" before \"%s\"",items.separator.name,items[1].name))
   end 
 end
 

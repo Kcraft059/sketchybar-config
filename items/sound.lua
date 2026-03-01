@@ -50,6 +50,7 @@ function mod.setup(items, icons, palette)
   mod.state = {
     slider = false,
     anim_refc = 0,
+    last_volume = 0,
   }
 
   return mod
@@ -97,7 +98,7 @@ local function update(items,item,slider,icons,palette)
     local volume = tonumber(env.INFO)
 
     local slider_properties = { slider = { percentage = volume } }
-    local item_properties = { label = { string = "􀊡" }, icon = { string = volume ~= 0 and icons.speaker.loud or "" } }
+    local item_properties = { label = { }, icon = { string = volume ~= 0 and icons.speaker.loud or "" } }
     
     if volume == 0 then 
       item_properties.icon.width         = mod.properties.item.icon.width - 5
@@ -126,8 +127,31 @@ local function update(items,item,slider,icons,palette)
       item_properties.label.string = icons.speaker.loud
     end
 
-    item:set(item_properties)
+    local item_anim_property = nil
+    local item_anim_property_after = nil
+
+    if mod.last_volume == 0 or volume == 0 then
+      item_anim_property = { label = {
+        color        = item_properties.label.color,
+        padding_left = item_properties.label.padding_left
+      }, icon = {
+        width        = item_properties.icon.width
+      }}
+
+      item_properties.label.color        = nil
+      item_properties.label.padding_left = nil
+      item_properties.icon.width         = nil
+
+      if mod.last_volume == 0 then
+        item_anim_property_after = { icon = { string = item_properties.icon.string } }
+        item_properties.icon.string       = nil
+      end
+    end
+
+    sequencedAnimation(item, "tanh", 15, item_properties, item_anim_property, item_anim_property_after, true)
     sequencedAnimation(slider, "sin", 15, nil, slider_properties , nil, true)
+
+    mod.last_volume = volume
   end
 end
 

@@ -6,7 +6,7 @@ return {
   mic = {
     high  = "􀊱",
     low   = "􀊰",
-    muted = "􀊲"
+    muted = "􀊳"
   },
   speaker = {
     loud    = "􀊩",
@@ -48,6 +48,11 @@ return {
       y_offset      = 1
     }
   },
-  pkg = "􀐛",
-  user = "􀅷"
+  pkg            = "􀐛",
+  user           = "􀅷",
+  control_center = "􀜊",
+  player         = {
+    pause = "􀊆",
+    play  = "􀊄"
+  }
 }

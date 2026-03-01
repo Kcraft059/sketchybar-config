@@ -43,7 +43,7 @@ function mod.setup(bar, zones, palette)
 
       icon = {
         string        = "􀯻",
-        font          = config.font .. ":Semibold:15.0",
+        font          = { style = "Semibold", size = 15.0 },
         color         = palette.text.muted,
         padding_left  = 0,
         padding_right = 4,
@@ -76,7 +76,7 @@ function mod.setup(bar, zones, palette)
         padding_left  = 0,
         padding_right = 5,
         color         = palette.text.primary,
-        font          = config.font .. ":Black:12.0"
+        font          = { style = "Black", size = 12.0 }
       }
     }
   }

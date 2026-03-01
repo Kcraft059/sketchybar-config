@@ -36,7 +36,9 @@ function mod.load()
   
   if execs.bd_cli then
     mod.item:subscribe("mouse.clicked", function (env) sbar.exec(execs.bd_cli .. " toggle --appmenu") end)
-    mod.item:subscribe({"display_change","forced"}, bd_update(mod.item))
+    if config.bd_display_groups ~= nil and next(config.bd_display_groups) ~= nil then
+      mod.item:subscribe({"display_change","forced"}, bd_update(mod.item))
+    end
   else  
     mod.item:subscribe("mouse.clicked", function (env) sbar.exec(execs.menubar .. " -s " .. menu_items.display) end)
   end

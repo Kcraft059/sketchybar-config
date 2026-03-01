@@ -18,14 +18,18 @@ function mod.setup(bar, zones, icons, palette)
 
     icon = {
       color         = palette.colors.blue,
-      font          = config.font .. ":Regular:" .. 14.0,
+      font          = { family = config.font, style = "Regular", size = 14.0 },
       padding_left  = mod.config.padding.outer,
       padding_right = mod.config.padding.inner,
+    },
+
+    alias = {
+      color         = palette.colors.cyan,
     },
     
     label = {
       color         = palette.text.primary,
-      font          = config.font .. ":Semibold:" .. 10.0,
+      font          = { family = config.font, style = "Semibold", size = 10.0 },
       padding_left  = 0,
       padding_right = mod.config.padding.outer + 1 
     },
@@ -39,62 +43,93 @@ function mod.setup(bar, zones, icons, palette)
   sbar.default(mod.defaults)
 
   -- Left
-  mod.logo    = require("items.logo")   .setup(bar, zones, mod, icons, palette)
-  mod.menus   = require("items.menus")  .setup(icons, palette)
-  mod.spaces  = require("items.spaces") .setup(bar, zones, palette)
+  mod.logo      = require("items.logo")     .setup(bar, zones, mod, icons, palette)
+  mod.menus     = require("items.menus")    .setup(icons, palette)
+  mod.spaces    = require("items.spaces")   .setup(bar, zones, palette)
+  
+  -- Right    
+  mod.controls  = require("items.controls") .setup(icons,palette)
+  
+  mod.date      = require("items.date")     .setup(palette)
+  
+  mod.mic       = require("items.mic")      .setup(mod, icons, palette)
+  mod.sound     = require("items.sound")    .setup(mod, icons, palette)
+  
+  mod.battery   = require("items.battery")  .setup(icons, palette)
+  mod.wifi      = require("items.wifi")     .setup(icons, palette)
+  mod.display   = require("items.display")  .setup(mod, icons)
+  
+  mod.pkgs      = require("items.pkgs")     .setup(icons, palette)
+  mod.user      = require("items.user")     .setup(icons, palette)
+ 
+  mod.separator = require("items.separator").setup(zones, icons, palette)
+  mod.player    = require("items.player")   .setup(bar, icons, palette)
 
-  -- Right  
-  mod.date    = require("items.date")   .setup(palette)
-
-  mod.mic     = require("items.mic")    .setup(mod, icons, palette)
-  mod.sound   = require("items.sound")  .setup(mod, icons, palette)
-
-  mod.battery = require("items.battery").setup(icons, palette)
-  mod.wifi    = require("items.wifi")   .setup(icons, palette)
-  mod.display = require("items.display").setup(mod, icons)
-
-  mod.pkgs    = require("items.pkgs")   .setup(icons, palette)
-  mod.user    = require("items.user")   .setup(icons, palette)
   return mod
 end 
 
 -- Load 
 function mod.load(zones,icons,palette)
---   Module  |        Load Method        |      Adjustements
-  mod.logo   .load(mod.menus, mod.spaces)
-  mod.menus  .load(zones)
-  mod.spaces .load(zones)
+--   Module   |        Load Method             |      Adjustements
+  mod.logo    .load(mod.menus, mod.spaces)
+  mod.menus   .load(zones)
+  mod.spaces  .load(zones)
+
+  mod.date    .load()     
+
+  mod.controls.load()                           --.control_center:set({ alias = { color = palette.colors.orange }})
+
+  mod.mic     .load(icons,palette)              .item:set({ padding_left  = mod.config.margin - 4 })
+  mod.sound   .load(mod,icons,palette)          .item:set({ padding_right = 4 })
+
+  mod.battery .load(icons,palette)              .item:set({ padding_left  = 0 })
+  mod.wifi    .load(mod,icons,palette)          .item:set({ padding_left  = 0 })
+  mod.display .load()     
+
+  mod.pkgs    .load()                           .item:set({ padding_left  = 0 })
+  mod.user    .load()                          
   
-  mod.date   .load()     
+  if config.controls ~= nil and next(config.controls) ~= nil then
+    mod.user.item:set({ padding_left  = 0 }) 
+    
+    local last_item
 
-  mod.mic    .load(icons,palette)        .item:set({ padding_left  = mod.config.margin - 4 })
-  mod.sound  .load(mod,icons,palette)    .item:set({ padding_right = 4 })
+    for _,control in pairs(config.controls) do
+      last_item = mod.controls.alias(control).items[control]
+      last_item:set({padding_left = mod.controls.properties.alias.padding_left - mod.config.margin})
+    end
 
-  mod.battery.load(icons,palette)        .item:set({ padding_left  = 0 })
-  mod.wifi   .load(mod,icons,palette)    .item:set({ padding_left  = 0 })
-  mod.display.load()
+    last_item:set({padding_left = mod.controls.properties.alias.padding_left})
+  end
 
-  mod.pkgs   .load()                     .item:set({ padding_left  = 0 })
-  mod.user   .load()
+  mod.separator.load()
+  mod.player   .load(mod.separator, icons)
+
 
   -- Zone setup
   zones.brackets.dynamic_brackets[1] = {
+    mod.controls.control_center
+  }
+
+  zones.brackets.dynamic_brackets[2] = {
     mod.mic.item,
     mod.sound.slider,
     mod.sound.item,
   } 
   
-  zones.brackets.dynamic_brackets[2] = {
+  zones.brackets.dynamic_brackets[3] = {
     mod.battery.item,
     mod.wifi.item,
     mod.display.item,
   }
 
-  zones.brackets.dynamic_brackets[3] = {
+  zones.brackets.dynamic_brackets[4] = {
     mod.pkgs.item,
     mod.user.item,
-    --["bracket"] = { show = false },
+    ["bracket"] = { show = false },
   }
+
+  for _,item in pairs(mod.controls.items) do table.insert(zones.brackets.dynamic_brackets[4],item) end
 end
 
 return mod

@@ -8,14 +8,19 @@ execs = {
   ft_haptic     = cmdPath("ft-haptic") or "./helper/ft-haptics",
   media_control = cmdPath("media-control") or log("lua-main","No media-control in path"),
   icon_map      = cmdPath("icon_map.sh") or "./helper/icon_map.sh",
-  bd_cli        = cmdPath("betterdisplaycli") or log("lua-main","No betterdisplaycli in path")
+  bd_cli        = cmdPath("betterdisplaycli") or log("lua-main","No betterdisplaycli in path"),
+  identify      = cmdPath("identify") or log("lua-main","No imagemagick in path"),
+  magick        = cmdPath("magick") or cmdPath("convert") or log("lua-main","No imagemagick in path")
 }
 menu_items = {
-  sound         = "Control Center,Sound",
-  wifi          = "Control Center,WiFi",
-  battery       = "Control Center,Battery",
-  display       = "Control Center,Display",
-  user_switcher = "Control Center,UserSwitcher"
+  control_center = "Control Center,BentoBox-0",
+  sound          = "Control Center,Sound",
+  wifi           = "Control Center,WiFi",
+  battery        = "Control Center,Battery",
+  display        = "Control Center,Display",
+  user_switcher  = "Control Center,UserSwitcher",
+  bluetooth      = "Control Center,Bluetooth",
+  media_player   = "Control Center,NowPlaying",
 }
 
 -- Fetch config with given defaults
@@ -26,6 +31,9 @@ config = fetchConfig(os.getenv("SKETCHYBAR_CONFIG") or "./config.lua",
                        bar_look     = "default",
                        font         = "SF Pro",
                        animate      = true,
+
+                       -- Behaviour
+                       controls     = { menu_items.bluetooth },
                      
                        -- Technical
                        window_manager = "yabai",

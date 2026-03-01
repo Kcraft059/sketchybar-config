@@ -9,16 +9,16 @@ function mod.setup(icons, palette)
       padding_left  = 8,
       padding_right = 11,
 
-      width   = 0,
       drawing = false,
       label   = { drawing = false },
-
+      
       icon = {
         string          = "Menu",
         font            = {
           style = "Regular",
           size  = 14.0
         },
+        width           = 0,
         color           = 0x00000000,
         padding_right   = 0,
         padding_left    = 0,
@@ -78,8 +78,7 @@ function mod.show(bool)
     perfbc() -- PERF: bundle instructions
     for _, item in pairs(mod.items) do
       sequencedAnimation(item, "tanh", 15, nil, {
-        icon = { highlight = false },
-        width   = 0,
+        icon = { highlight = false, width = 0 },
       }, {
         drawing = false,
         icon    = { string = "" }
@@ -105,8 +104,7 @@ function mod.update(anim)
         drawing = true,
         icon    = { string = menu_str },
       },{
-        width = "dynamic",
-        icon  = { highlight = true },
+        icon = { width = "dynamic" ,highlight = true },
       }, nil, anim)
 
       i = i + 1

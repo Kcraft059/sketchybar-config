@@ -9,13 +9,13 @@ function mod.setup(palette)
     icon = {
       --string        = "+%a %d. %b",
       color         = palette.text.primary,
-      font          = config.font .. ":Black:".. 12.0,
+      font          = { style = "Black", size = 12.0 },
       padding_right = 5,
     },
     
     label = {
       --string = "+%H:%M",
-      font          = config.font .. ":Semibold:".. 13.0,
+      font          = { style = "Semibold", size = 13.0 },
       width  = 50,
       align  = "center"
     }
