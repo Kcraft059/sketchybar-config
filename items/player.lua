@@ -81,8 +81,9 @@ function mod.setup(bar,icons,palette)
   mod.event_name = "media_update"
 
   mod.state = {
-    last_pid = nil,
+    last_pid  = nil,
     play_refc = 0,
+    last_play = nil,
   }
 
   return mod
@@ -118,10 +119,12 @@ local function mediaDecode(artwork,title,subtitle,icons)
         mod.state.last_pid = env.INFO.payload.processIdentifier
       end
 
-      if env.INFO.payload.playing ~= nil then
-        artwork:set({ icon = { string = env.INFO.payload.playing and icons.player.pause or icons.player.play }})
+      if env.INFO.payload.playing ~= nil and env.INFO.payload.playing ~= mod.state.last_play then
+        mod.state.last_play = env.INFO.payload.playing
         mod.state.play_refc = mod.state.play_refc + 1
-
+        
+        artwork:set({ icon = { string = env.INFO.payload.playing and icons.player.pause or icons.player.play }})
+        
         sbar.delay(5,function (env) 
           mod.state.play_refc = mod.state.play_refc - 1
           if mod.state.play_refc == 0 then artwork:set({ icon = { string = "" }}) end
