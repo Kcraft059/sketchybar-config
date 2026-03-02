@@ -64,7 +64,7 @@ function mod.getColorPalette(name,base_tpf)
   local palette = palettes[name]
 
   if not palette then
-    error("Unknown palette: " .. tostring(name))
+    error("Unknown palette: " .. name)
   end
 
   return resolvePalette(palette,base_tpf)

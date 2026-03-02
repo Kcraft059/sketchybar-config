@@ -48,11 +48,15 @@ return {
       y_offset      = 1
     }
   },
+  player = {
+    pause = "􀊆",
+    play  = "􀊄"
+  },
+  notifications = {
+    empty = "􀋚",
+    notif = "􀝗"
+  },
   pkg            = "􀐛",
   user           = "􀅷",
   control_center = "􀜊",
-  player         = {
-    pause = "􀊆",
-    play  = "􀊄"
-  }
 }

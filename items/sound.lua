@@ -5,6 +5,9 @@ function mod.setup(items, icons, palette)
   mod.properties = {
     item = {
       position = "right",
+
+      updates = true,
+
       icon = {
         string        = icons.speaker.loud,
         color         = palette.text.subtle - 0xff000000 + 100 * 0x1000000,

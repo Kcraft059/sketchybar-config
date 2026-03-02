@@ -19,11 +19,10 @@ function mod.setup(icons, palette)
           size  = 14.0
         },
         width           = 0,
-        color           = 0x00000000,
+        color           = palette.text.primary,
         padding_right   = 0,
         padding_left    = 0,
-        highlight_color = palette.text.primary,
-        highlight       = false
+
       },
 
       background = { drawing = false }
@@ -32,8 +31,7 @@ function mod.setup(icons, palette)
       icon = {
         string          = "App",
         font            = { style = "Heavy" },
-        color           = 0x00000000,
-        highlight_color = palette.colors.cyan
+        color           = palette.colors.cyan,
       }
     }
   }
@@ -77,8 +75,8 @@ function mod.show(bool)
   else -- Set all to false otherwise
     perfbc() -- PERF: bundle instructions
     for _, item in pairs(mod.items) do
-      sequencedAnimation(item, "tanh", 15, nil, {
-        icon = { highlight = false, width = 0 },
+      sequencedAnimation(item, "linear", 15, nil, {
+        icon = { width = 0 },
       }, {
         drawing = false,
         icon    = { string = "" }
@@ -100,11 +98,11 @@ function mod.update(anim)
         return
       end
 
-      sequencedAnimation(mod.items[i], "tanh", 15, { -- Set icon as menu name
+      sequencedAnimation(mod.items[i], "linear", 15, { -- Set icon as menu name
         drawing = true,
         icon    = { string = menu_str },
       },{
-        icon = { width = "dynamic" ,highlight = true },
+        icon = { width = "dynamic" },
       }, nil, anim)
 
       i = i + 1
@@ -116,7 +114,6 @@ function mod.update(anim)
       mod.items[j]:set({
         icon = {
           string = "",
-          highlight = false
         },
         drawing = false
       })

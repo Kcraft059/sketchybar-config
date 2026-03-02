@@ -112,9 +112,11 @@ local function loadStream(event_name)
     end)
 end
 
-local function mediaDecode(artwork,title,subtitle,icons)
+local function mediaDecode(artwork,title,subtitle,separator,icons)
   return function (env)
     if env.INFO.payload and next(env.INFO.payload) then 
+      separator.addRef("media")
+
       if env.INFO.payload.processIdentifier then 
         mod.state.last_pid = env.INFO.payload.processIdentifier
       end
@@ -138,7 +140,9 @@ local function mediaDecode(artwork,title,subtitle,icons)
 
       if env.INFO.payload.artist then
         subtitle:set({ drawing = true })
-        subtitle:set({ label = env.INFO.payload.artist .. (env.INFO.payload.album and (" - " .. env.INFO.payload.album))})
+        subtitle:set({ label = env.INFO.payload.artist .. (
+          (env.INFO.payload.album and env.INFO.payload.album ~= "") and (" - " .. env.INFO.payload.album) or ""
+        )})
       end
 
       if env.INFO.payload.artworkData then
@@ -185,6 +189,7 @@ local function mediaDecode(artwork,title,subtitle,icons)
     elseif mod.state.last_pid then
       sbar.exec("ps -p " .. mod.state.last_pid ,function (result,exit_code) 
         if exit_code > 0 then 
+          separator.dropRef("media")
           artwork:set({ drawing = false }) 
           title:set({ drawing = false }) 
           subtitle:set({ drawing = false }) 
@@ -210,7 +215,7 @@ function mod.load(separator, icons)
   mod.subtitle = sbar.add("item", mod.properties.subtitle)
 
   sbar.add("event",mod.event_name)
-  mod.artwork :subscribe(mod.event_name,mediaDecode(mod.artwork,mod.title,mod.subtitle,icons))
+  mod.artwork :subscribe(mod.event_name,mediaDecode(mod.artwork,mod.title,mod.subtitle,separator,icons))
 
   mod.artwork :subscribe("mouse.clicked", function (env) 
     sbar.exec(execs.media_control .. " toggle-play-pause")

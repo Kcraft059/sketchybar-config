@@ -26,11 +26,12 @@ config = fetchConfig(os.getenv("SKETCHYBAR_CONFIG") or "./config.lua",
 
                        -- Behaviour
                        controls     = { menu_items.bluetooth },
-                     
+                       
                        -- Technical
                        window_manager = "yabai",
-                       --notch_width    = 180,
+                       notch_width    = 180,
                        perfbc         = true, -- Allow command bundling for improved performance
+                       git_key        = nil,
                        display_groups = {},
                        execs          = {} -- Overrides for executables
                      }) 

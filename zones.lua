@@ -66,14 +66,43 @@ local function bracketToggle(items,icons,show,forced)
 
   for index,item in pairs(items) do
     if index ~= "separator" and index ~= "bracket" then
-      item:set({drawing = show}) 
-      --[[ sequencedAnimation(item,"tanh",15,
-          show and { drawing = true } or nil,
+      if forced then 
+        item:set({ drawing = show })
+        goto next
+      end
+
+      local state = item:query()
+
+      if show then 
+        sequencedAnimation(item,"linear",15,
+          { drawing = true,
+            icon = { width = 0 },
+            label = { width = 0 },
+            slider = state.slider and { width = 0 } or nil,
+          },{ 
+            icon = { width = (state.icon.width == 0) and "dynamic" or state.icon.width },
+            label = { width = (state.label.width == 0) and "dynamic" or state.label.width },
+            slider = state.slider and { width = state.slider.width } or nil,
+          },
           nil,
-          --{ icon = { width = show and "dynamic" or 0 },
-          --  label = { width = show and "dynamic" or 0 }},
-          not show and { drawing = false } or nil,
-          not forced) ]]
+          not forced)
+      else
+        sequencedAnimation(item,"linear",15,
+          nil,
+          { 
+            icon = { width = 0 },
+            label = { width = 0 },
+            slider = state.slider and { width = 0 } or nil,
+          },{ 
+            drawing = false,
+            icon = { width = state.icon.width },
+            label = { width = state.label.width },
+            slider = state.slider and { width = state.slider.width } or nil,
+          },
+          not forced)
+      end 
+
+      ::next::
     end
   end
 end

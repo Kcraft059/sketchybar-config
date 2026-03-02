@@ -16,7 +16,7 @@ function mod.setup(icons,palette)
 
       icon = {
         string = icons.control_center,
-        color  = palette.colors.blue
+        color  = palette.colors.cyan
       },
 
       label = {

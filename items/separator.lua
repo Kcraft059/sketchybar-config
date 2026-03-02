@@ -6,12 +6,10 @@ function mod.setup(zones,icons,palette)
     position = "center",
     drawing  = "false",
     
-    updates  = true, -- Instead of "always"
+    updates  = true,
 
     icon     = icons.zones.expended
   })
-
-  mod.event_name = "center_separator_udpate"
 
   mod.state = {
     refs = {},
@@ -22,9 +20,7 @@ function mod.setup(zones,icons,palette)
 end
 
 local function update(item)
-  return function (env)
-    item:set({ drawing = mod.state.refc > 0 })
-  end
+  item:set({ drawing = mod.state.refc > 0 })
 end
 
 function mod.addRef(id)
@@ -34,6 +30,7 @@ function mod.addRef(id)
 
   table.insert(mod.state.refs, id)
   mod.state.refc = mod.state.refc + 1
+  update(mod.item)
   return true
 end 
 
@@ -42,6 +39,7 @@ function mod.dropRef(id)
     if v == id then 
       table.remove(mod.state.refs, k)
       mod.state.refc = mod.state.refc - 1
+      update(mod.item)
       return true
     end
   end
@@ -52,9 +50,6 @@ end
 -- Load 
 function mod.load()
   mod.item = sbar.add("item",mod.properties)
-  
-  sbar.add("event",mod.event_name)
-  mod.item:subscribe(mod.event_name, update(mod.item))
 
   return mod
 end

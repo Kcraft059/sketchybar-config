@@ -61,6 +61,7 @@ function mod.setup(bar, zones, icons, palette)
   
   mod.pkgs      = require("items.pkgs")     .setup(icons, palette)
   mod.user      = require("items.user")     .setup(icons, palette)
+  mod.notifs    = require("items.notifs")   .setup(icons, palette)
  
   mod.separator = require("items.separator").setup(zones, icons, palette)
   mod.player    = require("items.player")   .setup(bar, icons, palette)
@@ -87,10 +88,17 @@ function mod.load(zones,icons,palette)
   mod.display .load()     
 
   mod.pkgs    .load()                           .item:set({ padding_left  = 0 })
-  mod.user    .load()                          
+  mod.user    .load()                           
+  mod.notifs  .load(icons,palette)
   
+  if mod.notifs.item then mod.user.item:set({ padding_left  = 0 }) end
+
   if config.controls ~= nil and next(config.controls) ~= nil then
-    mod.user.item:set({ padding_left  = 0 }) 
+    if mod.notifs.item then 
+      mod.notifs.item:set({ padding_left  = 0 }) 
+    else 
+      mod.user.item:set({ padding_left  = 0 })
+    end
     
     local last_item
 
@@ -115,18 +123,21 @@ function mod.load(zones,icons,palette)
     mod.mic.item,
     mod.sound.slider,
     mod.sound.item,
+    ["bracket"] = { show = false },
   } 
   
   zones.brackets.dynamic_brackets[3] = {
     mod.battery.item,
     mod.wifi.item,
     mod.display.item,
+    ["bracket"] = { show = false },
   }
 
   zones.brackets.dynamic_brackets[4] = {
     mod.pkgs.item,
     mod.user.item,
-    ["bracket"] = { show = false },
+    mod.notifs.item,
+    --["bracket"] = { show = false },
   }
 
   for _,item in pairs(mod.controls.items) do table.insert(zones.brackets.dynamic_brackets[4],item) end

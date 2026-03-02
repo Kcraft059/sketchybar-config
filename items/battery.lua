@@ -68,7 +68,7 @@ function mod.load(icons,palette)
   local percentage = tonumber(shellEval("pmset -g batt | grep -Eo \"[0-9]+%\" | cut -d% -f1"))
   if percentage then 
     mod.item = sbar.add("item",mergeTables(mod.properties, { label = { string = percentage .. " %" }},false))
-    mod.item:subscribe({"power_source_change","routine"}, update(mod.item,icons,palette))
+    mod.item:subscribe({"power_source_change","routine","forced"}, update(mod.item,icons,palette))
     mod.item:subscribe("mouse.clicked", function (env)
       sbar.exec(execs.menubar .. " -s \"" .. menu_items.battery .. "\"")
     end)
