@@ -55,6 +55,7 @@ function mod.setup(bar, zones, palette)
     front_app = {
       padding_left       = 0,
       padding_right      = 0,
+      updates            = true,
       associated_display = "active",
 
       background = {

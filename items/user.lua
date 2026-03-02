@@ -23,7 +23,7 @@ end
 
 local function update(item)
   return function (env)
-    sbar.exec("printf \"%s\" \"$(dscl . -read /Users/\"$(whoami)\" RealName | awk '/RealName: / {gsub(\"RealName: \",\"\"); print}')\"", function (result)
+    sbar.exec("printf \"%s\" \"$(dscl . -read \"$HOME\" RealName | awk '/RealName: / {gsub(\"RealName: \",\"\"); print}')\"", function (result)
       item:set({label = { string = result }})
     end)
   end
