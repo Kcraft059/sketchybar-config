@@ -123,21 +123,19 @@ function mod.load(zones,icons,palette)
     mod.mic.item,
     mod.sound.slider,
     mod.sound.item,
-    ["bracket"] = { show = false },
   } 
   
   zones.brackets.dynamic_brackets[3] = {
     mod.battery.item,
     mod.wifi.item,
     mod.display.item,
-    ["bracket"] = { show = false },
   }
 
   zones.brackets.dynamic_brackets[4] = {
     mod.pkgs.item,
     mod.user.item,
     mod.notifs.item,
-    --["bracket"] = { show = false },
+    ["bracket"] = { show = false },
   }
 
   for _,item in pairs(mod.controls.items) do table.insert(zones.brackets.dynamic_brackets[4],item) end
