@@ -90,7 +90,7 @@ function shellEval(cmd)
 end
 
 function macOSversion()
-  return tonumber(shellEval("sw_vers -productVersion"))
+  return strSplit(shellEval("sw_vers -productVersion"),".");
 end
 
 function cmdPath(cmd)

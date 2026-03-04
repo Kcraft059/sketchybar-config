@@ -54,7 +54,7 @@
         ];
 
         shellHook = ''
-          export SKETCHYBAR_LUA_PATH="${pkgs.sbarlua}/lib/sketchybar"
+          export SKETCHYBAR_LUA_PATH="${pkgs.sbarlua}/lib/lua/5.4/"
           #ln -sf ${pkgs.sketchybar-app-font}/bin/icon_map.sh ./helpers/icon_map.sh 
 
           cat > .zsh-shell <<'EOF'

@@ -1,4 +1,4 @@
-mod = {}
+local mod = {}
 
 -- Setup
 function mod.setup(palette)
@@ -10,7 +10,7 @@ function mod.setup(palette)
     border  = true 
   }
 
-  if os_version < 26.0 then -- for macos versions previous to Tahoe
+  if tonumber(os_version[1]) < 26 then -- for macos versions previous to Tahoe
     mod.config.radius = 13
   end
 
