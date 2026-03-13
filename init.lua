@@ -18,7 +18,7 @@ menu_items = {
 -- Fetch config with given defaults
 config = fetchConfig(os.getenv("SKETCHYBAR_CONFIG") or "./config.lua", 
                      { -- Look & feel
-                       theme        = "rose-pine",
+                       theme        = "rose_pine",
                        transparency = true,
                        bar_look     = "default",
                        font         = "SF Pro",
@@ -26,6 +26,7 @@ config = fetchConfig(os.getenv("SKETCHYBAR_CONFIG") or "./config.lua",
 
                        -- Behaviour
                        controls     = { menu_items.bluetooth },
+                       theme_file   = "./themes.lua",
                        
                        -- Technical
                        window_manager = "yabai",
@@ -58,33 +59,3 @@ local items = require("items") .setup(bar, zones, icons, palette)
 bar  .load()
 items.load(zones,icons,palette)
 zones.load(icons)
-
-
---[[ 
-❯ sketchybar --query default_menu_items                                                                                      01:14:22  ─╯
-[
-        "Control Center,Clock",
-        "Control Center,BentoBox-0",
-        "Control Center,Sound",
-        "Control Center,Item-0",
-        "LinkedNotesUIService,Window",
-        "Control Center,Battery",
-        "Control Center,Item-0",
-        "Control Center,Item-0",
-        "Control Center,WiFi",
-        "Control Center,UserSwitcher",
-        "Control Center,FocusModes",
-        "Control Center,Bluetooth",
-        "Control Center,Display",
-        "Control Center,NowPlaying",
-        "Control Center,Item-0",
-        "Control Center,Item-0",
-        "Control Center,DragPlaceholder",
-        "Control Center,DragPlaceholder",
-        "Control Center,DragPlaceholder",
-        "Control Center,me.mhaeuser.BatteryToolkit",
-        "Control Center,com.apple.TextInputMenuAgent",
-        "Control Center,pro.betterdisplay.BetterDisplay",
-        "Control Center,com.objective-see.lulu.app",
-        "Control Center,17818"
-] ]]

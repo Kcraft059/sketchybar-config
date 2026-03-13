@@ -68,9 +68,15 @@ end
 
 local function mouseClick(menus, spaces)
   return function(env)
+      
     if env.BUTTON == "right" then
-      mod.state.show_menus = toggle(mod.state.show_menus)
+      if (env.MODIFIER == "shift") then
+        log("logo","Triggered manual reload")
+        shellEval("sketchybar --reload")
+        return
+      end
 
+      mod.state.show_menus = toggle(mod.state.show_menus)
       
       if mod.state.show_menus then
         sequencedAnimation(mod.item, "tanh", 15, mod.properties.menus.static, mod.properties.menus.anim, mod.properties.menus.static_after, true)
@@ -83,7 +89,8 @@ local function mouseClick(menus, spaces)
 
     elseif mod.state.show_menus then
       sbar.exec(execs.menubar .. " -s 0")
-
+    elseif not mod.state.show_menus then
+      sbar.exec("/System/Applications/Mission\\ Control.app/Contents/MacOS/Mission\\ Control")
     end
   end
 end

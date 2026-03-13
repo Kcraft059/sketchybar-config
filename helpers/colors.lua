@@ -21,7 +21,7 @@ local function resolvePalette(p,tpf)
     if type(v) == "table" then
       t[k] = resolvePalette(v,tpf)
     elseif type(v) == "function" then
-      t[k] = v(tpf)
+      t[k] = v(tpf,colorTp)
     else
       t[k] = v
     end
@@ -32,10 +32,10 @@ end
 
 -- Palette
 local palettes = {
-  ["rose-pine"] = {
+  ["rose_pine"] = {
     bar = {
-      background = function (tpf) return colorTp(0x232137, tpf) end,
-      border     = function (tpf) return colorTp(0x808080, tpf - 20) end
+      background = function (tpf,tpfunc) return tpfunc(0x161616, 145) end,
+      border     = function (tpf,tpfunc) return tpfunc(0x808080, tpf - 20) end
     },
     text = {
       primary   = 0xffe0def4,
@@ -43,8 +43,8 @@ local palettes = {
       muted     = 0xff6e6a86
     },
     zone = {
-      background = function (tpf) return colorTp(0x393552, tpf - 50) end,
-      border     = function (tpf) return colorTp(0x44415a, tpf - 20) end,
+      background = function (tpf,tpfunc) return tpfunc(0x393552, tpf - 50) end,
+      border     = function (tpf,tpfunc) return tpfunc(0x44415a, tpf - 20) end,
       overlay    = 0xff56526e
     },
     colors = {
@@ -59,8 +59,22 @@ local palettes = {
   }
 }
 
+local function fetchCustomPalette(palettes) 
+  local custom_palettes = {}
+  local palette_file, err = loadfile(config.theme_file, "t", palettes);
+
+  if palette_file then 
+    palette_file()
+  
+    mergeTables(palettes,custom_palettes,false)
+  else
+    log("lua-main","No custom palette loaded: " .. err)
+  end
+end
+
 -- Public API
 function mod.getColorPalette(name,base_tpf)
+  fetchCustomPalette(palettes)
   local palette = palettes[name]
 
   if not palette then
