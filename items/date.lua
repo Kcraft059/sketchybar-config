@@ -51,8 +51,6 @@ function mod.load()
       end)
     end
 
-    log("date",env.NAME)
-
     sbar.exec([=[
       sleep $((59 - $(date '+%-S')))
       while [[ $(date '+%S') != "00" ]]; do
