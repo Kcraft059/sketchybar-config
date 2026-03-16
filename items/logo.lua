@@ -109,7 +109,7 @@ function mod.load(menus, spaces)
   end)
 
   -- App switch event
-  mod.item:subscribe("front_app_switched", function(env)
+  mod.item:subscribe({"front_app_switched","system_woke"}, function(env)
     if mod.state.show_menus then
       menus.update(false)
     end
