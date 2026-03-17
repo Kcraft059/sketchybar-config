@@ -164,11 +164,8 @@ local function yabaiSpaceChange(item)
     item.state.selected = (env.SELECTED ~= "false")
 
     local show
-    local properties = {
-      icon       = { highlight = env.SELECTED },
-      background = { }
-    }
-
+    local properties = { background = { } }
+    
     if not item.state.selected and item.state.appc >= 1 then
       properties.background.drawing = true
       show = true
@@ -176,9 +173,10 @@ local function yabaiSpaceChange(item)
       properties.background.drawing = false
       show = false
     end
-
+    
     -- Toggle space
     sequencedAnimation(item,"tanh",15,properties, {
+      icon  = { highlight = env.SELECTED },
       label = { width = show and "dynamic" or 0 }
     }, nil, true)
   end
