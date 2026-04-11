@@ -66,26 +66,31 @@ function mod.setup(bar, zones, items, icons, palette)
   return mod
 end
 
+local function toggleMenus(menus, spaces)
+  mod.state.show_menus = toggle(mod.state.show_menus)
+
+  if mod.state.show_menus then
+    sequencedAnimation(mod.item, "tanh", 15, mod.properties.menus.static, mod.properties.menus.anim,
+      mod.properties.menus.static_after, true)
+  else
+    sequencedAnimation(mod.item, "tanh", 15, mod.properties.space.static, mod.properties.space.anim, nil, true)
+  end
+
+  spaces.show(not mod.state.show_menus) -- display spaces
+  menus.show(mod.state.show_menus) -- display menus
+end
+
 local function mouseClick(menus, spaces)
   return function(env)
-      
+
     if env.BUTTON == "right" then
       if (env.MODIFIER == "shift") then
-        log("logo","Triggered manual reload")
+        log("logo", "Triggered manual reload")
         shellEval("sketchybar --reload")
         return
       end
 
-      mod.state.show_menus = toggle(mod.state.show_menus)
-      
-      if mod.state.show_menus then
-        sequencedAnimation(mod.item, "tanh", 15, mod.properties.menus.static, mod.properties.menus.anim, mod.properties.menus.static_after, true)
-      else
-        sequencedAnimation(mod.item, "tanh", 15, mod.properties.space.static, mod.properties.space.anim, nil, true)
-      end
-      
-      spaces.show(not mod.state.show_menus) -- display spaces
-      menus.show(mod.state.show_menus) -- display menus
+      toggleMenus(menus,spaces)
 
     elseif mod.state.show_menus then
       sbar.exec(execs.menubar .. " -s 0")
@@ -99,9 +104,11 @@ end
 function mod.load(menus, spaces)
   -- Add item
   mod.item = sbar.add("item", "logo", mergeTables(mod.properties.space.static, mod.properties.space.anim))
+  sbar.add("event","menu_toggle")
 
   -- Click event
   mod.item:subscribe("mouse.clicked", mouseClick(menus, spaces))
+  mod.item:subscribe("menu_toggle", function (env) toggleMenus(menus, spaces) end)
 
   -- Mouse hover event
   mod.item:subscribe("mouse.entered", function(env)
@@ -109,7 +116,7 @@ function mod.load(menus, spaces)
   end)
 
   -- App switch event
-  mod.item:subscribe({"front_app_switched","system_woke"}, function(env)
+  mod.item:subscribe({"front_app_switched", "system_woke"}, function(env)
     if mod.state.show_menus then
       menus.update(false)
     end

@@ -215,9 +215,9 @@ function mod.load(separator, icons)
   mod.subtitle = sbar.add("item", mod.properties.subtitle)
 
   sbar.add("event",mod.event_name)
-  mod.artwork :subscribe(mod.event_name,mediaDecode(mod.artwork,mod.title,mod.subtitle,separator,icons))
+  mod.artwork:subscribe(mod.event_name,mediaDecode(mod.artwork,mod.title,mod.subtitle,separator,icons))
 
-  mod.artwork :subscribe("mouse.clicked", function (env) 
+  mod.artwork:subscribe("mouse.clicked", function (env) 
     sbar.exec(execs.media_control .. " toggle-play-pause")
   end)
 
