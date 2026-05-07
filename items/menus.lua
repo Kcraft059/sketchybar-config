@@ -124,9 +124,9 @@ function mod.update(anim)
 
     perfec()
     
-    if i == 1 and mod.state.update_retry < 1 then --If fetch fail on first try, then try again
+    if i == 1 and mod.state.update_retry < 10 then --If fetch fail on first try, then try again
       mod.state.update_retry = mod.state.update_retry + 1
-      sbar.delay(0.05, function () mod.update(anim) end)
+      sbar.delay(0.1, function () mod.update(anim) end)
     elseif i > 1 then
       mod.state.update_retry = 0
     end 
