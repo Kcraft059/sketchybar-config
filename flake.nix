@@ -49,7 +49,7 @@
       devShells."${system}".default = pkgs.mkShell {
         packages = with pkgs; [
           sketchybar
-          lua5_4
+          lua5_5
           sbarlua
         ];
 
