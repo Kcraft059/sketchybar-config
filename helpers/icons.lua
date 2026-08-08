@@ -56,6 +56,7 @@ return {
     empty = "􀋚",
     notif = "􀝗"
   },
+	link           = "􀉣";
   pkg            = "􀐛",
   user           = "􀅷",
   control_center = "􀜊",

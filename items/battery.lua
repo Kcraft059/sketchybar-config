@@ -70,7 +70,7 @@ function mod.load(icons,palette)
     mod.item = sbar.add("item",mergeTables(mod.properties, { label = { string = percentage .. " %" }},false))
     mod.item:subscribe({"power_source_change","routine","forced"}, update(mod.item,icons,palette))
     mod.item:subscribe("mouse.clicked", function (env)
-      sbar.exec(execs.menubar .. " -s \"" .. menu_items.battery .. "\"")
+      sbar.exec(execs.menubar .. " item select " .. menu_items.battery.app .. " " .. menu_items.battery.id)
     end)
   else 
     log("battery","No battery detected.")

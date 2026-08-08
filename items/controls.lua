@@ -5,23 +5,16 @@ function mod.setup(icons,palette)
   mod.properties = {
     alias = {
       position      = "right",
-      padding_left  = -4,
-      padding_right = -4,
+      padding_left  = 4,
+      padding_right = 4,
 
-      icon          = { drawing = false },
+      icon          = { drawing = true },
       label         = { drawing = false },
     },
     control_center = {
-      position = "right",
-
       icon = {
-        string = icons.control_center,
         color  = palette.colors.cyan
       },
-
-      label = {
-        drawing = false
-      }
     }
   }
 
@@ -33,23 +26,18 @@ end
 
 -- Load
 function mod.load()
-  local item = sbar.add("item", mod.properties.control_center)
-  item:subscribe("mouse.clicked", function (env)
-    sbar.exec(execs.menubar .. " -s \"" .. menu_items.control_center  .. "\"")
-  end)
-
-  mod.control_center = item
+	mod.alias(menu_items.control_center):set(mod.properties.control_center);
   return mod
 end
 
-function mod.alias(alias_name)
-  local item = sbar.add("alias", alias_name, mod.properties.alias)
-  item:subscribe("mouse.clicked", function (env) 
-    sbar.exec(execs.menubar .. " -s \"" .. alias_name .. "\"")
-  end)
+function mod.alias(menu_item)
+	local item = sbar.add("item", mergeTables(mod.properties.alias, { icon = { string = menu_item.icon } },true))
+	item:subscribe("mouse.clicked", function (env) 
+    sbar.exec(execs.menubar .. " item select ".. menu_item.app .. " " .. menu_item.id);
+	end)
 
-  mod.items[alias_name] = item
-  return mod
+	mod.items[menu_item.app .. "_" .. menu_item.id] = item 
+  return item
 end
 
 return mod

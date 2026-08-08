@@ -69,7 +69,7 @@ local function toggleSlider(slider)
       }, nil, true)
       
     elseif env.INFO.button == "right" then
-      sbar.exec(execs.menubar .. string.format(" -s \"%s\"",menu_items.sound))
+      sbar.exec(execs.menubar .. " item select " .. menu_items.sound.app .. " " .. menu_items.sound.id)
     end
   end
 end

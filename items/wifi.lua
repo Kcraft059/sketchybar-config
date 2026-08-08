@@ -82,7 +82,7 @@ function mod.load(items, icons, palette)
 
   mod.item:subscribe("wifi_change",update(items, mod.item,icons,palette))
   mod.item:subscribe("mouse.clicked",function (env) 
-    sbar.exec(execs.menubar .. " -s \"" .. menu_items.wifi .. "\"")
+    sbar.exec(execs.menubar .. " item select " .. menu_items.wifi.app .. " " .. menu_items.wifi.id)
   end)
   mod.item:subscribe({"mouse.entered","mouse.exited"},function (env)
     mod.item:set({ scroll_texts = env.SENDER == "mouse.entered" })

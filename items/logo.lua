@@ -93,7 +93,7 @@ local function mouseClick(menus, spaces)
       toggleMenus(menus,spaces)
 
     elseif mod.state.show_menus then
-      sbar.exec(execs.menubar .. " -s 0")
+      sbar.exec(execs.menubar .. " menu select 0")
     elseif not mod.state.show_menus then
       sbar.exec("/System/Applications/Mission\\ Control.app/Contents/MacOS/Mission\\ Control")
     end

@@ -35,7 +35,7 @@ function mod.load()
 
   mod.item:subscribe("forced",update(mod.item))
   mod.item:subscribe("mouse.clicked",function ()
-    sbar.exec(execs.menubar .. " -s \"" .. menu_items.user_switcher .. "\"")
+    sbar.exec(execs.menubar .. " item select " .. menu_items.user_switcher.app .. " " .. menu_items.user_switcher.id)
   end)
 
   return mod

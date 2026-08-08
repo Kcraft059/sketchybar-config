@@ -102,12 +102,14 @@ function mod.load(zones,icons,palette)
     
     local last_item
 
-    for _,control in pairs(config.controls) do
-      last_item = mod.controls.alias(control).items[control]
-      last_item:set({padding_left = mod.controls.properties.alias.padding_left - mod.config.margin})
+    for key,control in pairs(config.controls) do
+		  if key ~= menu_items.control_center.app .. "_" .. menu_items.control_center.id then 
+        last_item = mod.controls.alias(control)
+        last_item:set({padding_right = mod.controls.properties.alias.padding_right - mod.config.margin})
+		  end
     end
 
-    last_item:set({padding_left = mod.controls.properties.alias.padding_left})
+    -- last_item:set({padding_left = mod.controls.properties.alias.padding_left})
   end
 
   mod.separator.load()
@@ -116,7 +118,7 @@ function mod.load(zones,icons,palette)
 
   -- Zone setup
   zones.brackets.dynamic_brackets[1] = {
-    mod.controls.control_center
+    mod.controls.items[menu_items.control_center.app .. "_" .. menu_items.control_center.id]
   }
 
   zones.brackets.dynamic_brackets[2] = {
@@ -138,7 +140,11 @@ function mod.load(zones,icons,palette)
     ["bracket"] = { show = false },
   }
 
-  for _,item in pairs(mod.controls.items) do table.insert(zones.brackets.dynamic_brackets[4],item) end
+  for key,item in pairs(mod.controls.items) do 
+		if key ~= menu_items.control_center.app .. "_" .. menu_items.control_center.id then 
+			table.insert(zones.brackets.dynamic_brackets[4],item) 
+		end 
+	end
 end
 
 return mod

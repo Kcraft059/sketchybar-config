@@ -1,18 +1,19 @@
 -- Imports
 require("helpers")
+local icons   = require("helpers/icons")
 
 -- Globals
 os_version = macOSversion()
 
 menu_items = {
-  control_center = "Control Center,BentoBox-0",
-  sound          = "Control Center,Sound",
-  wifi           = "Control Center,WiFi",
-  battery        = "Control Center,Battery",
-  display        = "Control Center,Display",
-  user_switcher  = "Control Center,UserSwitcher",
-  bluetooth      = "Control Center,Bluetooth",
-  media_player   = "Control Center,NowPlaying",
+  sound          = { app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.sound"},
+  wifi           = { app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.wifi" },
+  battery        = { app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.battery" },
+  display        = { app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.display" },
+  user_switcher  = { app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.user" },
+  media_player   = { app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.now-playing" },
+	bluetooth      = { icon = icons.link, app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.bluetooth" };
+	control_center = { icon = icons.control_center, app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.controlcenter" }
 }
 
 -- Fetch config with given defaults
@@ -49,7 +50,6 @@ execs = mergeTables({
 },config.execs)
 
 local palette = require("helpers/colors").getColorPalette(config.theme, config.transparency and 180 or 1000) -- Put a huge alpha value to prevent adjusts
-local icons   = require("helpers/icons")
 
 -- Configure bar properties
 local bar   = require("bar")   .setup(palette)

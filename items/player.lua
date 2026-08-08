@@ -222,7 +222,7 @@ function mod.load(separator, icons)
   end)
 
   local display_player = function (env) 
-    sbar.exec(execs.menubar .. " -s \"" .. menu_items.media_player .. "\"")
+    sbar.exec(execs.menubar .. " item select " .. menu_items.media_player.app .. " " .. menu_items.media_player.id)
   end
 
   mod.title   :subscribe("mouse.clicked",display_player)

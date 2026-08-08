@@ -54,7 +54,7 @@ function mod.load(zones)
 
     -- Click event
     item:subscribe("mouse.clicked", function(env)
-      sbar.exec(string.format(execs.menubar .. " -s %d", mod.items[i]:query().label.value))
+      sbar.exec(string.format(execs.menubar .. " menu select %d", mod.items[i]:query().label.value))
     end)
 
     -- Mouse hover event 
@@ -91,12 +91,16 @@ function mod.show(bool)
 end
 
 function mod.update(anim)
-  sbar.exec(execs.menubar .. " -l", function(result, exit_code)
+  sbar.exec(execs.menubar .. " menu list -m", function(result, exit_code)
     perfbc() -- PERF: bundle instructions
 
     -- Display all menus
-    local i = 1
-    for menu_str in string.gmatch(result, "([^\n]+)") do
+    local i = 0
+		for menu_str in string.gmatch(result, "([^\n]+)") do
+			if i == 0 then 
+				goto continue
+			end
+
       if i > mod.menu_count then
         return
       end
@@ -108,6 +112,7 @@ function mod.update(anim)
         icon = { width = "dynamic" },
       }, nil, anim)
 
+			::continue::
       i = i + 1
     end
 

@@ -67,7 +67,7 @@ local function micToggle(item,icons,palette)
     elseif env.INFO.button == "right" then
       sbar.exec(
         "osascript -e 'tell application \"System Events\"' -e 'key down option' -e 'end tell';"..
-        execs.menubar .. " -s \"" .. menu_items.sound .. "\";" ..
+        execs.menubar .. " item select " .. menu_items.sound.app .. " " .. menu_items.sound.id .. ";" ..
         "osascript -e 'tell application \"System Events\"' -e 'key up option' -e 'end tell';", function (result,exit_code) 
           if exit_code ~= 0 then log("mic-click",result) end
         end)
