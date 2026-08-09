@@ -5,16 +5,15 @@ function mod.setup(icons,palette)
   mod.properties = {
     alias = {
       position      = "right",
-      padding_left  = 4,
+      padding_left  = 3,
       padding_right = 4,
 
-      icon          = { drawing = true },
+      icon          = { color = palette.colors.cyan },
       label         = { drawing = false },
     },
     control_center = {
-      icon = {
-        color  = palette.colors.cyan
-      },
+      padding_left  = 5,
+      padding_right = 5,
     }
   }
 
