@@ -5,9 +5,8 @@ local icons   = require("helpers/icons")
 -- Globals
 os_version = macOSversion()
 
-
 local system_menu_host
-if os_version[1] >= 27 then 
+if tonumber(os_version[1]) >= 27 then 
 	system_menu_host = "com.apple.MenuBarAgent"
 else 
 	system_menu_host = "com.apple.controlcenter"

@@ -3,7 +3,6 @@ local mod = {}
 -- Setup
 function mod.setup(palette)
   mod.config = { -- global config, can be accessed by items
-    radius  = 15,
     margin  = 5,
     height  = 34,
     padding = 12,
@@ -12,7 +11,11 @@ function mod.setup(palette)
 
   if tonumber(os_version[1]) < 26 then -- for macos versions previous to Tahoe
     mod.config.radius = 13
-  end
+	elseif tonumber(os_version[1]) == 26 then 
+    mod.config.radius = 15
+	elseif tonumber(os_version[1]) >= 27 then
+    mod.config.radius = 14
+	end 
 
   if config.bar_look == "compact" then
     mod.config.radius = 0

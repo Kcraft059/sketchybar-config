@@ -69,7 +69,9 @@ end
 
 -- Os
 function fetchConfig(cfg_path, default_cfg)
-  local user_config = { os_verion = macOSversion() } -- to keep it separate from the global env
+  local user_config = { } -- to keep it separate from the global env
+  -- Fall back to _G for undefined variables
+  setmetatable(user_config, { __index = _G })
   local config_file, err = loadfile(cfg_path, "t", user_config)
 
   if config_file then
