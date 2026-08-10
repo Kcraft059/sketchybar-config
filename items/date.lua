@@ -44,6 +44,9 @@ end
 -- Load 
 function mod.load()
   mod.item = sbar.add("item", mod.properties)
+	mod.item:subscribe("mouse.clicked", function (env) 
+    sbar.exec(execs.menubar .. " item select " .. menu_items.clock.app .. " " .. menu_items.clock.id)
+	end)
   mod.item:subscribe({"routine", "forced", "system_woke"}, function(env)
     if (env.SENDER == "forced" or env.SENDER == "system_woke") then
       sbar.exec("printf \"$(date '+%a %d. %b')|$(date '+%H:%M')\"", function(result, exit_code)

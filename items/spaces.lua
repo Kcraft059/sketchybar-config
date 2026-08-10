@@ -42,7 +42,7 @@ function mod.setup(bar, zones, palette)
       associated_display = "active",
 
       icon = {
-        string        = "􀯻",
+        string        = "􀆊",
         font          = { style = "Semibold", size = 15.0 },
         color         = palette.text.muted,
         padding_left  = 0,
@@ -96,12 +96,10 @@ function mod.show(bool)
   
   local i
   for i = 1, mod.space_count do
-    sequencedAnimation(mod.items[i],"tanh",30,nil,{
+    sequencedAnimation(mod.items[i],"tanh",30,bool and { drawing = true } or nil,{
       width = bool and "dynamic" or 0,
-      label = { width = (bool and mod.items[i].state.appc > 0 and not mod.items[i].state.selected) and "dynamic" or 0 }
-    }, {
-      drawing = bool
-    },true)
+      -- label = { width = (bool and mod.items[i].state.appc > 0 and not mod.items[i].state.selected) and "dynamic" or 0 }
+    }, not bool and { drawing = false } or nil ,true)
   end
   perfec()
 end
@@ -184,7 +182,11 @@ end
 
 local function yabaiClick()
   return function(env)
-    sbar.exec("yabai -m space --focus " .. env.SID)
+		if env.BUTTON == "left" then
+      sbar.exec("yabai -m space --focus " .. env.SID)
+		elseif env.BUTTON == "right" then 
+      sbar.exec("yabai -m space --destroy " .. env.SID)
+		end
   end
 end
 
@@ -222,8 +224,21 @@ local function loadYabaiSpaces(zones)
   end
 
   mod.items["separator"] = sbar.add("item",mod.properties.separator)
-  mod.items["front_app"] = sbar.add("item",mod.properties.front_app)
+	mod.items["separator"]:subscribe({"mouse.entered", "mouse.exited", "mouse.clicked" }, function (env) 
+		local item = mod.items["separator"]
+		if env.SENDER == "mouse.entered" then
+			item:set({icon = { string = "􀏩" }})
+		elseif env.SENDER == "mouse.exited" then
+			item:set({icon = { string = "􀆊" }})
+		elseif env.SENDER == "mouse.clicked" then
+			sbar.exec("yabai -m space --create")
+		end
+	end)
 
+  mod.items["front_app"] = sbar.add("item",mod.properties.front_app)
+	mod.items["front_app"]:subscribe("mouse.clicked", function (env) 
+		sbar.exec("yabai -m window --toggle expose")
+	end)
   mod.items["front_app"]:subscribe("front_app_switched",function (env)
     -- Update window icon depending on active app
     sbar.exec(string.format(

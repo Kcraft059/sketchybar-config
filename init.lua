@@ -13,14 +13,15 @@ else
 end
 
 menu_items = {
+  clock          = { app = system_menu_host, id = "com.apple.menuextra.clock"},
   sound          = { app = system_menu_host, id = "com.apple.menuextra.sound"},
   wifi           = { app = system_menu_host, id = "com.apple.menuextra.wifi" },
   battery        = { app = system_menu_host, id = "com.apple.menuextra.battery" },
   display        = { app = system_menu_host, id = "com.apple.menuextra.display" },
   user_switcher  = { app = system_menu_host, id = "com.apple.menuextra.user" },
   media_player   = { app = system_menu_host, id = "com.apple.menuextra.now-playing" },
-	bluetooth      = { icon = icons.link, app = system_menu_host, id = "com.apple.menuextra.bluetooth" };
-	control_center = { icon = icons.control_center, app = system_menu_host, id = "com.apple.menuextra.controlcenter" }
+	bluetooth      = { app = system_menu_host, id = "com.apple.menuextra.bluetooth", icon = icons.link };
+	control_center = { app = system_menu_host, id = "com.apple.menuextra.controlcenter", icon = icons.control_center }
 }
 
 -- Fetch config with given defaults
