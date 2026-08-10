@@ -5,15 +5,23 @@ local icons   = require("helpers/icons")
 -- Globals
 os_version = macOSversion()
 
+
+local system_menu_host
+if os_version[1] >= 27 then 
+	system_menu_host = "com.apple.MenuBarAgent"
+else 
+	system_menu_host = "com.apple.controlcenter"
+end
+
 menu_items = {
-  sound          = { app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.sound"},
-  wifi           = { app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.wifi" },
-  battery        = { app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.battery" },
-  display        = { app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.display" },
-  user_switcher  = { app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.user" },
-  media_player   = { app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.now-playing" },
-	bluetooth      = { icon = icons.link, app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.bluetooth" };
-	control_center = { icon = icons.control_center, app = "com.apple.MenuBarAgent", id = "com.apple.menuextra.controlcenter" }
+  sound          = { app = system_menu_host, id = "com.apple.menuextra.sound"},
+  wifi           = { app = system_menu_host, id = "com.apple.menuextra.wifi" },
+  battery        = { app = system_menu_host, id = "com.apple.menuextra.battery" },
+  display        = { app = system_menu_host, id = "com.apple.menuextra.display" },
+  user_switcher  = { app = system_menu_host, id = "com.apple.menuextra.user" },
+  media_player   = { app = system_menu_host, id = "com.apple.menuextra.now-playing" },
+	bluetooth      = { icon = icons.link, app = system_menu_host, id = "com.apple.menuextra.bluetooth" };
+	control_center = { icon = icons.control_center, app = system_menu_host, id = "com.apple.menuextra.controlcenter" }
 }
 
 -- Fetch config with given defaults

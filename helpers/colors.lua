@@ -60,13 +60,10 @@ local palettes = {
 }
 
 local function fetchCustomPalette(palettes) 
-  local custom_palettes = {}
   local palette_file, err = loadfile(config.theme_file, "t", palettes);
 
   if palette_file then 
     palette_file()
-  
-    mergeTables(palettes,custom_palettes,false)
   else
     log("lua-main","No custom palette loaded: " .. err)
   end
