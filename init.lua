@@ -15,6 +15,7 @@ end
 menu_items = {
   clock          = { app = system_menu_host, id = "com.apple.menuextra.clock"},
   sound          = { app = system_menu_host, id = "com.apple.menuextra.sound"},
+  video          = { app = system_menu_host, id = "com.apple.menuextra.audiovideo"},
   wifi           = { app = system_menu_host, id = "com.apple.menuextra.wifi" },
   battery        = { app = system_menu_host, id = "com.apple.menuextra.battery" },
   display        = { app = system_menu_host, id = "com.apple.menuextra.display" },

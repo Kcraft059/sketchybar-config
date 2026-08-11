@@ -54,6 +54,7 @@ function mod.setup(bar, zones, icons, palette)
   
   mod.mic       = require("items.mic")      .setup(mod, icons, palette)
   mod.sound     = require("items.sound")    .setup(mod, icons, palette)
+	mod.video 		= require("items.video")    .setup(mod, icons, palette)
   
   mod.battery   = require("items.battery")  .setup(icons, palette)
   mod.wifi      = require("items.wifi")     .setup(icons, palette)
@@ -82,6 +83,7 @@ function mod.load(zones,icons,palette)
 
   mod.mic     .load(icons,palette)              .item:set({ padding_left  = mod.config.margin - 4 })
   mod.sound   .load(mod,icons,palette)          .item:set({ padding_right = 4 })
+	mod.video   .load()
 
   mod.battery .load(icons,palette)              .item:set({ padding_left  = 0 })
   mod.wifi    .load(mod,icons,palette)          .item:set({ padding_left  = 0 })
@@ -125,6 +127,7 @@ function mod.load(zones,icons,palette)
     mod.mic.item,
     mod.sound.slider,
     mod.sound.item,
+		mod.video.item,
   } 
   
   zones.brackets.dynamic_brackets[3] = {

@@ -93,15 +93,14 @@ local function loadStream(event_name)
   sbar.exec([[
     #SKETCHYBAR_MEDIA_STREAM#
 
-    lastpid=$(cat ${TMPDIR}/sketchybar/pids 2> /dev/null || echo 0);
+    lastpid=$(cat ${TMPDIR}/sketchybar/media_pids 2> /dev/null || echo 0);
 
     if ps -p $lastpid -o command= | grep '#SKETCHYBAR_MEDIA_STREAM#' > /dev/null; then 
-      #echo Killing PIDs: "$(pgrep -P $lastpid)" "$lastpid" >&2
       kill -9 $(pgrep -P $lastpid) $lastpid
     fi;
     
     mkdir -p ${TMPDIR}/sketchybar;
-    echo $$ > ${TMPDIR}/sketchybar/pids;
+    echo $$ > ${TMPDIR}/sketchybar/media_pids;
     
     ]] .. execs.media_control .. [[ stream | \
     while IFS= read -r line; do 

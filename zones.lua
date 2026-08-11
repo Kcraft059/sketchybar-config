@@ -68,7 +68,7 @@ local function bracketToggle(items,icons,show,forced)
     if index ~= "separator" and index ~= "bracket" then
       if forced then 
         item:set({ drawing = show })
-        goto next
+        goto continue
       end
 
       local state = item:query()
@@ -102,7 +102,7 @@ local function bracketToggle(items,icons,show,forced)
           not forced)
       end 
 
-      ::next::
+      ::continue::
     end
   end
 end

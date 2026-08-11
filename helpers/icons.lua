@@ -15,6 +15,10 @@ return {
     quiet   = "􀊡", 
     muted   = "􀊣"
   },
+	camera = {
+	 active = "􀍊",
+	 inactive = "􀍎",
+	},
   battery = {
     ac   = "􀢋",
     p100 = "􀛨",
@@ -48,6 +52,10 @@ return {
       y_offset      = 1
     }
   },
+	seperator = {
+		inactive = "",
+		active = "",
+	},
   player = {
     pause = "􀊆",
     play  = "􀊄"
